@@ -13,8 +13,7 @@ const withTM = require('next-transpile-modules')([
 ]);
 
 const nextConfig = withTM({
-  reactStrictMode: true,
-  optimizeFonts: false
+  reactStrictMode: true
 });
 
 module.exports = nextConfig;
