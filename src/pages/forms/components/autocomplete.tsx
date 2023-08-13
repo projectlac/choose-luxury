@@ -27,10 +27,7 @@ const top100Films = [
 const AutoComplete = () => {
   const theme = useTheme();
   return (
-    <MainCard
-      title="Autocomplete"
-      secondary={<SecondaryAction link="https://next.material-ui.com/components/autocomplete/#main-content" />}
-    >
+    <MainCard title="Instock">
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} md={6} lg={4}>
           <SubCard title="Combo Box">

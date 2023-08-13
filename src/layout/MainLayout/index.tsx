@@ -128,7 +128,7 @@ const MainLayout: FC = ({ children }) => {
             </>
           )}
         </Main>
-        <Customization />
+        {/* <Customization /> */}
       </Box>
     </AuthGuard>
   );

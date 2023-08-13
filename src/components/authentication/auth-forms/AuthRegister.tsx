@@ -49,15 +49,7 @@ const FirebaseRegister = ({ ...others }) => {
 
   const [strength, setStrength] = React.useState(0);
   const [level, setLevel] = React.useState<StringColorProps>();
-  const { firebaseRegister, firebaseGoogleSignIn } = useAuth();
-
-  const googleHandler = async () => {
-    try {
-      await firebaseGoogleSignIn();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const { login, register } = useAuth();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -80,53 +72,21 @@ const FirebaseRegister = ({ ...others }) => {
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              variant="outlined"
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              sx={{
-                color: 'grey.700',
-                backgroundColor: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.grey[50],
-                borderColor: theme.palette.mode === 'dark' ? theme.palette.dark.light + 20 : theme.palette.grey[100]
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2 }, width: 20, height: 20, marginRight: matchDownSM ? 8 : 16 }}>
-                <Image src={Google} alt="Berry Dashboard" layout="intrinsic" width={'16px'} height={'16px'} />
-              </Box>
-              Sign up with Google
-            </Button>
-          </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box sx={{ alignItems: 'center', display: 'flex' }}>
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: 'unset',
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor:
-                  theme.palette.mode === 'dark' ? `${theme.palette.dark.light + 20} !important` : `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${borderRadius}px`
-              }}
-              disableRipple
-              disabled
-            >
-              OR
-            </Button>
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
         <Grid item xs={12} container alignItems="center" justifyContent="center">
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign up with Email address</Typography>
+          <Box
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              fontFamily: 'Open Sans',
+              fontSize: '40px',
+              fontWeight: '700',
+              lineHeight: '54px',
+              justifyContent: 'center',
+              color: '#000',
+              marginBottom: '45px'
+            }}
+          >
+            Sign up
           </Box>
         </Grid>
       </Grid>
@@ -134,16 +94,19 @@ const FirebaseRegister = ({ ...others }) => {
       <Formik
         initialValues={{
           email: '',
+          username: '',
           password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          username: Yup.string().max(255).required('Username is required'),
+
           password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            await firebaseRegister(values.email, values.password).then(
+            await register(values.email, values.password, 'a', 'b').then(
               () => {
                 // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
@@ -170,32 +133,35 @@ const FirebaseRegister = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <Grid container spacing={matchDownSM ? 0 : 2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="First Name"
-                  margin="normal"
-                  name="fname"
-                  type="text"
-                  defaultValue=""
-                  sx={{ ...theme.typography.customInput }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Last Name"
-                  margin="normal"
-                  name="lname"
-                  type="text"
-                  defaultValue=""
-                  sx={{ ...theme.typography.customInput }}
-                />
-              </Grid>
-            </Grid>
+            <FormControl fullWidth error={Boolean(touched.username && errors.username)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-username-register" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
+                Username
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-username-register"
+                type="username"
+                value={values.username}
+                name="username"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                inputProps={{}}
+                sx={{
+                  fieldset: {
+                    borderColor: 'rgba(191, 140, 10, 1) !important'
+                  }
+                }}
+              />
+              {touched.username && errors.username && (
+                <FormHelperText error id="standard-weight-helper-text--register">
+                  {errors.username}
+                </FormHelperText>
+              )}
+            </FormControl>
+
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email-register" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
+                Email{' '}
+              </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-register"
                 type="email"
@@ -204,6 +170,11 @@ const FirebaseRegister = ({ ...others }) => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 inputProps={{}}
+                sx={{
+                  fieldset: {
+                    borderColor: 'rgba(191, 140, 10, 1) !important'
+                  }
+                }}
               />
               {touched.email && errors.email && (
                 <FormHelperText error id="standard-weight-helper-text--register">
@@ -213,7 +184,9 @@ const FirebaseRegister = ({ ...others }) => {
             </FormControl>
 
             <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password-register" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
+                Password
+              </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-register"
                 type={showPassword ? 'text' : 'password'}
@@ -239,6 +212,11 @@ const FirebaseRegister = ({ ...others }) => {
                   </InputAdornment>
                 }
                 inputProps={{}}
+                sx={{
+                  fieldset: {
+                    borderColor: 'rgba(191, 140, 10, 1) !important'
+                  }
+                }}
               />
               {touched.password && errors.password && (
                 <FormHelperText error id="standard-weight-helper-text-password-register">
@@ -264,23 +242,6 @@ const FirebaseRegister = ({ ...others }) => {
               </FormControl>
             )}
 
-            <Grid container alignItems="center" justifyContent="space-between">
-              <Grid item>
-                <FormControlLabel
-                  control={
-                    <Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />
-                  }
-                  label={
-                    <Typography variant="subtitle1">
-                      Agree with &nbsp;
-                      <Typography variant="subtitle1" component={Link} href="/">
-                        Terms & Condition.
-                      </Typography>
-                    </Typography>
-                  }
-                />
-              </Grid>
-            </Grid>
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
@@ -289,7 +250,20 @@ const FirebaseRegister = ({ ...others }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
+                <Button
+                  disableElevation
+                  disabled={isSubmitting}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: 'rgba(191, 140, 10, 1)',
+                    '&:hover': {
+                      backgroundColor: 'rgb(167 121 3)'
+                    }
+                  }}
+                >
                   Sign up
                 </Button>
               </AnimateButton>

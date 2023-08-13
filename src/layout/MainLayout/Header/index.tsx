@@ -60,17 +60,9 @@ const Header = () => {
       </Box>
 
       {/* header search */}
-      <SearchSection />
-      <Box sx={{ flexGrow: 1 }} />
+
       <Box sx={{ flexGrow: 1 }} />
 
-      {/* live customization & localization */}
-      <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-        <LocalizationSection />
-      </Box>
-
-      {/* notification & profile */}
-      <NotificationSection />
       <ProfileSection />
 
       {/* mobile header */}

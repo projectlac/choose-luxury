@@ -1,18 +1,17 @@
 // material-ui
-import { Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput } from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, Grid, OutlinedInput, Typography } from '@mui/material';
 
 // third party
-import { useDispatch } from 'store';
-import { Formik } from 'formik';
-import clsx from 'clsx';
-import * as Yup from 'yup';
 import axios from 'axios';
+import clsx from 'clsx';
+import { Formik } from 'formik';
+import { useDispatch } from 'store';
+import * as Yup from 'yup';
 
 // project imports
-import AnimateButton from 'ui-component/extended/AnimateButton';
 import useScriptRef from 'hooks/useScriptRef';
 import { openSnackbar } from 'store/slices/snackbar';
-import { gridSpacing } from 'store/constant';
+import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // ===========================|| MAILER SUBSCRIBER ||=========================== //
 
@@ -21,66 +20,123 @@ const MailerSubscriber = ({ className, ...others }: { className?: string }) => {
   const dispatch = useDispatch();
 
   return (
-    <Formik
-      initialValues={{
-        email: '',
-        submit: null
-      }}
-      validationSchema={Yup.object().shape({
-        email: Yup.string().email('Must be a valid email').max(255).required('Email is required')
-      })}
-      onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-        try {
-          const options = {
-            headers: {
-              'content-type': 'application/json'
-            }
-          };
-          await axios.post('https://yourapicall', { email: values.email }, options);
-          dispatch(
-            openSnackbar({
-              open: true,
-              message: 'Success! Please check inbox and confirm.',
-              variant: 'alert',
-              alert: {
-                color: 'success'
-              },
-              close: false
-            })
-          );
+    <Box>
+      <Formik
+        initialValues={{
+          name: '',
+          email: '',
+          phone: '',
+          submit: null
+        }}
+        validationSchema={Yup.object().shape({
+          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          name: Yup.string().email('Must be a valid name').max(255).required('Name is required'),
+          phone: Yup.number().required('Phone is required')
+        })}
+        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+          try {
+            const options = {
+              headers: {
+                'content-type': 'application/json'
+              }
+            };
+            await axios.post('https://yourapicall', { email: values.email }, options);
+            dispatch(
+              openSnackbar({
+                open: true,
+                message: 'Success! Please check inbox and confirm.',
+                variant: 'alert',
+                alert: {
+                  color: 'success'
+                },
+                close: false
+              })
+            );
 
-          if (scriptedRef.current) {
-            setStatus({ success: true });
-            setSubmitting(false);
+            if (scriptedRef.current) {
+              setStatus({ success: true });
+              setSubmitting(false);
+            }
+          } catch (err: any) {
+            if (scriptedRef.current) {
+              setStatus({ success: false });
+              setErrors({ submit: err?.message });
+              setSubmitting(false);
+            }
           }
-        } catch (err: any) {
-          if (scriptedRef.current) {
-            setStatus({ success: false });
-            setErrors({ submit: err?.message });
-            setSubmitting(false);
-          }
-        }
-      }}
-    >
-      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-        <form noValidate onSubmit={handleSubmit} className={clsx(className)} {...others}>
-          <Grid container alignItems="center" spacing={gridSpacing}>
-            <Grid item xs zeroMinWidth>
-              <FormControl fullWidth error={Boolean(touched.email && errors.email)}>
-                <InputLabel htmlFor="outlined-adornment-email-forgot">Email Address</InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-email-forgot"
-                  type="email"
-                  defaultValue={values.email}
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  label="Email Address"
-                />
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <AnimateButton>
+        }}
+      >
+        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+          <form noValidate onSubmit={handleSubmit} className={clsx(className)} {...others}>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item xs={3}>
+                <Typography>Name</Typography>
+              </Grid>
+              <Grid item xs={9}>
+                <FormControl fullWidth error={Boolean(touched.name && errors.name)}>
+                  <OutlinedInput
+                    id="outlined-adornment-name-forgot"
+                    type="name"
+                    defaultValue={values.name}
+                    name="name"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  />
+                  {touched.name && errors.name && (
+                    <Box sx={{ position: 'absolute', bottom: '-16px' }}>
+                      <FormHelperText sx={{ fontSize: '11px' }} error id="standard-weight-helper-text-name-forgot">
+                        {errors.name}
+                      </FormHelperText>
+                    </Box>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography>Email adress</Typography>
+              </Grid>
+              <Grid item xs={9}>
+                <FormControl fullWidth error={Boolean(touched.email && errors.email)}>
+                  <OutlinedInput
+                    id="outlined-adornment-email-forgot"
+                    type="email"
+                    defaultValue={values.email}
+                    name="email"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  />
+                  {touched.email && errors.email && (
+                    <Box sx={{ position: 'absolute', bottom: '-16px' }}>
+                      <FormHelperText sx={{ fontSize: '11px' }} error id="standard-weight-helper-text-email-forgot">
+                        {errors.email}
+                      </FormHelperText>
+                    </Box>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography>Phone number</Typography>
+              </Grid>
+              <Grid item xs={9}>
+                <FormControl fullWidth error={Boolean(touched.phone && errors.phone)} sx={{ position: 'relative' }}>
+                  <OutlinedInput
+                    id="outlined-adornment-phone-forgot"
+                    type="phone"
+                    defaultValue={values.phone}
+                    name="phone"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  />
+                  {touched.phone && errors.phone && (
+                    <Box sx={{ position: 'absolute', bottom: '-16px' }}>
+                      <FormHelperText sx={{ fontSize: '11px' }} error id="standard-weight-helper-text-phone-forgot">
+                        {errors.phone}
+                      </FormHelperText>
+                    </Box>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}></Grid>
+              <Grid item xs={9} sx={{ marginTop: '30px', paddingTop: '0 !important' }}>
                 <Button
                   disableElevation
                   disabled={isSubmitting}
@@ -89,29 +145,24 @@ const MailerSubscriber = ({ className, ...others }: { className?: string }) => {
                   size="large"
                   sx={{
                     px: 2.75,
-                    py: 1.5
+                    py: 1.5,
+                    width: '130px'
                   }}
                 >
                   Subscribe
                 </Button>
-              </AnimateButton>
+              </Grid>
             </Grid>
-          </Grid>
-          {touched.email && errors.email && (
-            <Box sx={{ mt: 1 }}>
-              <FormHelperText error id="standard-weight-helper-text-email-forgot">
-                {errors.email}
-              </FormHelperText>
-            </Box>
-          )}
-          {errors.submit && (
-            <Box sx={{ mt: 3 }}>
-              <FormHelperText error>{errors.submit}</FormHelperText>
-            </Box>
-          )}
-        </form>
-      )}
-    </Formik>
+
+            {errors.submit && (
+              <Box sx={{ mt: 3 }}>
+                <FormHelperText error>{errors.submit}</FormHelperText>
+              </Box>
+            )}
+          </form>
+        )}
+      </Formik>
+    </Box>
   );
 };
 

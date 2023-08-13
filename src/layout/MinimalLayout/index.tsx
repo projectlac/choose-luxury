@@ -7,7 +7,7 @@ import Customization from '../Customization';
 const MinimalLayout: FC = ({ children }) => (
   <>
     {children}
-    <Customization />
+    {/* <Customization /> */}
   </>
 );
 

@@ -14,7 +14,8 @@ const AuthCardWrapper = ({ children, ...other }: MainCardProps) => (
       '& > *': {
         flexGrow: 1,
         flexBasis: '50%'
-      }
+      },
+      border: 'transparent'
     }}
     content={false}
     {...other}

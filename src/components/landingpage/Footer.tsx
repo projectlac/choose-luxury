@@ -1,51 +1,43 @@
 import Image from 'next/image';
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
-import { Container, Grid, Link, Typography } from '@mui/material';
+import { Box, Container, Grid, Link, Typography } from '@mui/material';
 
 // project imports
 import { gridSpacing } from 'store/constant';
 
 // assets
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '../../assets/footer/facebook.png';
+import TwitterIcon from '../../assets/footer/twitter.png';
+import InstagramIcon from '../../assets/footer/instagram.png';
 
 const logoDark = '/assets/images/logo-white.svg';
 
 // styles
 const FooterWrapper = styled('div')(({ theme }) => ({
   padding: '35px 0',
-  color: '#fff',
-  background: theme.palette.secondary.main,
-  [theme.breakpoints.down('md')]: {
-    textAlign: 'center'
-  }
+  color: '#000',
+  background: '#fff',
+
+  height: '280px',
+  borderTop: '1px solid rgba(191, 140, 10, 1)',
+  marginTop: '36px'
 }));
 
-const FooterLink = styled(Link)({
-  color: '#fff',
-  display: 'inline-flex',
-  alignItems: 'center',
-  textDecoration: 'none !important',
-  opacity: '0.8',
-  '& svg': {
-    fontsize: '1.125rem',
-    marginRight: 8
-  },
-  '&:hover': {
-    opacity: '1'
-  }
+const Title = styled(Typography)({
+  color: '#000',
+  fontSize: '15px',
+  lineHeight: '18px',
+  fontWeight: 'bold',
+  marginBottom: '10px'
 });
 
-const FooterSubWrapper = styled('div')(({ theme }) => ({
-  padding: '20px 0',
-  color: '#fff',
-  background: theme.palette.secondary.dark,
-  [theme.breakpoints.down('md')]: {
-    textAlign: 'center'
-  }
+const Detail = styled(Typography)(({ theme }) => ({
+  color: '#000',
+  fontSize: '15px',
+  lineHeight: '1.7'
 }));
+import Logo from '../../assets/header/logo.png';
 
 // ==============================|| LANDING - FOOTER PAGE ||============================== //
 
@@ -55,47 +47,49 @@ const FooterPage = () => {
     <>
       <FooterWrapper>
         <Container>
-          <Grid container alignItems="center" spacing={gridSpacing}>
-            <Grid item xs={12} sm={4}>
-              <Image src={logoDark} alt="Berry" width={100} height={34} layout={'intrinsic'} />
+          <Grid container alignItems="flex-start" spacing={gridSpacing}>
+            <Grid item xs={12} sm={2}>
+              <Image src={Logo.src} alt="Berry" width={137} height={115} layout={'intrinsic'} />
             </Grid>
-            <Grid item xs={12} sm={8}>
-              <Grid
-                container
-                alignItems="center"
-                spacing={2}
-                sx={{ justifyContent: 'flex-end', [theme.breakpoints.down('md')]: { justifyContent: 'center' } }}
+            <Grid item xs={12} sm={3}>
+              <Title>Addrress</Title>
+              <Detail>
+                Central 3, Vinhome central park, <br /> 252 Nguyen Huu Canh street, Ward 22, <br /> Binh Thanh district, HCM
+              </Detail>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Title>Terms and conditions </Title>
+              <Detail>Purchasing policy </Detail>
+              <Detail>Payment method</Detail>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Title>Contact us</Title>
+              <Detail>Phone: 0945821194/ 0334820791</Detail>
+              <Detail>Email: info@chooseluxauth.com</Detail>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Title>Follow us</Title>
+              <Box
+                sx={{
+                  a: {
+                    marginRight: '15px'
+                  }
+                }}
               >
-                <Grid item>
-                  <FooterLink href="https://blog.berrydashboard.io/" target="_blank" underline="hover">
-                    <InstagramIcon />
-                    Blog
-                  </FooterLink>
-                </Grid>
-                <Grid item>
-                  <FooterLink href="https://www.facebook.com/codedthemes" target="_blank" underline="hover">
-                    <FacebookIcon />
-                    Facebook
-                  </FooterLink>
-                </Grid>
-                <Grid item>
-                  <FooterLink href="https://twitter.com/codedthemes" target="_blank" underline="hover">
-                    <TwitterIcon />
-                    Twitter
-                  </FooterLink>
-                </Grid>
-              </Grid>
+                <a href="http://" target="_blank" rel="noopener noreferrer">
+                  <Image src={FacebookIcon.src} alt="facebook" width={22} height={22}></Image>
+                </a>
+                <a href="http://" target="_blank" rel="noopener noreferrer">
+                  <Image src={InstagramIcon.src} alt="instargram" width={22} height={22}></Image>
+                </a>
+                <a href="http://" target="_blank" rel="noopener noreferrer">
+                  <Image src={TwitterIcon.src} alt="twitter" width={22} height={22}></Image>
+                </a>
+              </Box>
             </Grid>
           </Grid>
         </Container>
       </FooterWrapper>
-      <FooterSubWrapper>
-        <Container>
-          <Typography variant="subtitle2" component="div" color="inherit">
-            &#169; CodedThemes
-          </Typography>
-        </Container>
-      </FooterSubWrapper>
     </>
   );
 };

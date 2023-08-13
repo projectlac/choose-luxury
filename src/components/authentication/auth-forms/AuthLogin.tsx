@@ -47,14 +47,14 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
   const { borderRadius } = useConfig();
   const [checked, setChecked] = React.useState(true);
 
-  const { firebaseEmailPasswordSignIn, firebaseGoogleSignIn } = useAuth();
-  const googleHandler = async () => {
-    try {
-      await firebaseGoogleSignIn();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const { login, register } = useAuth();
+  // const googleHandler = async () => {
+  //   try {
+  //     await register();
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -70,7 +70,7 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
       <Grid container direction="column" justifyContent="center" spacing={2}>
         <Grid item xs={12}>
           <AnimateButton>
-            <Button
+            {/* <Button
               disableElevation
               fullWidth
               onClick={googleHandler}
@@ -86,43 +86,24 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
                 <Image src={Google} alt="Berry Dashboard" layout="intrinsic" width={'16px'} height={'16px'} />
               </Box>
               Sign in with Google
-            </Button>
+            </Button> */}
           </AnimateButton>
         </Grid>
         <Grid item xs={12}>
           <Box
             sx={{
               alignItems: 'center',
-              display: 'flex'
+              display: 'flex',
+              fontFamily: 'Open Sans',
+              fontSize: '40px',
+              fontWeight: '700',
+              lineHeight: '54px',
+              justifyContent: 'center',
+              color: '#000',
+              marginBottom: '45px'
             }}
           >
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: 'unset',
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor:
-                  theme.palette.mode === 'dark' ? `${theme.palette.dark.light + 20} !important` : `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${borderRadius}px`
-              }}
-              disableRipple
-              disabled
-            >
-              OR
-            </Button>
-
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
-        <Grid item xs={12} container alignItems="center" justifyContent="center">
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with Email address</Typography>
+            Sign in
           </Box>
         </Grid>
       </Grid>
@@ -139,7 +120,7 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            await firebaseEmailPasswordSignIn(values.email, values.password).then(
+            await login(values.email, values.password).then(
               () => {
                 // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
@@ -167,7 +148,9 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
+                Username
+              </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="email"
@@ -175,8 +158,13 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
                 name="email"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                label="Email Address / Username"
+                label="Username"
                 inputProps={{}}
+                sx={{
+                  fieldset: {
+                    borderColor: 'rgba(191, 140, 10, 1) !important'
+                  }
+                }}
               />
               {touched.email && errors.email && (
                 <FormHelperText error id="standard-weight-helper-text-email-login">
@@ -186,7 +174,9 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
             </FormControl>
 
             <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
+                Password
+              </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-login"
                 type={showPassword ? 'text' : 'password'}
@@ -209,6 +199,11 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
                 }
                 label="Password"
                 inputProps={{}}
+                sx={{
+                  fieldset: {
+                    borderColor: 'rgba(191, 140, 10, 1) !important'
+                  }
+                }}
               />
               {touched.password && errors.password && (
                 <FormHelperText error id="standard-weight-helper-text-password-login">
@@ -219,17 +214,21 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
             <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
               <FormControlLabel
                 control={
-                  <Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />
+                  <Checkbox
+                    checked={checked}
+                    onChange={(event) => setChecked(event.target.checked)}
+                    name="checked"
+                    sx={{
+                      color: 'rgba(191, 140, 10, 1)',
+                      '&.Mui-checked': {
+                        color: 'rgba(191, 140, 10, 1)'
+                      }
+                    }}
+                  />
                 }
                 label="Remember me"
               />
-              <Typography
-                variant="subtitle1"
-                component={Link}
-                href={loginProp ? `/pages/authentication/auth${loginProp}/forgot-password` : '/pages/authentication/auth3/forgot-password'}
-                color="secondary"
-                sx={{ textDecoration: 'none' }}
-              >
+              <Typography variant="subtitle1" component={Link} href={'/'} color="secondary" sx={{ textDecoration: 'none' }}>
                 Forgot Password?
               </Typography>
             </Stack>
@@ -241,8 +240,21 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                  Sign in
+                <Button
+                  disableElevation
+                  disabled={isSubmitting}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: 'rgba(191, 140, 10, 1)',
+                    '&:hover': {
+                      backgroundColor: 'rgb(167 121 3)'
+                    }
+                  }}
+                >
+                  Login
                 </Button>
               </AnimateButton>
             </Box>

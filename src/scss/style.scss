@@ -6,6 +6,8 @@
 @import '~slick-carousel/slick/slick.css';
 @import '~slick-carousel/slick/slick-theme.css';
 
+//font-family
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Quicksand:wght@300;400;500;600;700&display=swap');
 // ==============================|| LIGHT BOX ||============================== //
 .slick-arrow:before {
   color: $grey500;
@@ -131,5 +133,39 @@
   }
   75% {
     transform: translateX(10px);
+  }
+}
+.number-quanlity::-webkit-outer-spin-button,
+.number-quanlity::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.tableBrand {
+  table {
+    width: 100%;
+  }
+  tr{
+     height: 42px;
+  }
+  th {
+    width: 50%;
+    font-family: 'Lato';
+    font-size: 20px;
+    font-weight: 700;
+    line-height:24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: rgba(0, 0, 0, 1);
+  }
+  th,
+  td {
+    padding: 19px 37px 8px;
+    text-align: left;
+  }
+  table,
+  th,
+  td {
+    border: 1px solid rgba(193, 193, 193, 1);
+    border-collapse: collapse;
   }
 }

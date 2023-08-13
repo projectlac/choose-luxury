@@ -238,6 +238,14 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
         }
       }
     },
+
+    MuiContainer: {
+      styleOverrides: {
+        maxWidthXl: {
+          maxWidth: 1366
+        }
+      }
+    },
     MuiTreeItem: {
       styleOverrides: {
         label: {

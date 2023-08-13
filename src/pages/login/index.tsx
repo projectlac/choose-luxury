@@ -1,75 +1,78 @@
 // material-ui
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import LoginImage from 'assets/login/grr.png';
 import Link from '../../Link';
-
 // project imports
-import AuthWrapper1 from 'components/authentication/AuthWrapper1';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
+import AuthWrapper1 from 'components/authentication/AuthWrapper1';
 import AuthLogin from 'components/authentication/auth-forms/AuthLogin';
-import Logo from 'ui-component/Logo';
-import AuthFooter from 'ui-component/cards/AuthFooter';
 import useAuth from 'hooks/useAuth';
+import Image from 'next/image';
+import Logo from 'assets/header/logo.png';
+import BackgroundPattern1 from 'ui-component/cards/BackgroundPattern1';
+import AuthRegister from 'components/authentication/auth-forms/AuthRegister';
+import { useState } from 'react';
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
+// carousel items
+
 const Login = () => {
   const theme = useTheme();
+  const [loginMode, setLoginMode] = useState<boolean>(true);
   const { isLoggedIn } = useAuth();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <AuthWrapper1>
-      <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
-        <Grid item xs={12}>
-          <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
-            <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
-              <AuthCardWrapper>
-                <Grid container spacing={2} alignItems="center" justifyContent="center">
-                  <Grid item sx={{ mb: 3 }}>
-                    <Link href="#">
-                      <Logo />
-                    </Link>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container direction={matchDownSM ? 'column-reverse' : 'row'} alignItems="center" justifyContent="center">
-                      <Grid item>
-                        <Stack alignItems="center" justifyContent="center" spacing={1}>
-                          <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                            Hi, Welcome Back
-                          </Typography>
-                          <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : 'inherit'}>
-                            Enter your credentials to continue
-                          </Typography>
-                        </Stack>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <AuthLogin />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid item container direction="column" alignItems="center" xs={12}>
-                      <Typography
-                        component={Link}
-                        href={isLoggedIn ? '/pages/authentication/auth3/register' : '/register'}
-                        variant="subtitle1"
-                        sx={{ textDecoration: 'none' }}
-                      >
-                        Don&apos;t have an account?
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </AuthCardWrapper>
-            </Grid>
-          </Grid>
+      <Grid container justifyContent="space-between" alignItems="center" sx={{ minHeight: '100vh' }}>
+        <Grid item md={6} lg={5} sx={{ position: 'relative', alignSelf: 'stretch', display: { xs: 'none', md: 'block' } }}>
+          <BackgroundPattern1>
+            <Image alt="loginImage" src={LoginImage.src} layout="fill" objectFit="cover"></Image>
+          </BackgroundPattern1>
         </Grid>
-        <Grid item xs={12} sx={{ m: 3, mt: 1 }}>
-          <AuthFooter />
+        <Grid item container justifyContent="center" md={6} lg={7} sx={{ my: 3 }}>
+          <AuthCardWrapper>
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    width: '180px',
+                    height: '150px',
+                    position: 'relative',
+                    margin: '0 auto'
+                  }}
+                >
+                  <Image alt="loginImage" src={Logo.src} layout="fill" objectFit="cover"></Image>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                {loginMode ? <AuthLogin /> : <AuthRegister />}
+              </Grid>
+
+              <Grid item xs={12} sx={{ marginTop: '27px' }}>
+                <Grid item container direction="column" alignItems="center" xs={12}>
+                  <Box color={'#000'} sx={{ fontFamily: 'Roboto', display: 'flex', alignItems: 'center' }}>
+                    <Typography color={'#000'} sx={{ textDecoration: 'none', fontFamily: 'Roboto', marginRight: '5px' }}>
+                      {loginMode ? `Not registered yet, create a ${' '}` : 'Login'}{' '}
+                    </Typography>
+                    <Typography
+                      // component={Link}
+                      // href="/pages/authentication/auth1/register"
+                      color={'rgba(21, 76, 218, 1)'}
+                      sx={{ textDecoration: 'none', fontFamily: 'Roboto', cursor: 'pointer' }}
+                      onClick={() => {
+                        setLoginMode((prev) => !prev);
+                      }}
+                    >
+                      {loginMode ? '  new account ' : 'here'}
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+          </AuthCardWrapper>
         </Grid>
       </Grid>
     </AuthWrapper1>

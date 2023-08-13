@@ -5,7 +5,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { Box, Container, Grid, Typography } from '@mui/material';
 
 // project imports
-import AppBar from 'ui-component/extended/AppBar';
+import AppBar from 'assets/AppBar';
 import MainCard from 'ui-component/cards/MainCard';
 import Accordion from 'ui-component/extended/Accordion';
 import { gridSpacing } from 'store/constant';

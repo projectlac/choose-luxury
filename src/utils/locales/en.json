@@ -1,6 +1,6 @@
 {
   "dashboard": "Dashboard",
-  "default": "Default",
+  "default": "Dashboard",
   "analytics": "Analytics",
 
   "widget": "Widget",
@@ -33,7 +33,7 @@
   "product-list": "Product List",
   "checkout": "Checkout",
 
-  "forms": "Forms",
+  "management": "Management",
   "components": "Components",
   "autocomplete": "Autocomplete",
   "button": "Button",
@@ -138,6 +138,8 @@
   "sample-page": "Sample Page",
   "documentation": "Documentation",
   "roadmap": "Roadmap",
+  "instock":"Instock",
+  "orders":"Orders",
 
   "title": "Multi Language",
   "home": "Home",

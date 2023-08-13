@@ -33,7 +33,7 @@ export const BASE_PATH = '';
 export const DASHBOARD_PATH = '/dashboard/default';
 
 const config: ConfigProps = {
-  fontFamily: `'Roboto', sans-serif`,
+  fontFamily: ` Quicksand,'Lato', 'Roboto', sans-serif`,
   borderRadius: 8,
   outlinedFilled: true,
   navType: 'light', // light, dark

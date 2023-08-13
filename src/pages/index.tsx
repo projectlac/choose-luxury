@@ -2,30 +2,20 @@
 import { styled } from '@mui/material/styles';
 
 // project imports
-import Header from 'components/landingpage/Header';
-import Feature from 'components/landingpage/Feature';
-import Demos from 'components/landingpage/Demos';
-import Layouts from 'components/landingpage/Layouts';
-import KeyFeature from 'components/landingpage/KeyFeature';
-import Subscribe from 'components/landingpage/Subscribe';
+import BestOfSale from 'components/landingpage/BestOfSale';
 import Footer from 'components/landingpage/Footer';
-import Customization from 'layout/Customization';
+import Header from 'components/landingpage/Header';
+import OutService from 'components/landingpage/OutService';
+import Subscribe from 'components/landingpage/Subscribe';
 import AppBar from 'ui-component/extended/AppBar';
 
 const HeaderWrapper = styled('div')(({ theme }) => ({
-  paddingTop: 30,
   overflowX: 'hidden',
-  overflowY: 'clip',
-  [theme.breakpoints.down('md')]: {
-    paddingTop: 42
-  }
+  overflowY: 'clip'
 }));
 
 const SecondWrapper = styled('div')(({ theme }) => ({
-  paddingTop: 160,
-  [theme.breakpoints.down('md')]: {
-    paddingTop: 60
-  }
+  display: 'block'
 }));
 
 // =============================|| LANDING MAIN ||============================= //
@@ -37,22 +27,16 @@ const Landing: React.FC = () => (
       <Header />
     </HeaderWrapper>
     <SecondWrapper>
-      <Feature />
-    </SecondWrapper>
-    <SecondWrapper>
-      <Demos />
-    </SecondWrapper>
-    <SecondWrapper>
-      <Layouts />
-    </SecondWrapper>
-    <SecondWrapper>
-      <KeyFeature />
+      <OutService />
     </SecondWrapper>
     <SecondWrapper>
       <Subscribe />
     </SecondWrapper>
+    <SecondWrapper>
+      <BestOfSale />
+    </SecondWrapper>
     <Footer />
-    <Customization />
+    {/* <Customization /> */}
   </>
 );
 
