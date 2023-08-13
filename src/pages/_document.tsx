@@ -10,18 +10,12 @@ export default function Document() {
         <meta name="keywords" content="Choose Luxury" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://berrydashboard.io/" />
         <meta property="og:site_name" content="berrydashboard.io" />
-        <meta property="article:publisher" content="https://www.facebook.com/codedthemes" />
         <meta property="og:title" content="Choose Luxury" />
         <meta property="og:description" content="Choose Luxury" />
-        <meta property="og:image" content="https://berrydashboard.io/og-image/og-facebook.png" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://berrydashboard.io" />
         <meta property="twitter:title" content="Choose Luxury" />
         <meta property="twitter:description" content="Choose Luxury" />
-        <meta property="twitter:image" content="https://berrydashboard.io/og-image/og-twitter.png" />
-
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
