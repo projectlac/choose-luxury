@@ -1,7 +1,7 @@
 import { SizeData } from './shopItem';
 
 export interface IProductDetail {
-  image: string;
+  image: string[];
   name: string;
   id: string;
   brand: string;

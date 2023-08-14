@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Link from 'next/link';
 
@@ -26,6 +26,7 @@ const data: ProductFilterData[] = [
   }
 ];
 function ProductFilter() {
+  const [toggle, setToggle] = useState<boolean>(false);
   return (
     <Box sx={{ marginBottom: '51px' }}>
       <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '15px' }} justifyContent={'space-between'}>
@@ -40,9 +41,14 @@ function ProductFilter() {
         >
           Product
         </Typography>
-        <ArrowForwardIosIcon sx={{ color: '#000', transform: 'rotate(90deg)' }} />
+        <ArrowForwardIosIcon
+          sx={{ color: '#000', transition: 'all 0.2s', transform: `${toggle ? 'rotate(0deg)' : 'rotate(90deg)'}` }}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
+        />
       </Box>
-      <Box>
+      <Box display={`${!toggle ? 'block' : 'none'}`}>
         {data.map((d) => (
           <Link key={d.id} href={d.url}>
             <Typography

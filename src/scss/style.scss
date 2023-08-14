@@ -144,15 +144,15 @@
   table {
     width: 100%;
   }
-  tr{
-     height: 42px;
+  tr {
+    height: 42px;
   }
   th {
     width: 50%;
     font-family: 'Lato';
     font-size: 20px;
     font-weight: 700;
-    line-height:24px;
+    line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
     color: rgba(0, 0, 0, 1);
@@ -167,5 +167,19 @@
   td {
     border: 1px solid rgba(193, 193, 193, 1);
     border-collapse: collapse;
+  }
+}
+.lg-react-element {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 768px) {
+  .slick-next {
+    right: 15px !important;
+  }
+  .slick-prev {
+    left: 15px !important;
+    z-index: 1;
   }
 }

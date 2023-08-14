@@ -67,47 +67,6 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
 
   return (
     <>
-      <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            {/* <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: 'grey.700',
-                backgroundColor: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.grey[50],
-                borderColor: theme.palette.mode === 'dark' ? theme.palette.dark.light + 20 : theme.palette.grey[100]
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2 }, width: 20, height: 20, marginRight: matchDownSM ? 8 : 16 }}>
-                <Image src={Google} alt="Berry Dashboard" layout="intrinsic" width={'16px'} height={'16px'} />
-              </Box>
-              Sign in with Google
-            </Button> */}
-          </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              fontFamily: 'Open Sans',
-              fontSize: '40px',
-              fontWeight: '700',
-              lineHeight: '54px',
-              justifyContent: 'center',
-              color: '#000',
-              marginBottom: '45px'
-            }}
-          >
-            Sign in
-          </Box>
-        </Grid>
-      </Grid>
-
       <Formik
         initialValues={{
           email: 'info@codedthemes.com',

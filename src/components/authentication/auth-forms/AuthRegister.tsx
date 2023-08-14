@@ -71,26 +71,6 @@ const FirebaseRegister = ({ ...others }) => {
 
   return (
     <>
-      <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12} container alignItems="center" justifyContent="center">
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              fontFamily: 'Open Sans',
-              fontSize: '40px',
-              fontWeight: '700',
-              lineHeight: '54px',
-              justifyContent: 'center',
-              color: '#000',
-              marginBottom: '45px'
-            }}
-          >
-            Sign up
-          </Box>
-        </Grid>
-      </Grid>
-
       <Formik
         initialValues={{
           email: '',

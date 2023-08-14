@@ -15,8 +15,7 @@ const ContentBox = styled(Box)(({ theme }) => ({
   bottom: '0',
   width: '100%',
   textAlign: 'center',
-  padding: '20px 0 17px',
-  borderTop: '1px solid #BF8C0A'
+  padding: '20px 0 17px'
 }));
 function BestOfSaleItem({ data }: BestOfSaleItemProps) {
   return (

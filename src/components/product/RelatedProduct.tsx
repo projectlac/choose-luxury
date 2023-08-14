@@ -1,12 +1,12 @@
 import { Container, Grid, Typography } from '@mui/material';
 import React from 'react';
-import ImageProduct from 'assets/products/BAGS.png';
 import { IDataShop } from 'types/shop/shopItem';
 import ProductItem from 'components/Shop/ProductItem/ProductItem';
+
 function RelatedProduct() {
   const data: IDataShop[] = [
     {
-      image: ImageProduct.src,
+      image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
       name: 'Classique Triomphe Bag in shiny calfskin',
       price: 'VND 1, 800, 000',
       oldPrice: 'VND 1, 800, 000',
@@ -15,7 +15,7 @@ function RelatedProduct() {
       id: '1'
     },
     {
-      image: ImageProduct.src,
+      image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
       name: 'Classique Triomphe Bag in shiny calfskin',
       price: 'VND 1, 800, 000',
       oldPrice: 'VND 1, 800, 000',
@@ -24,7 +24,7 @@ function RelatedProduct() {
       id: '2'
     },
     {
-      image: ImageProduct.src,
+      image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
       name: 'Classique Triomphe Bag in shiny calfskin',
       price: 'VND 1, 800, 000',
       oldPrice: 'VND 1, 800, 000',
@@ -33,7 +33,7 @@ function RelatedProduct() {
       id: '3'
     },
     {
-      image: ImageProduct.src,
+      image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
       name: 'Classique Triomphe Bag in shiny calfskin',
       price: 'VND 1, 800, 000',
       oldPrice: 'VND 1, 800, 000',
@@ -43,14 +43,14 @@ function RelatedProduct() {
     }
   ];
   return (
-    <Container sx={{ marginTop: '140px', marginBottom: '125px' }}>
+    <Container maxWidth="xl" sx={{ marginTop: '140px', marginBottom: '125px' }}>
       <Typography
         variant={'h2'}
         sx={{ fontFamily: 'Roboto', fontSize: '16px', fontWeight: '700', lineHeight: '19px', marginBottom: '16px' }}
       >
         RELATED PRODUCTS
       </Typography>
-      <Grid container columnSpacing={1}>
+      <Grid container columnSpacing={3} rowSpacing={3}>
         {data.map((d) => (
           <Grid item md={3} key={d.id}>
             <ProductItem data={d} />

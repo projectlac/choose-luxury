@@ -1,11 +1,11 @@
-import { Box, Typography } from '@mui/material';
-import React from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import PriceFilter from './PriceFilter';
-import ProductFilter from './ProductFilter';
-import SizeFilter from './SizeFilter';
-import BrandFilter from './BrandFilter';
-function Filter() {
+import { Box, Typography } from '@mui/material';
+
+interface IPropsHiddenFilter {
+  hiddenFilter: boolean;
+  setHiddenFilter: React.Dispatch<React.SetStateAction<boolean>>;
+}
+function Filter({ hiddenFilter, setHiddenFilter }: IPropsHiddenFilter) {
   return (
     <Box>
       <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '50px' }}>
@@ -20,12 +20,13 @@ function Filter() {
         >
           Filter
         </Typography>
-        <ArrowForwardIosIcon sx={{ color: '#000' }} />
+        <ArrowForwardIosIcon
+          sx={{ color: '#000', transition: 'all 0.2s', transform: `${hiddenFilter ? 'rotate(0deg)' : 'rotate(90deg)'}` }}
+          onClick={() => {
+            setHiddenFilter(!hiddenFilter);
+          }}
+        />
       </Box>
-      <PriceFilter />
-      <ProductFilter />
-      <SizeFilter />
-      <BrandFilter />
     </Box>
   );
 }

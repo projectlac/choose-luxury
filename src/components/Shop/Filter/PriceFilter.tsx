@@ -1,5 +1,5 @@
 import { Box, FormControl, InputAdornment, OutlinedInput, Slider, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -44,6 +44,7 @@ const PrettoSlider = styled(Slider)({
 });
 
 function PriceFilter() {
+  const [toggle, setToggle] = useState<boolean>(false);
   const [value, setValue] = React.useState<number[]>([0, 52000000]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
@@ -66,7 +67,7 @@ function PriceFilter() {
   };
   return (
     <Box sx={{ marginBottom: '47px' }}>
-      <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '50px' }} justifyContent={'space-between'}>
+      <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '30px' }} justifyContent={'space-between'}>
         <Typography
           sx={{
             fontSize: '20px',
@@ -78,9 +79,14 @@ function PriceFilter() {
         >
           Price
         </Typography>
-        <ArrowForwardIosIcon sx={{ color: '#000', transform: 'rotate(90deg)' }} />
+        <ArrowForwardIosIcon
+          sx={{ color: '#000', transition: 'all 0.2s', transform: `${toggle ? 'rotate(0deg)' : 'rotate(90deg)'}` }}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
+        />
       </Box>
-      <Box>
+      <Box display={`${!toggle ? 'block' : 'none'}`}>
         <Box
           display={'flex'}
           justifyContent={'space-between'}

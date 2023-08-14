@@ -46,28 +46,28 @@ const FooterPage = () => {
   return (
     <>
       <FooterWrapper>
-        <Container>
+        <Container maxWidth="xl">
           <Grid container alignItems="flex-start" spacing={gridSpacing}>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={2} textAlign={{ md: 'left', xs: 'center' }}>
               <Image src={Logo.src} alt="Berry" width={137} height={115} layout={'intrinsic'} />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={6} sm={3}>
               <Title>Addrress</Title>
               <Detail>
                 Central 3, Vinhome central park, <br /> 252 Nguyen Huu Canh street, Ward 22, <br /> Binh Thanh district, HCM
               </Detail>
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={6} sm={2}>
               <Title>Terms and conditions </Title>
               <Detail>Purchasing policy </Detail>
               <Detail>Payment method</Detail>
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={6} sm={3}>
               <Title>Contact us</Title>
               <Detail>Phone: 0945821194/ 0334820791</Detail>
               <Detail>Email: info@chooseluxauth.com</Detail>
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={6} sm={2}>
               <Title>Follow us</Title>
               <Box
                 sx={{

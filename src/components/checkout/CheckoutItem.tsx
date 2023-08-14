@@ -18,7 +18,7 @@ function CheckoutItem() {
       }}
     >
       <Grid container>
-        <Grid item md={3}>
+        <Grid item sm={3} xs={5}>
           <Box
             sx={{
               width: '125px',
@@ -33,7 +33,7 @@ function CheckoutItem() {
             <Image src={FakeImage.src} layout="fill" objectFit="contain" alt={'gaga'}></Image>
           </Box>
         </Grid>
-        <Grid item md={6}>
+        <Grid item sm={6} xs={7}>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '148px', marginTop: '10px' }}>
             <Box>
               <Typography
@@ -54,14 +54,62 @@ function CheckoutItem() {
                   fontSize: '10px',
                   fontWeight: '400',
                   lineHeight: '14px',
-                  color: '#000'
+                  color: '#000',
+                  display: '-webkit-box',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: '3',
+                  overflow: 'hidden'
                 }}
               >
                 {`is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
                 since the 1500s, when an unknown printer took a galley of type`}
               </Typography>
             </Box>
-            <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'space-between'
+              }}
+            >
+              <Box sx={{ display: { sm: 'none', xs: 'block' } }}>
+                <Typography
+                  sx={{
+                    fontFamily: 'Open Sans',
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    lineHeight: '16px',
+                    color: '#000',
+                    paddingRight: '10px'
+                  }}
+                >
+                  $20.20
+                </Typography>
+                <TextField
+                  select
+                  sx={{
+                    width: '100px',
+                    height: '32px',
+                    '.MuiSelect-select': {
+                      padding: '6px 10px',
+                      background: '#fff',
+                      textAlign: 'left'
+                    }
+                  }}
+                  SelectProps={{
+                    renderValue: (value) => {
+                      return `Qty: ${value}`;
+                    }
+                  }}
+                  value={rowsPerPage}
+                  onChange={handleChangeRowsPerPage}
+                >
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                  <MenuItem value={30}>30</MenuItem>
+                </TextField>
+              </Box>
+
               <Button
                 variant={'contained'}
                 sx={{
@@ -73,6 +121,7 @@ function CheckoutItem() {
                   fontSize: '12px',
                   fontWeight: '700',
                   lineHeight: '16px',
+                  height: '37px',
                   '&:hover': {
                     backgroundColor: 'rgb(151 111 8)'
                   }
@@ -85,9 +134,10 @@ function CheckoutItem() {
         </Grid>
         <Grid
           item
-          md={3}
+          xs={3}
           sx={{
-            textAlign: 'right'
+            textAlign: 'right',
+            display: { sm: 'block', xs: 'none' }
           }}
         >
           <Typography

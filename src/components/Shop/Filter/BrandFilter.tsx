@@ -9,6 +9,8 @@ interface BrandData {
 }
 
 function BrandFilter() {
+  const [toggle, setToggle] = useState<boolean>(false);
+
   const [data, setData] = useState<BrandData[]>([
     { brand: 'ALEXANDER MCQUEEN', checked: false, id: '1' },
     { brand: 'ALEXANDER MCQUEEN', checked: false, id: '2' },
@@ -30,7 +32,7 @@ function BrandFilter() {
 
   return (
     <Box>
-      <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '15px' }} justifyContent={'space-between'}>
+      <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '15px', mt: 2 }} justifyContent={'space-between'}>
         <Typography
           sx={{
             fontSize: '20px',
@@ -40,11 +42,16 @@ function BrandFilter() {
             marginRight: '32px'
           }}
         >
-          Size
+          Brand
         </Typography>
-        <ArrowForwardIosIcon sx={{ color: '#000', transform: 'rotate(90deg)' }} />
+        <ArrowForwardIosIcon
+          sx={{ color: '#000', transition: 'all 0.2s', transform: `${toggle ? 'rotate(0deg)' : 'rotate(90deg)'}` }}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
+        />
       </Box>
-      <Grid container>
+      <Grid container display={`${!toggle ? 'flex' : 'none'}`}>
         {data.map((d) => (
           <Grid item sm={12} key={d.id}>
             <FormControlLabel

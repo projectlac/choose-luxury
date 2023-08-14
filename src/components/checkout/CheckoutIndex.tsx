@@ -4,15 +4,15 @@ import CheckoutDetail from './CheckoutDetail';
 
 function CheckoutIndex() {
   return (
-    <Container>
-      <Grid container>
-        <Grid item md={6}>
+    <Container maxWidth="xl">
+      <Grid container rowSpacing={3}>
+        <Grid item md={6} xs={12}>
           <ListCheckout />
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={6} xs={12}>
           <Grid container>
-            <Grid item md={3}></Grid>
-            <Grid item md={9}>
+            <Grid item sm={3} sx={{ display: { sm: 'block', xs: 'none' } }}></Grid>
+            <Grid item md={9} sm={12} xs={12}>
               <CheckoutDetail />
             </Grid>
           </Grid>

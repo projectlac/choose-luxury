@@ -22,12 +22,13 @@ function SizeSelector({ size }: ISizeSeletorProps) {
           key={d.id}
           sx={{
             borderRadius: '0',
-            border: '1px solid black !important',
-            width: '33px',
-            height: '33px',
+            border: '1px solid #edf2f7 !important',
+            width: '37px',
+            height: '37px',
             marginRight: '7px',
-            fontSize: '16px',
+            fontSize: '14px',
             color: '#000',
+            fontFamily: 'Quicksand',
             padding: '0',
             '&:hover': {
               backgroundColor: '#eee',

@@ -4,6 +4,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { SizeData } from 'types/shop/shopItem';
 
 function SizeFilter() {
+  const [toggle, setToggle] = useState<boolean>(false);
   const [data, setData] = useState<SizeData[]>([
     { size: 'XXS', checked: false, id: '1' },
     { size: 'XS', checked: false, id: '2' },
@@ -37,9 +38,14 @@ function SizeFilter() {
         >
           Size
         </Typography>
-        <ArrowForwardIosIcon sx={{ color: '#000', transform: 'rotate(90deg)' }} />
+        <ArrowForwardIosIcon
+          sx={{ color: '#000', transition: 'all 0.2s', transform: `${toggle ? 'rotate(0deg)' : 'rotate(90deg)'}` }}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
+        />
       </Box>
-      <Grid container>
+      <Grid container display={`${!toggle ? 'flex' : 'none'}`}>
         {data.map((d) => (
           <Grid item sm={6} key={d.id}>
             <FormControlLabel

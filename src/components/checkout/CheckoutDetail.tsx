@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 import { styled } from '@mui/styles';
 
@@ -74,79 +74,101 @@ const PaymentLink = styled(Box)(({ theme }) => ({
   border: '1px solid rgba(191, 140, 10, 1)',
   borderRadius: '10px',
   marginLeft: '37px',
-  marginTop: '15px'
+  marginTop: '15px',
+  [theme.breakpoints.down('md')]: {
+    marginLeft: '0',
+    margin: '15px'
+  }
 }));
 function CheckoutDetail() {
   return (
     <Box>
-      <BoxDetail
-        sx={{
-          height: '126px',
-          padding: '8px 23px 22px'
-        }}
-      >
-        <Typography variant={'h2'} className="title" sx={{ fontSize: '20px', lineHeight: '27px' }}>
-          Promotion Code
-        </Typography>
-        <PromotionWrapper>
-          <PromotionInput type="text" className="coupon" />
-          <CustomButton>Apply coupon</CustomButton>
-        </PromotionWrapper>
-      </BoxDetail>
-      <BoxDetail sx={{ height: '260px', padding: '15px 41px 61px' }}>
-        <Typography variant={'h2'} className="title" sx={{ fontSize: '24px', lineHeight: '32.68px' }}>
-          Total
-        </Typography>
-        <Box sx={{ marginTop: '37px' }}>
-          <TotalBox>
-            <TotalTypo>Subtotal:</TotalTypo>
-            <TotalTypo>VND 9.000.000.00</TotalTypo>
-          </TotalBox>
+      <Grid container columnSpacing={3} rowSpacing={3}>
+        <Grid item md={12} xs={12} sm={12}>
+          <BoxDetail
+            sx={{
+              height: '126px',
+              padding: '8px 23px 22px'
+            }}
+          >
+            <Typography variant={'h2'} className="title" sx={{ fontSize: '20px', lineHeight: '27px' }}>
+              Promotion Code
+            </Typography>
+            <PromotionWrapper>
+              <PromotionInput type="text" className="coupon" />
+              <CustomButton>Apply coupon</CustomButton>
+            </PromotionWrapper>
+          </BoxDetail>
+        </Grid>
+        <Grid item md={12} xs={12} sm={6}>
+          <BoxDetail sx={{ height: { md: '260px', xs: '225px' }, padding: { md: '15px 41px 61px', xs: '8px 23px 22px' } }}>
+            <Typography variant={'h2'} className="title" sx={{ fontSize: '24px', lineHeight: '32.68px' }}>
+              Total
+            </Typography>
+            <Box sx={{ marginTop: '37px' }}>
+              <TotalBox>
+                <TotalTypo>Subtotal:</TotalTypo>
+                <TotalTypo>VND 9.000.000.00</TotalTypo>
+              </TotalBox>
 
-          <TotalBox>
-            <TotalTypo>Total:</TotalTypo>
-            <TotalTypo>VND 9.000.000.00</TotalTypo>
-          </TotalBox>
-        </Box>
-      </BoxDetail>
-      <BoxDetail sx={{ height: '190px', padding: '37px 25px 30px' }}>
-        <Box display={'flex'} justifyContent={'space-between'} sx={{ marginBottom: '17px' }}>
-          <Typography
-            textAlign={'left'}
-            sx={{
-              fontFamily: 'Lato',
-              fontSize: '16px',
-              fontWeight: '700',
-              lineHeight: '19px',
-              color: '#000'
-            }}
-          >
-            Pay Now
-          </Typography>
-          <Box display={'flex'}>
-            <PaymentLink>Momo</PaymentLink>
-            <PaymentLink>VNPAY</PaymentLink>
-          </Box>
-        </Box>
-        <Box display={'flex'} justifyContent={'space-between'}>
-          <Typography
-            textAlign={'left'}
-            sx={{
-              fontFamily: 'Lato',
-              fontSize: '16px',
-              fontWeight: '700',
-              lineHeight: '19px',
-              color: '#000'
-            }}
-          >
-            Chat Now
-          </Typography>
-          <Box display={'flex'}>
-            <PaymentLink>Zalo</PaymentLink>
-            <PaymentLink>Messenger</PaymentLink>
-          </Box>
-        </Box>
-      </BoxDetail>
+              <TotalBox>
+                <TotalTypo>Total:</TotalTypo>
+                <TotalTypo>VND 9.000.000.00</TotalTypo>
+              </TotalBox>
+            </Box>
+          </BoxDetail>
+        </Grid>
+        <Grid item md={12} xs={12} sm={6}>
+          <BoxDetail sx={{ height: { md: '190px', xs: '225px' }, padding: { md: '37px 25px 30px', xs: '8px 23px 22px' } }}>
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              sx={{ marginBottom: '17px', flexDirection: { md: 'row', xs: 'column' } }}
+            >
+              <Typography
+                textAlign={'left'}
+                sx={{
+                  fontFamily: 'Lato',
+                  fontSize: '16px',
+                  fontWeight: '700',
+                  lineHeight: '19px',
+                  color: '#000'
+                }}
+              >
+                Pay Now
+              </Typography>
+              <Box display={'flex'}>
+                <PaymentLink>Momo</PaymentLink>
+                <PaymentLink>VNPAY</PaymentLink>
+              </Box>
+            </Box>
+            <Box
+              display={'flex'}
+              justifyContent={{ md: 'space-between' }}
+              alignItems={'center'}
+              sx={{ flexDirection: { md: 'row', xs: 'column' } }}
+            >
+              <Typography
+                textAlign={'left'}
+                sx={{
+                  fontFamily: 'Lato',
+                  fontSize: '16px',
+                  fontWeight: '700',
+                  lineHeight: '19px',
+                  color: '#000'
+                }}
+              >
+                Chat Now
+              </Typography>
+              <Box display={'flex'}>
+                <PaymentLink>Zalo</PaymentLink>
+                <PaymentLink>Messenger</PaymentLink>
+              </Box>
+            </Box>
+          </BoxDetail>
+        </Grid>
+      </Grid>
     </Box>
   );
 }

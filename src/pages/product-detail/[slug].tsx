@@ -1,13 +1,11 @@
-import React from 'react';
 import { styled } from '@mui/material/styles';
-import AppBar from 'ui-component/extended/AppBar';
-import Header from 'components/landingpage/Header';
-import Breadcrumbs from 'components/widget/Breadcum';
 import Footer from 'components/landingpage/Footer';
+import Header from 'components/landingpage/Header';
 import ProductDetail from 'components/product/ProductDetail';
-import { IProductDetail } from 'types/shop/product';
-import FakeImage from 'assets/products/BAGS-removebg-preview.png';
 import RelatedProduct from 'components/product/RelatedProduct';
+import Breadcrumbs from 'components/widget/Breadcum';
+import { IProductDetail } from 'types/shop/product';
+import AppBar from 'ui-component/extended/AppBar';
 const HeaderWrapper = styled('div')(({ theme }) => ({
   overflowX: 'hidden',
   overflowY: 'clip'
@@ -15,7 +13,12 @@ const HeaderWrapper = styled('div')(({ theme }) => ({
 
 function ProductDetailIndex() {
   const data: IProductDetail = {
-    image: FakeImage.src,
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classic triomphe bag in shiny calfskin',
     id: '1233333',
     brand: 'vetement',

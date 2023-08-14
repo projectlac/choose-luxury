@@ -1,15 +1,18 @@
 import Image from 'next/image';
 // material-ui
-import { Box, Container, Stack, TextField, Typography } from '@mui/material';
+import { Box, Container, Drawer, Link, List, ListItemButton, ListItemText, Stack, TextField, Typography } from '@mui/material';
 
 // project imports
 import Logo from '../../../assets/header/logo.png';
 import WishList from '../../../assets/header/heart.png';
 import Cart from '../../../assets/header/cart.png';
-
+import MenuIcon from '@mui/icons-material/Menu';
 // assets
 import { styled } from '@mui/styles';
 import User from './User';
+import { useSelector } from 'store';
+import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
+import { useState } from 'react';
 
 // elevation scroll
 
@@ -24,38 +27,117 @@ const CustomButton = styled('a')(({ theme }) => ({
   alignItems: 'center',
   cursor: 'pointer',
   '&.lang': {
-    marginLeft: '93px'
+    marginLeft: '93px',
+    [theme.breakpoints.down('xl')]: {
+      marginLeft: '93px'
+    },
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: '45px'
+    },
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '30px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
+  },
+  [theme.breakpoints.down('xl')]: {
+    fontSize: '16px'
+  },
+  [theme.breakpoints.down('lg')]: {
+    fontSize: '15px'
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '13px'
   }
 }));
 
 // ==============================|| MINIMAL LAYOUT APP BAR ||============================== //
 
 const AppBar = ({ ...others }) => {
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const [drawerToggle, setDrawerToggle] = useState<boolean>(false);
+  /** Method called on multiple components with different event types */
+  const drawerToggler = (open: boolean) => (event: any) => {
+    if (event.type! === 'keydown' && (event.key! === 'Tab' || event.key! === 'Shift')) {
+      return;
+    }
+    setDrawerToggle(open);
+  };
   return (
     <>
       <Container
         maxWidth={'xl'}
-        style={{
+        sx={{
           display: 'flex',
-          alignItems: 'flex-end',
+          alignItems: { sm: 'flex-end', xs: 'center' },
           justifyContent: 'space-between'
         }}
       >
-        <Box width={191}>
-          <Typography component="div" sx={{ flexGrow: 1, textAlign: 'left' }}>
-            <Image src={Logo.src} alt="" width={191} height={150} />
-          </Typography>
+        <Box width={'25%'} sx={{ display: { xs: 'block', sm: 'none' } }}>
+          <MenuIcon onClick={drawerToggler(true)} />
+          <Drawer anchor="top" open={drawerToggle} onClose={drawerToggler(false)}>
+            {drawerToggle && (
+              <Box sx={{ width: 'auto' }} role="presentation" onClick={drawerToggler(false)} onKeyDown={drawerToggler(false)}>
+                <List>
+                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                    <ListItemButton component="a">
+                      <ListItemText primary="Home" />
+                    </ListItemButton>
+                  </Link>
+                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                    <ListItemButton component="a">
+                      <ListItemText primary="About us" />
+                    </ListItemButton>
+                  </Link>
+                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                    <ListItemButton component="a">
+                      <ListItemText primary="Products" />
+                    </ListItemButton>
+                  </Link>
+                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                    <ListItemButton component="a">
+                      <ListItemText primary="Fashion trend" />
+                    </ListItemButton>
+                  </Link>
+                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                    <ListItemButton component="a">
+                      <ListItemText primary="Contact us" />
+                    </ListItemButton>
+                  </Link>
+                </List>
+              </Box>
+            )}
+          </Drawer>
+        </Box>
+        <Box
+          component={'a'}
+          href="/"
+          sx={{
+            width: { md: '191px', xs: '100px' }
+          }}
+        >
+          <Box
+            sx={{
+              width: { lg: '191px', md: '150px', xs: '100px' },
+              height: { lg: '150px', md: '110px', xs: '85px' },
+              position: 'relative'
+            }}
+          >
+            <Image src={Logo.src} layout="fill" alt="" objectFit="cover" />
+          </Box>
         </Box>
         <Box
           width={`calc(100% - 191px)`}
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            paddingBottom: '32px'
+            paddingBottom: { sm: '32px', xs: '0' },
+            width: { sm: 'auto', xs: '25%' }
           }}
         >
-          <Stack direction="row" sx={{ display: { xs: 'none', sm: 'flex' } }} spacing={6}>
-            <CustomButton href="">Homepage</CustomButton>
+          <Stack direction="row" sx={{ display: { xs: 'none', sm: 'flex' } }} spacing={{ xs: 1, sm: 1, md: 2, lg: 4 }}>
+            <CustomButton href="/">Homepage</CustomButton>
             <CustomButton href="">About us</CustomButton>
             <CustomButton href="">Products</CustomButton>
             <CustomButton href="">Fashion trend</CustomButton>
@@ -65,19 +147,38 @@ const AppBar = ({ ...others }) => {
           <Box
             sx={{
               display: 'flex',
-              mr: 4,
-              marginLeft: '93px',
-              '> *': { marginLeft: '30px', cursor: 'pointer' },
+              mr: { sm: 4, xs: 0 },
+
+              marginLeft: { lg: '75px', md: '15px', xs: '30px' },
+              '> *': { marginLeft: { lg: '30px', md: '15px', xs: '15px' }, cursor: 'pointer' },
               '> svg': { cursor: 'pointer' }
             }}
           >
-            <User />
-            <Box>
-              <Image alt="wish-list" src={WishList.src} width={20} height={20}></Image>
-            </Box>
+            {isLoggedIn ? (
+              <User />
+            ) : (
+              <DialogAuthCommon>
+                <User />
+              </DialogAuthCommon>
+            )}
 
-            <Box>
-              <Image alt="cart" src={Cart.src} width={20} height={20}></Image>
+            <Box width={20}>
+              {isLoggedIn ? (
+                <Image alt="wish-list" src={WishList.src} width={20} height={20}></Image>
+              ) : (
+                <DialogAuthCommon>
+                  <Image alt="wish-list" src={WishList.src} width={20} height={20}></Image>
+                </DialogAuthCommon>
+              )}
+            </Box>
+            <Box width={20}>
+              {isLoggedIn ? (
+                <Image alt="cart" src={Cart.src} width={20} height={20}></Image>
+              ) : (
+                <DialogAuthCommon>
+                  <Image alt="cart" src={Cart.src} width={20} height={20}></Image>
+                </DialogAuthCommon>
+              )}
             </Box>
           </Box>
         </Box>
@@ -85,7 +186,7 @@ const AppBar = ({ ...others }) => {
       <Container
         maxWidth="xl"
         sx={{
-          display: 'flex',
+          display: { md: 'flex', xs: 'none' },
           justifyContent: 'flex-end'
         }}
       >

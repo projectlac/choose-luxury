@@ -7,9 +7,9 @@ import image from '../../assets/header/serivce.png';
 
 // =============================|| LANDING - FEATURE PAGE ||============================= //
 const data: IDataService[] = [
-  { name: 'Bags', url: '/shop/men', image: image.src },
-  { name: 'Clothing', url: '/shop/men', image: image.src },
-  { name: 'Accessory', url: '/shop/men', image: image.src }
+  { name: 'Bags', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_azzqsGfh.jpeg' },
+  { name: 'Clothing', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_azzqsGfh.jpeg' },
+  { name: 'Accessory', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_azzqsGfh.jpeg' }
 ];
 const BestOfSale = () => {
   return (
@@ -17,14 +17,22 @@ const BestOfSale = () => {
       <Typography
         component={'h2'}
         align="center"
-        sx={{ marginTop: '14px', fontWeight: 700, color: '#000', fontSize: '24px', textTransform: 'uppercase', fontFamily: 'Quicksand' }}
+        sx={{
+          marginTop: '14px',
+          fontWeight: 700,
+          color: '#000',
+          fontSize: '24px',
+          textTransform: 'uppercase',
+          fontFamily: 'Quicksand',
+          paddingBottom: '20px'
+        }}
       >
         BEST OF SALES
       </Typography>
 
-      <Grid container columnSpacing={4} sx={{ marginTop: '11px' }}>
+      <Grid container columnSpacing={{ lg: 4, md: 3, xs: 2 }} rowSpacing={{ lg: 4, md: 3, xs: 2 }} sx={{ marginTop: '11px' }}>
         {data.map((d, index) => (
-          <Grid item md={4} xs={12} key={index}>
+          <Grid item md={4} lg={4} sm={index === data.length - 1 ? 12 : 6} xs={12} key={index}>
             <BestOfSaleItem data={d} />
           </Grid>
         ))}

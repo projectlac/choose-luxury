@@ -12,12 +12,29 @@ import SubImage from '../../assets/header/subimage.png';
 // styles
 const SubscribeWrapper = styled('div')(({ theme }) => ({
   height: '374px',
-  marginTop: '14px'
+  marginTop: '14px',
+  [theme.breakpoints.down('xl')]: {
+    height: '374px'
+  },
+  [theme.breakpoints.down('lg')]: {
+    height: '374px'
+  },
+  [theme.breakpoints.down('md')]: {
+    height: 'auto'
+  }
 }));
 
 const SubscribeCard = styled('div')(({ theme }) => ({
-  padding: '47px 62px 40px 62px',
-  height: '374px'
+  height: '374px',
+  [theme.breakpoints.down('xl')]: {
+    padding: '47px 62px 40px 62px'
+  },
+  [theme.breakpoints.down('lg')]: {
+    padding: '47px 40px 40px 40px'
+  },
+  [theme.breakpoints.down('md')]: {
+    padding: '47px 25px 40px 25px'
+  }
 }));
 
 const SubscribeImage = styled('img')({
@@ -41,9 +58,8 @@ const Subscribe = () => {
             xs={12}
             md={6}
             sx={{
-              display: { xs: 'none', md: 'block' },
               textAlign: 'right',
-              height: '374px',
+              height: { md: '374px', xs: 'auto' },
               [theme.breakpoints.down('lg')]: { textAlign: 'center' }
             }}
           >
@@ -52,9 +68,13 @@ const Subscribe = () => {
           <Grid item xs={12} md={6}>
             <SubscribeCard>
               <Grid container spacing={2}>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={9}>
-                  <Typography variant="h1" component="div" sx={{ fontSize: '20px', marginBottom: '27px' }}>
+                <Grid item xs={3} sx={{ display: { md: 'block', xs: 'none' } }}></Grid>
+                <Grid item xs={12} md={9}>
+                  <Typography
+                    variant="h1"
+                    component="div"
+                    sx={{ fontSize: '20px', marginBottom: '27px', textAlign: { xs: 'center', md: 'left' } }}
+                  >
                     Subscribe to receive 10% off
                   </Typography>
                 </Grid>

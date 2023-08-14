@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { styled, useTheme } from '@mui/material/styles';
 
 import { Button, Typography } from '@mui/material';
+import Link from 'next/link';
 interface ServiceItemProps {
   data: IDataService;
 }
@@ -34,7 +35,7 @@ function ServiceItem({ data }: ServiceItemProps) {
         >
           {data.name}
         </Typography>
-        <a href={data.url}>
+        <Link href="/shop/men">
           <Button
             sx={{
               border: '1px solid #BF8C0A',
@@ -48,7 +49,7 @@ function ServiceItem({ data }: ServiceItemProps) {
           >
             Shop Now
           </Button>
-        </a>
+        </Link>
       </ContentBox>
     </Box>
   );
