@@ -6,6 +6,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const PrettoSlider = styled(Slider)({
   color: '#000',
+  marginBottom: '15px',
   height: 5,
   '& .MuiSlider-track': {
     border: 'none'
@@ -66,8 +67,8 @@ function PriceFilter() {
     setValue(temp);
   };
   return (
-    <Box sx={{ marginBottom: '47px' }}>
-      <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '30px' }} justifyContent={'space-between'}>
+    <Box>
+      <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '15px' }} justifyContent={'space-between'}>
         <Typography
           sx={{
             fontSize: '20px',

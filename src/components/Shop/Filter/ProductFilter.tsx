@@ -68,7 +68,7 @@ function ProductFilter() {
     return '';
   }, [categorySelection]);
   return (
-    <Box sx={{ marginBottom: '51px' }}>
+    <Box sx={{ marginBottom: '15px' }}>
       <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '15px' }} justifyContent={'space-between'}>
         <Typography
           sx={{
@@ -88,7 +88,12 @@ function ProductFilter() {
           }}
         />
       </Box>
-      <Box display={`${!toggle ? 'block' : 'none'}`}>
+      <Box
+        display={`${!toggle ? 'block' : 'none'}`}
+        sx={{
+          marginBottom: '25px'
+        }}
+      >
         <Box
           sx={{
             display: !categorySelection.trim() ? 'none' : 'flex',

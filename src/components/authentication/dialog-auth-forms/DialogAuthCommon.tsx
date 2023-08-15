@@ -20,7 +20,7 @@ function CustomTabPanel(props: TabPanelProps) {
   return (
     <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: { md: 3, xs: 0 } }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -55,8 +55,18 @@ export default function DialogAuthCommon({ children }: IDialogAuthCommon) {
   return (
     <div>
       <div onClick={handleClickOpen}>{children}</div>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <Box sx={{ width: { md: '500px', xs: ' 100%' } }}>
+      <Dialog
+        sx={{
+          '.MuiDialog-paper': {
+            margin: '15px'
+          }
+        }}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <Box sx={{ width: { md: '500px', xs: '100%' } }}>
           <Card sx={{ padding: '0 15px' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

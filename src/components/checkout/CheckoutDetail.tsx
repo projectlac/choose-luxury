@@ -44,7 +44,9 @@ const PromotionInput = styled('input')(({ theme }) => ({
   outline: 'none',
   fontSize: '17px',
   padding: '5px 10px',
-  fontFamily: 'Open Sans'
+  fontFamily: 'Open Sans',
+  borderRadius: '8px',
+  border: '1px solid #a9a9a9'
 }));
 
 const TotalBox = styled(Box)(({ theme }) => ({
@@ -62,7 +64,10 @@ const TotalTypo = styled(Box)(({ theme }) => ({
   fontWeight: '700',
   lineHeight: '24px',
   color: '#000',
-  padding: ' 0px 36px 0px 11px'
+  padding: ' 0px 36px 0px 11px',
+  [theme.breakpoints.down('lg')]: {
+    fontSize: '15px'
+  }
 }));
 
 const PaymentLink = styled(Box)(({ theme }) => ({
@@ -75,8 +80,7 @@ const PaymentLink = styled(Box)(({ theme }) => ({
   borderRadius: '10px',
   marginLeft: '37px',
   marginTop: '15px',
-  [theme.breakpoints.down('md')]: {
-    marginLeft: '0',
+  [theme.breakpoints.down('lg')]: {
     margin: '15px'
   }
 }));
@@ -107,24 +111,24 @@ function CheckoutDetail() {
             </Typography>
             <Box sx={{ marginTop: '37px' }}>
               <TotalBox>
-                <TotalTypo>Subtotal:</TotalTypo>
+                <TotalTypo sx={{ width: '25%' }}>Subtotal:</TotalTypo>
                 <TotalTypo>VND 9.000.000.00</TotalTypo>
               </TotalBox>
 
               <TotalBox>
-                <TotalTypo>Total:</TotalTypo>
+                <TotalTypo sx={{ width: '25%' }}>Total:</TotalTypo>
                 <TotalTypo>VND 9.000.000.00</TotalTypo>
               </TotalBox>
             </Box>
           </BoxDetail>
         </Grid>
         <Grid item md={12} xs={12} sm={6}>
-          <BoxDetail sx={{ height: { md: '190px', xs: '225px' }, padding: { md: '37px 25px 30px', xs: '8px 23px 22px' } }}>
+          <BoxDetail sx={{ height: { lg: '190px', md: 'auto', xs: '225px' }, padding: { md: '37px 25px 30px', xs: '8px 23px 22px' } }}>
             <Box
               display={'flex'}
               justifyContent={'space-between'}
               alignItems={'center'}
-              sx={{ marginBottom: '17px', flexDirection: { md: 'row', xs: 'column' } }}
+              sx={{ marginBottom: '17px', flexDirection: { lg: 'row', xs: 'column' } }}
             >
               <Typography
                 textAlign={'left'}
@@ -147,7 +151,7 @@ function CheckoutDetail() {
               display={'flex'}
               justifyContent={{ md: 'space-between' }}
               alignItems={'center'}
-              sx={{ flexDirection: { md: 'row', xs: 'column' } }}
+              sx={{ flexDirection: { lg: 'row', xs: 'column' } }}
             >
               <Typography
                 textAlign={'left'}

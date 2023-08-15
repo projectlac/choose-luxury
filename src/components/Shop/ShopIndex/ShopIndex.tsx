@@ -121,16 +121,7 @@ function ShopIndex() {
             }}
           >
             {hiddenFilter && (
-              <Box
-                sx={{ width: 'auto', padding: '15px' }}
-                role="presentation"
-                onClick={() => {
-                  setHiddenFilter(false);
-                }}
-                onKeyDown={() => {
-                  setHiddenFilter(false);
-                }}
-              >
+              <Box sx={{ width: 'auto', padding: '15px' }} role="presentation">
                 <Box display={'flex'} justifyContent={'flex-end'} mb={3}>
                   <CloseIcon
                     onClick={() => {

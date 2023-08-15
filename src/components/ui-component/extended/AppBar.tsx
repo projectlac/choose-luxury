@@ -12,7 +12,8 @@ import { styled } from '@mui/styles';
 import User from './User';
 import { useSelector } from 'store';
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useAuth from 'hooks/useAuth';
 
 // elevation scroll
 
@@ -55,8 +56,9 @@ const CustomButton = styled('a')(({ theme }) => ({
 // ==============================|| MINIMAL LAYOUT APP BAR ||============================== //
 
 const AppBar = ({ ...others }) => {
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useAuth();
   const [drawerToggle, setDrawerToggle] = useState<boolean>(false);
+
   /** Method called on multiple components with different event types */
   const drawerToggler = (open: boolean) => (event: any) => {
     if (event.type! === 'keydown' && (event.key! === 'Tab' || event.key! === 'Shift')) {
@@ -64,6 +66,7 @@ const AppBar = ({ ...others }) => {
     }
     setDrawerToggle(open);
   };
+
   return (
     <>
       <Container
@@ -150,7 +153,7 @@ const AppBar = ({ ...others }) => {
               mr: { sm: 4, xs: 0 },
 
               marginLeft: { lg: '75px', md: '15px', xs: '30px' },
-              '> *': { marginLeft: { lg: '30px', md: '15px', xs: '15px' }, cursor: 'pointer' },
+              '> *': { marginLeft: { lg: '30px', md: '15px', xs: '7px' }, cursor: 'pointer' },
               '> svg': { cursor: 'pointer' }
             }}
           >

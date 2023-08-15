@@ -18,11 +18,11 @@ function CheckoutItem() {
       }}
     >
       <Grid container>
-        <Grid item sm={3} xs={5}>
+        <Grid item md={3} sm={3} xs={4}>
           <Box
             sx={{
-              width: '125px',
-              height: '133px',
+              width: { lg: '125px', sm: '100px', xs: '80px' },
+              height: { lg: '133px', sm: '105px', xs: '85px' },
               position: 'relative',
               boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
               marginTop: '10px',
@@ -33,7 +33,7 @@ function CheckoutItem() {
             <Image src={FakeImage.src} layout="fill" objectFit="contain" alt={'gaga'}></Image>
           </Box>
         </Grid>
-        <Grid item sm={6} xs={7}>
+        <Grid item md={6} sm={6} xs={8}>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '148px', marginTop: '10px' }}>
             <Box>
               <Typography

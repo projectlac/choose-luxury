@@ -1,9 +1,25 @@
-import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@mui/material';
+import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography, styled } from '@mui/material';
 import React, { useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { SizeData } from 'types/shop/shopItem';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
+
+interface ChipData {
+  key: number;
+  label: string;
+}
+
+const ListItem = styled('li')(({ theme }) => ({
+  margin: theme.spacing(0.5)
+}));
 
 function SizeFilter() {
+  const [chipData, setChipData] = React.useState<readonly ChipData[]>([
+    { key: 0, label: 'Angular' },
+    { key: 1, label: 'jQuery' },
+    { key: 2, label: 'Polymer' }
+  ]);
+
   const [toggle, setToggle] = useState<boolean>(false);
   const [data, setData] = useState<SizeData[]>([
     { size: 'XXS', checked: false, id: '1' },
@@ -16,6 +32,16 @@ function SizeFilter() {
     { size: '0', checked: false, id: '3' },
     { size: 'one size', checked: false, id: '8' }
   ]);
+
+  const handleDelete = (id: string) => () => {
+    const temp = [...data];
+    const index = data.findIndex((d) => d.id === id);
+    temp[index].checked = !temp[index].checked;
+    setData(temp);
+  };
+
+  const renderChipData = data.filter((d) => d.checked);
+  console.log(renderChipData);
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     const temp = [...data];
@@ -45,9 +71,46 @@ function SizeFilter() {
           }}
         />
       </Box>
+      {renderChipData.length > 0 && (
+        <Paper
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap',
+            listStyle: 'none',
+            p: 0.5,
+            m: 0
+          }}
+          component="ul"
+        >
+          {renderChipData.map((f: SizeData) => {
+            return (
+              <ListItem key={`${f.id}213`}>
+                <Chip
+                  label={f.size}
+                  onDelete={handleDelete(f.id)}
+                  sx={{
+                    fontFamily: 'Quicksand',
+                    color: '#fff',
+                    svg: {
+                      fontSize: '17px !important'
+                    },
+                    span: {
+                      paddingLeft: '7px'
+                    },
+                    backgroundColor: '#b49151',
+                    borderRadius: '4px',
+                    height: '25px'
+                  }}
+                />
+              </ListItem>
+            );
+          })}
+        </Paper>
+      )}
       <Grid container display={`${!toggle ? 'flex' : 'none'}`}>
         {data.map((d) => (
-          <Grid item sm={6} key={d.id}>
+          <Grid item xs={6} key={d.id}>
             <FormControlLabel
               control={
                 <Checkbox

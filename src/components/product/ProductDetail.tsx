@@ -1,19 +1,19 @@
 import { Box, Button, Container, Divider, Grid, Typography, useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
+import 'lightgallery/css/lg-thumbnail.css';
+import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lightgallery.css';
+import LightGallery from 'lightgallery/react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { IProductDetail } from 'types/shop/product';
 import SizeSelector from './SizeSelector';
-import LightGallery from 'lightgallery/react';
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
-import 'lightgallery/css/lg-thumbnail.css';
 
-import Slider from 'react-slick';
+import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
+import useAuth from 'hooks/useAuth';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
-import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
-import { useSelector } from 'store';
+import Slider from 'react-slick';
 
 interface IProductDetailProps {
   data: IProductDetail;
@@ -85,7 +85,7 @@ const BoxImage = styled(Box)(({ theme }) => ({
 }));
 
 function ProductDetail({ data }: IProductDetailProps) {
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useAuth();
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
   const [quanlity, setQuanlity] = useState<number>(1);
@@ -208,19 +208,10 @@ function ProductDetail({ data }: IProductDetailProps) {
               }}
               className="tableBrand"
             >
-              <table>
-                <tr>
-                  <th>Brand</th>
-                  <th>Vetement</th>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td> <td></td>
-                </tr>
-              </table>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nesciunt dolor eius iusto ratione, deleniti quam totam rerum
+              qui, cupiditate sapiente iste ea. Error, libero. Nisi cupiditate aperiam numquam minus! Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. <br /> <br /> Accusamus quia architecto incidunt esse aliquid beatae, optio deserunt, magni id eius
+              asperiores voluptate fugiat ullam officiis temporibus vel aliquam laboriosam iusto.
             </Box>
 
             <Divider sx={{ marginTop: '36px', marginBottom: '18px' }}></Divider>

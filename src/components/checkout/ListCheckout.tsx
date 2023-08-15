@@ -17,6 +17,9 @@ const CustomButton = styled(Button)(({ theme }) => ({
   color: '#fff',
   '&:hover': {
     backgroundColor: 'rgb(151 111 8)'
+  },
+  [theme.breakpoints.down('md')]: {
+    width: '48%'
   }
 }));
 function ListCheckout() {
