@@ -15,7 +15,8 @@ const ProductImage = styled(Box)(({ theme }) => ({
   height: '256px',
   borderBottom: '1px solid rgba(169, 169, 169, 1)',
   width: '100%',
-  position: 'relative'
+  position: 'relative',
+  cursor: 'pointer'
 }));
 const ProductContent = styled(Box)(({ theme }) => ({
   padding: '17px 11px'
@@ -23,9 +24,12 @@ const ProductContent = styled(Box)(({ theme }) => ({
 function ProductItem({ data }: ProductItemProps) {
   return (
     <ProductWrapper>
-      <ProductImage>
-        <Image alt={data.name} src={data.image} layout="fill" objectFit="contain"></Image>
-      </ProductImage>
+      <Link href={'/product-detail/123'}>
+        <ProductImage>
+          <Image alt={data.name} src={data.image} layout="fill" objectFit="contain"></Image>
+        </ProductImage>
+      </Link>
+
       <ProductContent>
         <Link href={'/product-detail/123'}>
           <Typography

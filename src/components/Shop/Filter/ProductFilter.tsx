@@ -73,10 +73,11 @@ function ProductFilter() {
         <Typography
           sx={{
             fontSize: '20px',
-            fontWeight: '400',
+            fontWeight: '600',
             lineHeight: '16px',
             color: '#000',
-            marginRight: '32px'
+            marginRight: '32px',
+            fontFamily: 'Quicksand'
           }}
         >
           Product

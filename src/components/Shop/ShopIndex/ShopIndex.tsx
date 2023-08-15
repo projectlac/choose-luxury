@@ -97,7 +97,7 @@ function ShopIndex() {
   const [page1, setPage] = React.useState(2);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const theme = useTheme();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const matchDownMD = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleChangePage = (page: number) => {
     setPage(page);
@@ -113,38 +113,40 @@ function ShopIndex() {
       <Grid container columnSpacing={4}>
         <Grid item xs={3}>
           <Filter setHiddenFilter={setHiddenFilter} hiddenFilter={hiddenFilter} />
-          <Drawer
-            anchor="top"
-            open={hiddenFilter}
-            onClose={() => {
-              setHiddenFilter(false);
-            }}
-          >
-            {hiddenFilter && (
-              <Box sx={{ width: 'auto', padding: '15px' }} role="presentation">
-                <Box display={'flex'} justifyContent={'flex-end'} mb={3}>
-                  <CloseIcon
-                    onClick={() => {
-                      setHiddenFilter(false);
-                    }}
-                  />
+          {matchDownMD && (
+            <Drawer
+              anchor="top"
+              open={hiddenFilter}
+              onClose={() => {
+                setHiddenFilter(false);
+              }}
+            >
+              {hiddenFilter && (
+                <Box sx={{ width: 'auto', padding: '15px' }} role="presentation">
+                  <Box display={'flex'} justifyContent={'flex-end'} mb={3}>
+                    <CloseIcon
+                      onClick={() => {
+                        setHiddenFilter(false);
+                      }}
+                    />
+                  </Box>
+                  <PriceFilter />
+                  <ProductFilter />
+                  <SizeFilter />
+                  <BrandFilter />
                 </Box>
-                <PriceFilter />
-                <ProductFilter />
-                <SizeFilter />
-                <BrandFilter />
-              </Box>
-            )}
-          </Drawer>
+              )}
+            </Drawer>
+          )}
         </Grid>
         <Grid item xs={9}></Grid>
-        <Grid item xs={3} sx={{ display: !matchDownSM && !hiddenFilter ? 'block' : 'none' }}>
+        <Grid item xs={3} sx={{ display: !matchDownMD && !hiddenFilter ? 'block' : 'none' }}>
           <PriceFilter />
           <ProductFilter />
           <SizeFilter />
           <BrandFilter />
         </Grid>
-        <Grid item xs={!matchDownSM && !hiddenFilter ? 9 : 12}>
+        <Grid item xs={!matchDownMD && !hiddenFilter ? 9 : 12}>
           <Grid container spacing={3}>
             {data.map((d) => (
               <Grid item md={!hiddenFilter ? 4 : 3} sm={6} xs={12} key={d.id}>

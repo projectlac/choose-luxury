@@ -12,10 +12,11 @@ function Filter({ hiddenFilter, setHiddenFilter }: IPropsHiddenFilter) {
         <Typography
           sx={{
             fontSize: '20px',
-            fontWeight: '700',
-            lineHeight: '24px',
+            fontWeight: '600',
+            lineHeight: '18px',
             color: '#000',
-            marginRight: '40px'
+            marginRight: '32px',
+            fontFamily: 'Quicksand'
           }}
         >
           Filter

@@ -1,25 +1,13 @@
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography, styled } from '@mui/material';
 import React, { useState } from 'react';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { SizeData } from 'types/shop/shopItem';
-import TagFacesIcon from '@mui/icons-material/TagFaces';
-
-interface ChipData {
-  key: number;
-  label: string;
-}
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5)
 }));
 
 function SizeFilter() {
-  const [chipData, setChipData] = React.useState<readonly ChipData[]>([
-    { key: 0, label: 'Angular' },
-    { key: 1, label: 'jQuery' },
-    { key: 2, label: 'Polymer' }
-  ]);
-
   const [toggle, setToggle] = useState<boolean>(false);
   const [data, setData] = useState<SizeData[]>([
     { size: 'XXS', checked: false, id: '1' },
@@ -41,7 +29,6 @@ function SizeFilter() {
   };
 
   const renderChipData = data.filter((d) => d.checked);
-  console.log(renderChipData);
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     const temp = [...data];
@@ -56,10 +43,11 @@ function SizeFilter() {
         <Typography
           sx={{
             fontSize: '20px',
-            fontWeight: '400',
+            fontWeight: '600',
             lineHeight: '16px',
             color: '#000',
-            marginRight: '32px'
+            marginRight: '32px',
+            fontFamily: 'Quicksand'
           }}
         >
           Size
@@ -100,7 +88,8 @@ function SizeFilter() {
                     },
                     backgroundColor: '#b49151',
                     borderRadius: '4px',
-                    height: '25px'
+                    height: '22px',
+                    fontSize: '12px'
                   }}
                 />
               </ListItem>

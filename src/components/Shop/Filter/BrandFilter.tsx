@@ -1,12 +1,16 @@
-import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@mui/material';
+import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { styled } from '@mui/system';
 
 interface BrandData {
   brand: string;
   checked: boolean;
   id: string;
 }
+const ListItem = styled('li')(({ theme }) => ({
+  margin: theme.spacing(0.5)
+}));
 
 function BrandFilter() {
   const [toggle, setToggle] = useState<boolean>(false);
@@ -23,6 +27,14 @@ function BrandFilter() {
     { brand: 'ALEXANDER MCQUEEN', checked: false, id: '8' }
   ]);
 
+  const handleDelete = (id: string) => () => {
+    const temp = [...data];
+    const index = data.findIndex((d) => d.id === id);
+    temp[index].checked = !temp[index].checked;
+    setData(temp);
+  };
+
+  const renderChipData = data.filter((d) => d.checked);
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     const temp = [...data];
     const index = data.findIndex((d) => d.id === id);
@@ -36,10 +48,11 @@ function BrandFilter() {
         <Typography
           sx={{
             fontSize: '20px',
-            fontWeight: '400',
+            fontWeight: '600',
             lineHeight: '16px',
             color: '#000',
-            marginRight: '32px'
+            marginRight: '32px',
+            fontFamily: 'Quicksand'
           }}
         >
           Brand
@@ -51,6 +64,44 @@ function BrandFilter() {
           }}
         />
       </Box>
+      {renderChipData.length > 0 && (
+        <Paper
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap',
+            listStyle: 'none',
+            p: 0.5,
+            m: 0
+          }}
+          component="ul"
+        >
+          {renderChipData.map((f: BrandData) => {
+            return (
+              <ListItem key={`${f.id}213`}>
+                <Chip
+                  label={f.brand}
+                  onDelete={handleDelete(f.id)}
+                  sx={{
+                    fontFamily: 'Quicksand',
+                    color: '#fff',
+                    svg: {
+                      fontSize: '17px !important'
+                    },
+                    span: {
+                      paddingLeft: '7px'
+                    },
+                    backgroundColor: '#b49151',
+                    borderRadius: '4px',
+                    height: '22px',
+                    fontSize: '12px'
+                  }}
+                />
+              </ListItem>
+            );
+          })}
+        </Paper>
+      )}
       <Grid container display={`${!toggle ? 'flex' : 'none'}`}>
         {data.map((d) => (
           <Grid item sm={12} key={d.id}>
