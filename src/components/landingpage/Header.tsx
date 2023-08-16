@@ -1,6 +1,6 @@
 // material-ui
 import { Box, Container } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import Banner from '../../assets/header/banner.webp';
 // third party
@@ -8,6 +8,7 @@ import Banner from '../../assets/header/banner.webp';
 // project imports
 import Slider from 'react-slick';
 import NextSlick from 'ui-component/extended/NextSlick';
+import { useRouter } from 'next/router';
 
 // styles
 const BoxImage = styled(Box)(({ theme }) => ({
@@ -48,6 +49,8 @@ function SamplePrevArrow(props: any) {
 }
 
 const HeaderPage = () => {
+  const router = useRouter();
+
   var settings = {
     dots: false,
     infinite: true,
@@ -60,40 +63,44 @@ const HeaderPage = () => {
   };
 
   return (
-    <Container maxWidth={'xl'} sx={{ marginTop: '30px' }}>
-      <Slider {...settings}>
-        <div>
-          <BoxImage>
-            <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-          </BoxImage>
-        </div>
-        <div>
-          <BoxImage>
-            <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-          </BoxImage>
-        </div>
-        <div>
-          <BoxImage>
-            <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-          </BoxImage>
-        </div>
-        <div>
-          <BoxImage>
-            <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-          </BoxImage>
-        </div>
-        <div>
-          <BoxImage>
-            <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-          </BoxImage>
-        </div>
-        <div>
-          <BoxImage>
-            <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-          </BoxImage>
-        </div>
-      </Slider>
-    </Container>
+    <>
+      {router.asPath === '/' && (
+        <Container maxWidth={'xl'} sx={{ marginTop: '30px' }}>
+          <Slider {...settings}>
+            <div>
+              <BoxImage>
+                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+            <div>
+              <BoxImage>
+                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+            <div>
+              <BoxImage>
+                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+            <div>
+              <BoxImage>
+                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+            <div>
+              <BoxImage>
+                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+            <div>
+              <BoxImage>
+                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+          </Slider>
+        </Container>
+      )}
+    </>
   );
 };
 

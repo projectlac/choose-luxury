@@ -1,7 +1,11 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import { styled } from '@mui/styles';
-
+import Momo from 'assets/checkout/MoMo_Logo.png';
+import VnPay from 'assets/checkout/492x0w.png';
+import Zalo from 'assets/checkout/Logo-Zalo-Arc.webp';
+import Messenger from 'assets/checkout/Messenger.png';
+import Image from 'next/image';
 const BoxDetail = styled(Box)(({ theme }) => ({
   marginBottom: '14px',
   border: '1px solid rgba(169, 169, 169, 1)',
@@ -21,10 +25,10 @@ const CustomButton = styled(Button)(({ theme }) => ({
   justifyContent: 'center',
   backgroundColor: 'rgba(191, 140, 10, 1)',
   fontFamily: 'Open Sans',
-  fontSize: '12px',
+  fontSize: '13px',
   fontWeight: '700',
   lineHeight: '16.34px',
-  color: '#000',
+  color: '#fff',
   '&:hover': {
     backgroundColor: 'rgb(151 111 8)'
   }
@@ -71,17 +75,17 @@ const TotalTypo = styled(Box)(({ theme }) => ({
 }));
 
 const PaymentLink = styled(Box)(({ theme }) => ({
-  width: '115.15px',
-  height: '39px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: '1px solid rgba(191, 140, 10, 1)',
+  width: '80px',
+  height: '80px',
   borderRadius: '10px',
-  marginLeft: '37px',
-  marginTop: '15px',
-  [theme.breakpoints.down('lg')]: {
-    margin: '15px'
+  position: 'relative',
+  overflow: 'hidden',
+  margin: '15px',
+  cursor: 'pointer',
+  [theme.breakpoints.down('md')]: {
+    width: '60px',
+    height: '60px',
+    margin: '15px 10px'
   }
 }));
 function CheckoutDetail() {
@@ -105,7 +109,7 @@ function CheckoutDetail() {
           </BoxDetail>
         </Grid>
         <Grid item md={12} xs={12} sm={6}>
-          <BoxDetail sx={{ height: { md: '260px', xs: '225px' }, padding: { md: '15px 41px 61px', xs: '8px 23px 22px' } }}>
+          <BoxDetail sx={{ height: { md: '260px', xs: '250px' }, padding: { md: '15px 41px 61px', xs: '8px 23px 22px' } }}>
             <Typography variant={'h2'} className="title" sx={{ fontSize: '24px', lineHeight: '32.68px' }}>
               Total
             </Typography>
@@ -123,15 +127,19 @@ function CheckoutDetail() {
           </BoxDetail>
         </Grid>
         <Grid item md={12} xs={12} sm={6}>
-          <BoxDetail sx={{ height: { lg: '190px', md: 'auto', xs: '225px' }, padding: { md: '37px 25px 30px', xs: '8px 23px 22px' } }}>
-            <Box
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              sx={{ marginBottom: '17px', flexDirection: { lg: 'row', xs: 'column' } }}
-            >
+          <BoxDetail
+            sx={{
+              height: 'auto',
+              padding: { md: '37px 25px 30px', xs: '8px 23px 22px' },
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexWrap: 'wrap'
+            }}
+          >
+            <Box alignItems={'center'} sx={{ marginBottom: { md: '17px', xs: '0px' }, flexDirection: { lg: 'row', xs: 'column' } }}>
               <Typography
-                textAlign={'left'}
+                textAlign={'center'}
                 sx={{
                   fontFamily: 'Lato',
                   fontSize: '16px',
@@ -142,19 +150,18 @@ function CheckoutDetail() {
               >
                 Pay Now
               </Typography>
-              <Box display={'flex'}>
-                <PaymentLink>Momo</PaymentLink>
-                <PaymentLink>VNPAY</PaymentLink>
+              <Box display={'flex'} justifyContent={'center'}>
+                <PaymentLink>
+                  <Image src={Momo.src} layout="fill" objectFit="contain" alt={'Momo'} />
+                </PaymentLink>
+                <PaymentLink>
+                  <Image src={VnPay.src} layout="fill" objectFit="contain" alt={'VnPay'} />
+                </PaymentLink>
               </Box>
             </Box>
-            <Box
-              display={'flex'}
-              justifyContent={{ md: 'space-between' }}
-              alignItems={'center'}
-              sx={{ flexDirection: { lg: 'row', xs: 'column' } }}
-            >
+            <Box alignItems={'center'} sx={{ flexDirection: { lg: 'row', xs: 'column' } }}>
               <Typography
-                textAlign={'left'}
+                textAlign={'center'}
                 sx={{
                   fontFamily: 'Lato',
                   fontSize: '16px',
@@ -165,9 +172,13 @@ function CheckoutDetail() {
               >
                 Chat Now
               </Typography>
-              <Box display={'flex'}>
-                <PaymentLink>Zalo</PaymentLink>
-                <PaymentLink>Messenger</PaymentLink>
+              <Box display={'flex'} justifyContent={'center'}>
+                <PaymentLink>
+                  <Image src={Zalo.src} layout="fill" objectFit="contain" alt={'Zalo'} />
+                </PaymentLink>
+                <PaymentLink>
+                  <Image src={Messenger.src} layout="fill" objectFit="contain" alt={'Messenger'} />
+                </PaymentLink>
               </Box>
             </Box>
           </BoxDetail>
