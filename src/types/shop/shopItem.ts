@@ -1,5 +1,5 @@
 export interface IDataShop {
-  image: string;
+  image: string[];
   name: string;
   price: string;
   oldPrice: string;

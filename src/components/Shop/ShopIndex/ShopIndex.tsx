@@ -11,7 +11,10 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const data: IDataShop[] = [
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -20,7 +23,10 @@ const data: IDataShop[] = [
     id: '1'
   },
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -29,7 +35,10 @@ const data: IDataShop[] = [
     id: '2'
   },
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -38,7 +47,10 @@ const data: IDataShop[] = [
     id: '3'
   },
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -47,7 +59,10 @@ const data: IDataShop[] = [
     id: '4'
   },
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -56,7 +71,10 @@ const data: IDataShop[] = [
     id: '0'
   },
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -65,7 +83,10 @@ const data: IDataShop[] = [
     id: '5'
   },
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -74,7 +95,10 @@ const data: IDataShop[] = [
     id: '6'
   },
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -83,7 +107,10 @@ const data: IDataShop[] = [
     id: '7'
   },
   {
-    image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+    image: [
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
+    ],
     name: 'Classique Triomphe Bag in shiny calfskin',
     price: 'VND 1, 800, 000',
     oldPrice: 'VND 1, 800, 000',
@@ -149,7 +176,7 @@ function ShopIndex() {
         <Grid item xs={!matchDownMD && !hiddenFilter ? 9 : 12}>
           <Grid container spacing={3}>
             {data.map((d) => (
-              <Grid item md={!hiddenFilter ? 4 : 3} sm={6} xs={12} key={d.id}>
+              <Grid item md={3} sm={6} xs={12} key={d.id}>
                 <ProductItem data={d} />
               </Grid>
             ))}

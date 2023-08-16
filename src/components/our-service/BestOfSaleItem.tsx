@@ -19,7 +19,20 @@ const ContentBox = styled(Box)(({ theme }) => ({
 }));
 function BestOfSaleItem({ data }: BestOfSaleItemProps) {
   return (
-    <Box sx={{ border: '1px solid #ddd', height: '422px', width: '100%', position: 'relative' }}>
+    <Box
+      sx={{
+        border: '1px solid #ddd',
+        height: '422px',
+        width: '100%',
+        position: 'relative',
+        '&:hover': {
+          img: {
+            opacity: 0.8,
+            transition: 'all 0.3s ease-out'
+          }
+        }
+      }}
+    >
       <Image src={data?.image || ''} layout="fill" objectFit="cover" alt={data?.name}></Image>
       <ContentBox>
         <a href={data?.url}>

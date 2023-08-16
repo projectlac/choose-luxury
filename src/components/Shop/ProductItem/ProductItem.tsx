@@ -25,8 +25,29 @@ function ProductItem({ data }: ProductItemProps) {
   return (
     <ProductWrapper>
       <Link href={'/product-detail/123'}>
-        <ProductImage>
-          <Image alt={data.name} src={data.image} layout="fill" objectFit="contain"></Image>
+        <ProductImage
+          sx={{
+            '&:before': {
+              content: `""`,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              background: `url(${data.image[1]})`,
+              zIndex: '1',
+              width: '100%',
+              height: '100%',
+              transition: 'all 0.3s ease-out',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              opacity: 0
+            },
+            '&:hover&:before': {
+              opacity: 1
+            }
+          }}
+        >
+          <Image alt={data.name} src={data.image[0]} layout="fill" objectFit="contain"></Image>
         </ProductImage>
       </Link>
 

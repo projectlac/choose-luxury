@@ -3,6 +3,9 @@ import { Box, Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import Banner from '../../assets/header/banner.webp';
+import Banner1 from '../../assets/header/1600w-lYcbGpUSVGo.webp';
+import Banner2 from '../../assets/header/1600w-z8oqB6n7Bjg.webp';
+
 // third party
 // project imports
 // project imports
@@ -13,8 +16,18 @@ import { useRouter } from 'next/router';
 // styles
 const BoxImage = styled(Box)(({ theme }) => ({
   width: '100%',
-  height: '392px',
-  position: 'relative'
+  height: '700px',
+  position: 'relative',
+
+  [theme.breakpoints.down('lg')]: {
+    height: '600px'
+  },
+  [theme.breakpoints.down('md')]: {
+    height: '400px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: '300px'
+  }
 }));
 // ==============================|| LANDING - HEADER PAGE ||============================== //
 
@@ -53,19 +66,21 @@ const HeaderPage = () => {
 
   var settings = {
     dots: false,
+    autoplay: true,
+    autoplaySpeed: 3000,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-
     nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    prevArrow: <SamplePrevArrow />,
+    fade: true
   };
 
   return (
     <>
       {router.asPath === '/' && (
-        <Container maxWidth={'xl'} sx={{ marginTop: '30px' }}>
+        <Box sx={{ marginTop: '30px' }}>
           <Slider {...settings}>
             <div>
               <BoxImage>
@@ -74,7 +89,17 @@ const HeaderPage = () => {
             </div>
             <div>
               <BoxImage>
-                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+                <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+            <div>
+              <BoxImage>
+                <Image src={Banner2.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+            <div>
+              <BoxImage>
+                <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
               </BoxImage>
             </div>
             <div>
@@ -84,21 +109,11 @@ const HeaderPage = () => {
             </div>
             <div>
               <BoxImage>
-                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-              </BoxImage>
-            </div>
-            <div>
-              <BoxImage>
-                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-              </BoxImage>
-            </div>
-            <div>
-              <BoxImage>
-                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+                <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
               </BoxImage>
             </div>
           </Slider>
-        </Container>
+        </Box>
       )}
     </>
   );
