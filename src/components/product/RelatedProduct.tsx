@@ -6,7 +6,10 @@ import ProductItem from 'components/Shop/ProductItem/ProductItem';
 function RelatedProduct() {
   const data: IDataShop[] = [
     {
-      image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      image: [
+        'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+        'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg'
+      ],
       name: 'Classique Triomphe Bag in shiny calfskin',
       price: 'VND 1, 800, 000',
       oldPrice: 'VND 1, 800, 000',
@@ -15,7 +18,10 @@ function RelatedProduct() {
       id: '1'
     },
     {
-      image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      image: [
+        'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+        'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg'
+      ],
       name: 'Classique Triomphe Bag in shiny calfskin',
       price: 'VND 1, 800, 000',
       oldPrice: 'VND 1, 800, 000',
@@ -24,7 +30,10 @@ function RelatedProduct() {
       id: '2'
     },
     {
-      image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      image: [
+        'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+        'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg'
+      ],
       name: 'Classique Triomphe Bag in shiny calfskin',
       price: 'VND 1, 800, 000',
       oldPrice: 'VND 1, 800, 000',
@@ -33,7 +42,10 @@ function RelatedProduct() {
       id: '3'
     },
     {
-      image: 'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+      image: [
+        'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
+        'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg'
+      ],
       name: 'Classique Triomphe Bag in shiny calfskin',
       price: 'VND 1, 800, 000',
       oldPrice: 'VND 1, 800, 000',
