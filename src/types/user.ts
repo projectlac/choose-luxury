@@ -42,6 +42,10 @@ export interface UserStateProps {
   error: object | string | null;
 }
 
+export interface LoadingStateProps {
+  loading: boolean;
+}
+
 export type UserProfileStyle2 = {
   image: string;
   name: string;

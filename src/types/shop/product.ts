@@ -30,10 +30,3 @@ export interface IProductOrder {
   items: string;
   status: OrderStatus;
 }
-
-export interface IProductList {
-  id: string;
-  name: string;
-  price: string;
-  desc: string;
-}

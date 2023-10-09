@@ -1,33 +1,25 @@
-import Image from 'next/image';
 import React, { useEffect } from 'react';
-import Link from 'Link';
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Button,
-  Checkbox,
-  Divider,
   FormControl,
-  FormControlLabel,
   FormHelperText,
   Grid,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  TextField,
-  Typography,
-  useMediaQuery
+  Typography
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // third party
-import * as Yup from 'yup';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 // project imports
 import useAuth from 'hooks/useAuth';
-import useConfig from 'hooks/useConfig';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
@@ -35,21 +27,20 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { dispatch } from 'store';
+import { openSnackbar } from 'store/slices/snackbar';
 import { StringColorProps } from 'types';
-const Google = '/assets/images/icons/social-google.svg';
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
+  const { setLoginMode } = others;
   const theme = useTheme();
   const scriptedRef = useScriptRef();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const { borderRadius } = useConfig();
   const [showPassword, setShowPassword] = React.useState(false);
-  const [checked, setChecked] = React.useState(true);
 
   const [strength, setStrength] = React.useState(0);
   const [level, setLevel] = React.useState<StringColorProps>();
-  const { login, register } = useAuth();
+  const { register } = useAuth();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -85,9 +76,23 @@ const FirebaseRegister = ({ ...others }) => {
           password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+          const { email, username, password } = values;
           try {
-            await register(values.email, values.password, 'a', 'b').then(
-              () => {
+            await register({ email, first_name: 'Tim', last_name: 'Dang', password, username }).then(
+              (res) => {
+                dispatch(
+                  openSnackbar({
+                    open: true,
+                    message: 'Register Successful',
+                    variant: 'alert',
+                    anchorOrigin: { vertical: 'top', horizontal: 'right' },
+                    alert: {
+                      color: 'success'
+                    },
+                    close: false
+                  })
+                );
+                setLoginMode(true);
                 // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
                 // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.

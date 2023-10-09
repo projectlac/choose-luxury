@@ -1,13 +1,7 @@
 import {
   Box,
   Card,
-  Checkbox,
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -19,29 +13,30 @@ import {
   useTheme
 } from '@mui/material';
 import PaginationComponent from 'components/forms/tables/Pagination';
-import { ChangeEvent, FC, useState } from 'react';
-import { IProductList, IProductOrder, OrderStatus } from 'types/shop/product';
-import BulkActions from './BulkActions';
-import CheckIcon from '@mui/icons-material/Check';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import NewProduct from 'components/product/NewProduct/NewProduct';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditProduct from 'components/product/EditProduct/EditProduct';
+import DeleteProduct from 'components/product/DeleteProduct/DeleteProduct';
+
+import NewProduct from 'components/product/NewProduct/NewProduct';
+import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
+import { IResponseGetProductById } from 'types/services/productApi.types';
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: IProductList[];
+  cryptoOrders: IResponseGetProductById[];
+  reSearch: Dispatch<SetStateAction<string>>;
+  reload: () => void;
+  setPage: Dispatch<SetStateAction<number>>;
+  total: number;
 }
 
 interface Filters {
   type: string | null;
 }
 
-const applyPagination = (cryptoOrders: IProductList[], page: number, limit: number): IProductList[] => {
+const applyPagination = (cryptoOrders: IResponseGetProductById[], page: number, limit: number): IResponseGetProductById[] => {
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
+const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload, setPage: changePage, total }) => {
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>([]);
   const resetSelected = () => {
     setSelectedCryptoOrders([]);
@@ -52,20 +47,12 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
 
   const [search, setSearch] = useState<string>('');
 
-  const handlePageChange = (_event: any, newPage: number): void => {
-    setPage(newPage);
-  };
+  // const filterBySearch = (cryptoOrders1: IResponseGetProductById[]) => {
+  //   return cryptoOrders1.filter((d) => d.id.toLowerCase().includes(search.toLowerCase()));
+  // };
 
-  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(parseInt(event.target.value));
-  };
-
-  const filterBySearch = (cryptoOrders1: IProductList[]) => {
-    return cryptoOrders1.filter((d) => d.id.toLowerCase().includes(search.toLowerCase()));
-  };
-
-  const filteredCode = filterBySearch(cryptoOrders);
-  const paginatedCryptoOrders = applyPagination(filteredCode, page, limit);
+  // const filteredCode = filterBySearch(cryptoOrders);
+  const paginatedCryptoOrders = applyPagination(cryptoOrders, page, limit);
 
   const theme = useTheme();
   const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -82,9 +69,20 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         }}
       >
         <Box width={600}>
-          <TextField variant="outlined" fullWidth label="Search bằng tên" value={search} onChange={handleChangeSearch}></TextField>
+          <TextField
+            variant="outlined"
+            fullWidth
+            label="Search bằng tên"
+            value={search}
+            onChange={handleChangeSearch}
+            onKeyDown={(e) => {
+              if (e.code === 'Enter') {
+                reSearch(search);
+              }
+            }}
+          ></TextField>
         </Box>
-        <NewProduct />
+        <NewProduct reload={reload} />
       </Box>
 
       <Divider sx={{ mt: 4 }} />
@@ -107,11 +105,11 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                 <TableRow hover key={cryptoOrder.id} selected={isCryptoOrderSelected}>
                   <TableCell align="left">
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {cryptoOrder.name}
+                      {cryptoOrder.product_name}
                     </Typography>
                   </TableCell>
-                  <TableCell>{cryptoOrder.price}</TableCell>
-                  <TableCell>{cryptoOrder.desc}</TableCell>
+                  <TableCell>{cryptoOrder.base_price}</TableCell>
+                  <TableCell>{cryptoOrder.product_description}</TableCell>
                   <TableCell align="center">
                     <Box
                       sx={{
@@ -119,8 +117,8 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         alignItems: 'center'
                       }}
                     >
-                      <EditProduct />
-                      <DeleteIcon sx={{ color: 'rgba(245, 34, 34, 1)' }} />
+                      <EditProduct id={cryptoOrder.id} reload={reload} />
+                      <DeleteProduct id={cryptoOrder.id} name={cryptoOrder.product_name} reload={reload} />
                     </Box>
                   </TableCell>
                 </TableRow>
@@ -130,7 +128,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         </Table>
       </TableContainer>
       <Box p={2}>
-        <PaginationComponent />
+        <PaginationComponent count={Math.ceil(total / 4)} handleChangePage={changePage} />
         {/* <TablePagination
           component="div"
           count={filteredCryptoOrders.length}

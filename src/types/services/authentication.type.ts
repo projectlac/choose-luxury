@@ -1,0 +1,30 @@
+export interface IRegisterRequest {
+  email: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  username: string;
+}
+
+export interface IRegisterResponse {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+}
+
+export interface ILoginRequest {
+  password: string;
+  email: string;
+}
+
+export interface ILoginResponse {
+  access: string;
+  refresh: string;
+}
+
+export interface IUserInfo {
+  id: number;
+  email: string;
+}

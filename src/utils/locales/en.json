@@ -141,6 +141,10 @@
   "instock":"Instock",
   "orders":"Orders",
 
+  "category": "Category",
+  "brand": "Brand",
+  "size": "Size",
+
   "title": "Multi Language",
   "home": "Home",
   "change": "Change Language",

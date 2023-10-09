@@ -15,7 +15,7 @@ const withTM = require('next-transpile-modules')([
 const nextConfig = withTM({
   reactStrictMode: true,
   images: {
-    domains: ['pos.nvncdn.net']
+    domains: ['pos.nvncdn.net', 'clux.azurewebsites.net']
   }
 });
 

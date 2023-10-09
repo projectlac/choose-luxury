@@ -2,26 +2,39 @@
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // import { DataGrid,  } from '@material-ui/data-grid';
-import { IProductList } from 'types/shop/product';
+import { useCallback, useEffect, useState } from 'react';
+import { IResponseGetProductById } from 'types/services/productApi.types';
+import { getProduct } from '../../../api/ProductAPI/productDashboash';
 import DataTable from './DataTable';
 
 // ==============================|| TABLE - BASIC DATA GRID ||============================== //
 
-const data: IProductList[] = [
-  { id: '1', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '2', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '3', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '4', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '12', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '22', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '32', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '42', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '52', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '62', name: 'Gucci hand', price: '200.000', desc: 'All categories available' },
-  { id: '27', name: 'Gucci hand', price: '200.000', desc: 'All categories available' }
-];
 export default function TableDataGrid() {
   const theme = useTheme();
+  const [productList, getProductList] = useState<IResponseGetProductById[]>([]);
+  const [search, setSearch] = useState<string>('');
+
+  const [page, setPage] = useState<number>(1);
+
+  const [total, setTotal] = useState<number>(0);
+
+  const getListProduct = useCallback(
+    async (searchParam: string) => {
+      const res = await getProduct({ search: searchParam, page: page });
+      getProductList(res.data);
+      setTotal(0);
+    },
+    [page]
+  );
+
+  const reloadListProduct = useCallback(() => {
+    getListProduct(search);
+  }, [getListProduct, search]);
+
+  useEffect(() => {
+    reloadListProduct();
+  }, [reloadListProduct]);
+
   return (
     <Box
       sx={{
@@ -42,7 +55,7 @@ export default function TableDataGrid() {
         }
       }}
     >
-      <DataTable cryptoOrders={data} />
+      <DataTable cryptoOrders={productList} reSearch={setSearch} reload={reloadListProduct} total={total} setPage={setPage} />
     </Box>
   );
 }

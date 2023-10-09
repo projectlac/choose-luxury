@@ -1,18 +1,14 @@
-import Image from 'next/image';
-import React from 'react';
 import Link from 'Link';
+import React from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Button,
   Checkbox,
-  Divider,
   FormControl,
   FormControlLabel,
   FormHelperText,
-  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -21,20 +17,24 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // third party
-import * as Yup from 'yup';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 // project imports
-import useConfig from 'hooks/useConfig';
 import useAuth from 'hooks/useAuth';
+import useConfig from 'hooks/useConfig';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useRouter } from 'next/router';
+import { dispatch } from 'store';
+import { openSnackbar } from 'store/slices/snackbar';
 
 const Google = '/assets/images/icons/social-google.svg';
 
@@ -46,7 +46,7 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const { borderRadius } = useConfig();
   const [checked, setChecked] = React.useState(true);
-
+  const router = useRouter();
   const { login, register } = useAuth();
   // const googleHandler = async () => {
   //   try {
@@ -69,8 +69,8 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
     <>
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
-          password: '123456',
+          email: '',
+          password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
@@ -80,9 +80,21 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             await login(values.email, values.password).then(
-              () => {
-                console.log('login');
+              async () => {
+                dispatch(
+                  openSnackbar({
+                    open: true,
+                    message: 'Login successful',
+                    variant: 'alert',
+                    anchorOrigin: { vertical: 'top', horizontal: 'right' },
+                    alert: {
+                      color: 'success'
+                    },
+                    close: false
+                  })
+                );
 
+                router.push('/dashboard/default');
                 // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
                 // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.

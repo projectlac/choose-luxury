@@ -1,20 +1,13 @@
 // third-party
+import CategoryIcon from '@mui/icons-material/Category';
 import { FormattedMessage } from 'react-intl';
-
 // assets
-import { IconClipboardCheck, IconPictureInPicture, IconForms, IconBorderAll, IconChartDots, IconStairsUp } from '@tabler/icons';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import MarginIcon from '@mui/icons-material/Margin';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 // constant
-const icons = {
-  IconClipboardCheck,
-  IconPictureInPicture,
-  IconForms,
-  IconBorderAll,
-  IconChartDots,
-  IconStairsUp
-};
 
 // ==============================|| UI FORMS MENU ITEMS ||============================== //
 
@@ -45,6 +38,30 @@ const forms = {
       type: 'item',
       url: '/forms/components/product',
       icon: InventoryIcon,
+      breadcrumbs: false
+    },
+    {
+      id: 'category',
+      title: <FormattedMessage id="category" />,
+      type: 'item',
+      url: '/forms/components/category',
+      icon: CategoryIcon,
+      breadcrumbs: false
+    },
+    {
+      id: 'brand',
+      title: <FormattedMessage id="brand" />,
+      type: 'item',
+      url: '/forms/components/brand',
+      icon: BrandingWatermarkIcon,
+      breadcrumbs: false
+    },
+    {
+      id: 'size',
+      title: <FormattedMessage id="size" />,
+      type: 'item',
+      url: '/forms/components/productSize',
+      icon: MarginIcon,
       breadcrumbs: false
     }
   ]

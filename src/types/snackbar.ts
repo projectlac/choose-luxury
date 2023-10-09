@@ -13,4 +13,5 @@ export interface SnackbarProps {
   transition: string;
   close: boolean;
   actionButton: boolean;
+  severity: 'success' | 'error' | 'warning' | 'info';
 }

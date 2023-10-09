@@ -1,27 +1,22 @@
 // material-ui
-import { Box, Divider, Grid, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Box, Grid, Typography } from '@mui/material';
 import LoginImage from 'assets/login/grr.png';
-import Link from '../../Link';
 // project imports
+import Logo from 'assets/header/logo.png';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
 import AuthWrapper1 from 'components/authentication/AuthWrapper1';
 import AuthLogin from 'components/authentication/auth-forms/AuthLogin';
-import useAuth from 'hooks/useAuth';
-import Image from 'next/image';
-import Logo from 'assets/header/logo.png';
-import BackgroundPattern1 from 'ui-component/cards/BackgroundPattern1';
 import AuthRegister from 'components/authentication/auth-forms/AuthRegister';
+import Image from 'next/image';
 import { useState } from 'react';
+import BackgroundPattern1 from 'ui-component/cards/BackgroundPattern1';
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
 // carousel items
 
 const Login = () => {
-  const theme = useTheme();
   const [loginMode, setLoginMode] = useState<boolean>(true);
-  const { isLoggedIn } = useAuth();
   // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
@@ -48,7 +43,7 @@ const Login = () => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                {loginMode ? <AuthLogin /> : <AuthRegister />}
+                {loginMode ? <AuthLogin /> : <AuthRegister setLoginMode={setLoginMode} />}
               </Grid>
 
               <Grid item xs={12} sx={{ marginTop: '27px' }}>

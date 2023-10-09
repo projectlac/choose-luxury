@@ -1,17 +1,16 @@
 import { Box, MenuItem, Pagination, TextField } from '@mui/material';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
-function PaginationComponent() {
-  const [page1, setPage] = React.useState(2);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (page: number) => {
-    setPage(page);
-  };
+interface IPaginationProps {
+  handleChangePage: Dispatch<SetStateAction<number>>;
+  count: number;
+}
+function PaginationComponent({ handleChangePage, count }: IPaginationProps) {
+  const [rowsPerPage, setRowsPerPage] = React.useState(4);
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
-    setPage(0);
+    handleChangePage(0);
   };
 
   return (
@@ -33,13 +32,13 @@ function PaginationComponent() {
         value={rowsPerPage}
         onChange={handleChangeRowsPerPage}
       >
-        <MenuItem value={10}>10</MenuItem>
+        <MenuItem value={4}>4</MenuItem>
         <MenuItem value={20}>20</MenuItem>
         <MenuItem value={30}>30</MenuItem>
       </TextField>
 
       <Pagination
-        count={10}
+        count={count}
         onChange={(_, page) => {
           handleChangePage(page);
         }}

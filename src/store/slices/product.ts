@@ -8,6 +8,9 @@ import { dispatch } from '../index';
 // types
 import { DefaultRootStateProps } from 'types';
 import { ProductsFilter, Address } from 'types/e-commerce';
+import { getListCategory } from '../../../api/CategoryAPI/categoryAPI';
+import { getListBrand } from '../../../api/BrandAPI/brandAPI';
+import productSizeApi from '../../../api/ProductAPI/productSize';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +20,10 @@ const initialState: DefaultRootStateProps['product'] = {
   product: null,
   relatedProducts: [],
   reviews: [],
-  addresses: []
+  addresses: [],
+  brand: [],
+  category: [],
+  size: []
 };
 
 const slice = createSlice({
@@ -67,6 +73,18 @@ const slice = createSlice({
     // EDIT ADDRESS
     editAddressSuccess(state, action) {
       state.addresses = action.payload;
+    },
+
+    getCategoriesSuccess(state, action) {
+      state.category = action.payload;
+    },
+
+    getBrandsSuccess(state, action) {
+      state.brand = action.payload;
+    },
+
+    getSizesSuccess(state, action) {
+      state.size = action.payload;
     }
   }
 });
@@ -158,6 +176,39 @@ export function editAddress(address: Address) {
     try {
       const response = await axios.post('/api/address/edit', address);
       dispatch(slice.actions.editAddressSuccess(response.data.address));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getCategories() {
+  return async () => {
+    try {
+      const response = await getListCategory();
+      dispatch(slice.actions.getCategoriesSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getBrands() {
+  return async () => {
+    try {
+      const response = await getListBrand();
+      dispatch(slice.actions.getBrandsSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getProductSize() {
+  return async () => {
+    try {
+      const response = await productSizeApi.getListProductSize();
+      dispatch(slice.actions.getSizesSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

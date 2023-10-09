@@ -14,6 +14,7 @@ import mailReducer from './slices/mail';
 import userReducer from './slices/user';
 import cartReducer from './slices/cart';
 import kanbanReducer from './slices/kanban';
+import loadingReducer from './slices/loading';
 import menuReducer from './slices/menu';
 import accountReducer from './accountReducer';
 
@@ -38,7 +39,8 @@ const reducer = combineReducers({
   mail: mailReducer,
   user: userReducer,
   menu: menuReducer,
-  auth: accountReducer
+  auth: accountReducer,
+  loading: loadingReducer
 });
 
 export default reducer;

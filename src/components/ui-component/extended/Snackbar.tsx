@@ -47,7 +47,7 @@ const animation: KeyedObject = {
 const Snackbar = () => {
   const dispatch = useDispatch();
   const snackbar = useSelector((state) => state.snackbar);
-  const { actionButton, anchorOrigin, alert, close, message, open, transition, variant } = snackbar;
+  const { actionButton, anchorOrigin, alert, close, message, open, transition, variant, severity } = snackbar;
 
   const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -86,12 +86,13 @@ const Snackbar = () => {
           TransitionComponent={animation[transition]}
           anchorOrigin={anchorOrigin}
           open={open}
-          autoHideDuration={6000}
+          autoHideDuration={3000}
           onClose={handleClose}
         >
           <Alert
             variant={alert.variant}
             color={alert.color}
+            severity={severity}
             action={
               <>
                 {actionButton !== false && (

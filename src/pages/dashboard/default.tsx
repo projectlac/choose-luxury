@@ -1,20 +1,23 @@
-import { useEffect, useState } from 'react';
-
 // material-ui
 import { Card, Grid } from '@mui/material';
 
 // project imports
-import { gridSpacing } from '../../store/constant';
-import ApexBarChart from 'components/forms/chart/Apexchart/ApexBarChart';
 import ApexAreaChart from 'components/forms/chart/Apexchart/ApexAreaChart';
-import ApexPieChart from 'components/forms/chart/Apexchart/ApexPieChart';
-import ApexColumnChart from 'components/forms/chart/Apexchart/ApexColumnChart';
+import ApexBarChart from 'components/forms/chart/Apexchart/ApexBarChart';
 import ApexLineChart from 'components/forms/chart/Apexchart/ApexLineChart';
 import ApexMixedChart from 'components/forms/chart/Apexchart/ApexMixedChart';
+import ApexPieChart from 'components/forms/chart/Apexchart/ApexPieChart';
+import { gridSpacing } from '../../store/constant';
+import { useEffect } from 'react';
+import useAuth from 'hooks/useAuth';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
+  const { getProfile } = useAuth();
+  useEffect(() => {
+    getProfile();
+  }, [getProfile]);
   return (
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12}>

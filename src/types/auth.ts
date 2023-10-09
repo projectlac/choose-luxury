@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 
 // project imports
 import { UserProfile } from 'types/user-profile';
+import { IRegisterRequest } from './services/authentication.type';
 
 export type FirebaseContextType = {
   isLoggedIn: boolean;
@@ -37,9 +38,10 @@ export type JWTContextType = {
   user?: UserProfile | null | undefined;
   logout: () => void;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
+  register: (data: IRegisterRequest) => Promise<void>;
   resetPassword: (email: string) => void;
   updateProfile: VoidFunction;
+  getProfile: () => void;
 };
 
 export type AWSCognitoContextType = {

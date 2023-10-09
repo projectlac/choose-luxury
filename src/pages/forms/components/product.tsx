@@ -1,8 +1,9 @@
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import TableDataGrid from 'components/ProductList/GridTable';
 
-import NewProduct from 'components/product/NewProduct/NewProduct';
+import { useEffect } from 'react';
+import { dispatch } from 'store';
+import { getBrands, getCategories, getProductSize } from 'store/slices/product';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -11,13 +12,17 @@ import MainCard from 'ui-component/cards/MainCard';
 
 // ==============================|| AUTOCOMPLETE ||============================== //
 
-const Instock = () => {
-  const theme = useTheme();
+const ProductDashboash = () => {
+  useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getBrands());
+    dispatch(getProductSize());
+  }, []);
   return (
     <MainCard title="Orders">
       <TableDataGrid />
     </MainCard>
   );
 };
-Instock.Layout = 'authGuard';
-export default Instock;
+ProductDashboash.Layout = 'authGuard';
+export default ProductDashboash;

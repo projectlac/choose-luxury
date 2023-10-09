@@ -24,7 +24,7 @@ import { ProductStateProps } from './product';
 import { ChatStateProps } from './chat';
 import { CalendarStateProps } from './calendar';
 import { MailStateProps } from './mail';
-import { UserStateProps } from './user';
+import { LoadingStateProps, UserStateProps } from './user';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -139,6 +139,7 @@ export interface DefaultRootStateProps {
   calendar: CalendarStateProps;
   mail: MailStateProps;
   user: UserStateProps;
+  loading: LoadingStateProps;
 }
 
 export interface ColorProps {

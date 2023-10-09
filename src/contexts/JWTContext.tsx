@@ -1,25 +1,29 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 
 // third-party
-import { Chance } from 'chance';
+
 import jwtDecode from 'jwt-decode';
-import jwt from 'jsonwebtoken';
-import { JWT_API } from 'config';
-import { JWTData } from 'types/auth';
 // constant
-const JWT_SECRET = JWT_API.secret;
-const JWT_EXPIRES_TIME = JWT_API.timeout;
+
 // reducer - state management
-import { LOGIN, LOGOUT } from 'store/actions';
 import accountReducer from 'store/accountReducer';
+import { LOGIN, LOGOUT } from 'store/actions';
 
 // project imports
-import Loader from 'ui-component/Loader';
-import axios from 'utils/axios';
 import { InitialLoginContextProps, KeyedObject } from 'types';
 import { JWTContextType } from 'types/auth';
+import { IRegisterRequest } from 'types/services/authentication.type';
+import Loader from 'ui-component/Loader';
+import axios from 'utils/axios';
+import authApi from '../../api/AuthenticationApi/AuthApi';
 
-const chance = new Chance();
+// constant
+const initialState: InitialLoginContextProps = {
+  isLoggedIn: false,
+  isInitialized: false,
+  user: null
+};
+
 let users = [
   {
     id: '5e86809283e28b96d2d38537',
@@ -28,12 +32,6 @@ let users = [
     name: 'JWT User'
   }
 ];
-// constant
-const initialState: InitialLoginContextProps = {
-  isLoggedIn: false,
-  isInitialized: false,
-  user: null
-};
 
 const verifyToken: (st: string) => boolean = (serviceToken) => {
   if (!serviceToken) {
@@ -62,22 +60,25 @@ const JWTContext = createContext<JWTContextType | null>(null);
 export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
   const [state, dispatch] = useReducer(accountReducer, initialState);
 
+  const getProfile = async () => {
+    const profile = await authApi.getCurrentUser();
+    console.log(profile);
+  };
+
   useEffect(() => {
     const init = async () => {
       try {
         const serviceToken = window.localStorage.getItem('serviceToken');
         if (serviceToken && verifyToken(serviceToken)) {
           setSession(serviceToken);
-          if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
-            const localUsers = window.localStorage.getItem('users');
-            users = JSON.parse(localUsers!);
-          }
 
-          const jwData = jwt.verify(serviceToken, JWT_SECRET);
-          const { userId } = jwData as JWTData;
-          const user = users.find((_user) => _user.id === userId);
+          const profile = await authApi.getCurrentUser();
+          // const jwData = jwt.verify(serviceToken, JWT_SECRET);
+          // const { userId } = jwData as JWTData;
+          // const user = users.find((_user) => _user.id === userId);
 
-          if (!user) {
+          // layas ho so khong thanh cong
+          if (!profile.data) {
             return;
           }
 
@@ -86,9 +87,9 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
             payload: {
               isLoggedIn: true,
               user: {
-                email: user.email,
-                id: user.id,
-                name: user.name
+                email: profile.data.email,
+                id: String(profile.data.id),
+                name: 'Admin'
               }
             }
           });
@@ -109,21 +110,25 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
-      const localUsers = window.localStorage.getItem('users');
-      users = JSON.parse(localUsers!);
-    }
-    const userFound = users.find((_user) => _user.email === email);
-    if (!userFound || userFound.password !== password) {
-      return;
-    }
-    const serviceToken = jwt.sign({ userId: userFound.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_TIME });
+    const response = await authApi.loginUser({ email, password });
+    const usersData = response.data;
+
+    // if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
+    //   const localUsers = window.localStorage.getItem('users');
+    //   users = JSON.parse(localUsers!);
+    // }
+    // const userFound = users.find((_user) => _user.email === email);
+    // if (!userFound || userFound.password !== password) {
+    //   return;
+    // }
+    // const serviceToken = jwt.sign({ userId: userFound.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_TIME });
+
+    setSession(usersData.access);
+    getProfile();
     const user = {
-      id: userFound.id,
-      email: userFound.email,
-      name: userFound.name
+      ...users,
+      email: email
     };
-    setSession(serviceToken);
     dispatch({
       type: LOGIN,
       payload: {
@@ -133,31 +138,22 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     });
   };
 
-  const register = async (email: string, password: string, firstName: string, lastName: string) => {
+  const register = async (data: IRegisterRequest) => {
     // todo: this flow need to be recode as it not verified
-    const id = chance.bb_pin();
-    const response = await axios.post('/api/account/register', {
-      id,
-      email,
-      password,
-      firstName,
-      lastName
-    });
-    users = response.data;
+    const response = await authApi.registerUser(data);
+    const usersData = response.data;
 
     if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
       const localUsers = window.localStorage.getItem('users');
       users = [
         ...JSON.parse(localUsers!),
         {
-          id,
-          email,
-          password,
-          name: `${firstName} ${lastName}`
+          id: usersData.id,
+          email: usersData.email,
+          name: `${usersData.first_name} ${usersData.last_name}`
         }
       ];
     }
-
     window.localStorage.setItem('users', JSON.stringify(users));
   };
 
@@ -174,7 +170,11 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     return <Loader />;
   }
 
-  return <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile }}>{children}</JWTContext.Provider>;
+  return (
+    <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile, getProfile }}>
+      {children}
+    </JWTContext.Provider>
+  );
 };
 
 export default JWTContext;
