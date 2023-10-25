@@ -220,7 +220,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         </Table>
       </TableContainer>
       <Box p={2}>
-        <PaginationComponent />
+        {/* <PaginationComponent /> */}
         {/* <TablePagination
           component="div"
           count={filteredCryptoOrders.length}
