@@ -1,9 +1,9 @@
 import { IResponseGetListCategory, IResquestPostCategory } from 'types/services/categoryApi.types';
-import { IDataDetailResponse } from 'types/services/serviceitem';
+import { IDataPagingResponse } from 'types/services/serviceitem';
 import api from '../config/api';
 
-export const getListCategory = (): Promise<IDataDetailResponse<IResponseGetListCategory[]>> => {
-  return api.get(`/create_list_category/`);
+export const getListCategory = (page: number, limit: number = 10): Promise<IDataPagingResponse<IResponseGetListCategory[]>> => {
+  return api.get(`/create_list_category?limit=${limit}&page=${page}`);
 };
 
 export const createCategory = (data: IResquestPostCategory) => {

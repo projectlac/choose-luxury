@@ -1,9 +1,9 @@
 import { IResponseGetBrand } from 'types/services/brandApi.types';
-import { IDataDetailResponse } from 'types/services/serviceitem';
+import { IDataPagingResponse } from 'types/services/serviceitem';
 import api from '../config/api';
 
-export const getListBrand = (): Promise<IDataDetailResponse<IResponseGetBrand[]>> => {
-  return api.get(`/list_brand`);
+export const getListBrand = (page: number, limit: number = 10): Promise<IDataPagingResponse<IResponseGetBrand[]>> => {
+  return api.get(`/list_brand?limit=${limit}&page=${page}`);
 };
 
 export const addBrand = (product_brand_name: string) => {

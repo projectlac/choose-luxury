@@ -95,7 +95,7 @@ function EditCategory({ id }: IEditProps) {
         );
         resetForm();
         handleClose();
-        dispatch(getCategories());
+        dispatch(getCategories(1));
       } catch (err: any) {
         setStatus({ success: false });
         setErrors({ submit: err.message });
@@ -218,7 +218,7 @@ function EditCategory({ id }: IEditProps) {
                     }}
                   >
                     <MenuItem value={''}>(None)</MenuItem>
-                    {categories.map((data) => (
+                    {categories.results.map((data) => (
                       <MenuItem key={data.id} value={data.id}>
                         {renderCategoryName(data.name_category, data.level)}
                       </MenuItem>

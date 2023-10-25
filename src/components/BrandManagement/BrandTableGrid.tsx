@@ -2,20 +2,31 @@
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // import { DataGrid,  } from '@material-ui/data-grid';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { dispatch, useSelector } from 'store';
 import { getBrands } from 'store/slices/product';
 import DataTable from './DataTable';
+import { hiddenLoading, showLoading } from 'store/slices/loading';
 
 // ==============================|| TABLE - BASIC DATA GRID ||============================== //
 
 export default function BrandTableGrid() {
   const theme = useTheme();
   const { brand } = useSelector((state) => state.product);
-
+  const [page, setPage] = useState<number>(1);
   useEffect(() => {
-    dispatch(getBrands());
-  }, []);
+    const callApi = async () => {
+      try {
+        dispatch(showLoading());
+        await dispatch(getBrands(page));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        dispatch(hiddenLoading());
+      }
+    };
+    callApi();
+  }, [page]);
 
   return (
     <Box
@@ -37,7 +48,7 @@ export default function BrandTableGrid() {
         }
       }}
     >
-      <DataTable cryptoOrders={brand} />
+      <DataTable cryptoOrders={brand.results} total={brand.count} setPage={setPage} />
     </Box>
   );
 }

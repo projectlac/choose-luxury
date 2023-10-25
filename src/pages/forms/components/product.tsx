@@ -7,6 +7,7 @@ import { getBrands, getCategories, getProductSize } from 'store/slices/product';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
+import { PAGE } from 'utils/const';
 
 // assets
 
@@ -14,9 +15,9 @@ import MainCard from 'ui-component/cards/MainCard';
 
 const ProductDashboash = () => {
   useEffect(() => {
-    dispatch(getCategories());
-    dispatch(getBrands());
-    dispatch(getProductSize());
+    dispatch(getCategories(1, PAGE.FULL));
+    dispatch(getBrands(1, PAGE.FULL));
+    dispatch(getProductSize(1, PAGE.FULL));
   }, []);
   return (
     <MainCard title="Orders">

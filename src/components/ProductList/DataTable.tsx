@@ -128,7 +128,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
         </Table>
       </TableContainer>
       <Box p={2}>
-        <PaginationComponent count={Math.ceil(total / 4)} handleChangePage={changePage} />
+        <PaginationComponent count={Math.ceil(total / 10)} handleChangePage={changePage} />
         {/* <TablePagination
           component="div"
           count={filteredCryptoOrders.length}

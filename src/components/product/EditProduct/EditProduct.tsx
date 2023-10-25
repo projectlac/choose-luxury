@@ -406,7 +406,7 @@ function EditProduct({ id, reload }: IEditProps) {
                       }
                     }}
                   >
-                    {categories.map((data) => (
+                    {categories.results.map((data) => (
                       <MenuItem key={data.id} value={data.name_category}>
                         {data.name_category}
                       </MenuItem>
@@ -447,7 +447,7 @@ function EditProduct({ id, reload }: IEditProps) {
                       }
                     }}
                   >
-                    {brand.map((data) => (
+                    {brand.results.map((data) => (
                       <MenuItem key={data.id} value={data.product_brand_name}>
                         {data.product_brand_name}
                       </MenuItem>
@@ -483,7 +483,7 @@ function EditProduct({ id, reload }: IEditProps) {
                       }
                     }}
                   >
-                    {size.map((data) => (
+                    {size.results.map((data) => (
                       <MenuItem key={data.id} value={data.product_size_name}>
                         {data.product_size_name}
                       </MenuItem>

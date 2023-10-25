@@ -61,7 +61,7 @@ function NewSize() {
             close: false
           })
         );
-        dispatch(getProductSize());
+        dispatch(getProductSize(1));
         resetForm();
         setOpen(false);
       } catch (err: any) {

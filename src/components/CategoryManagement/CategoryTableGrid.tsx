@@ -2,10 +2,11 @@
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // import { DataGrid,  } from '@material-ui/data-grid';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { dispatch, useSelector } from 'store';
 import { getCategories } from 'store/slices/product';
 import DataTable from './DataTable';
+import { hiddenLoading, showLoading } from 'store/slices/loading';
 
 // ==============================|| TABLE - BASIC DATA GRID ||============================== //
 
@@ -13,9 +14,21 @@ export default function CategoryTableGrid() {
   const theme = useTheme();
   const { category } = useSelector((state) => state.product);
 
+  const [page, setPage] = useState<number>(1);
+
   useEffect(() => {
-    dispatch(getCategories());
-  }, []);
+    const callApi = async () => {
+      try {
+        dispatch(showLoading());
+        await dispatch(getCategories(page));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        dispatch(hiddenLoading());
+      }
+    };
+    callApi();
+  }, [page]);
 
   return (
     <Box
@@ -37,7 +50,7 @@ export default function CategoryTableGrid() {
         }
       }}
     >
-      <DataTable cryptoOrders={category} />
+      <DataTable cryptoOrders={category.results} total={category.count} setPage={setPage} />
     </Box>
   );
 }

@@ -12,15 +12,18 @@ import {
   Typography
 } from '@mui/material';
 
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { ChangeEvent, Dispatch, FC, SetStateAction, useCallback, useState } from 'react';
 import { IResponseGetBrand } from 'types/services/brandApi.types';
 import NewBrand from './Actions/NewBrand/NewBrand';
 import EditBrand from './Actions/EditBrand/EditBrand';
 import DeleteBrand from './Actions/DeleteBrand/DeleteBrand';
+import PaginationComponent from 'components/forms/tables/Pagination';
 
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: IResponseGetBrand[];
+  total: number;
+  setPage: Dispatch<SetStateAction<number>>;
 }
 
 interface Filters {
@@ -31,7 +34,7 @@ const applyPagination = (cryptoOrders: IResponseGetBrand[], page: number, limit:
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
+const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, total, setPage: changePage }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
 
@@ -97,8 +100,8 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         </Table>
       </TableContainer>
       <Box p={2}>
-        {/* <PaginationComponent count={Math.ceil(total / 4)} handleChangePage={changePage} /> */}
-        <TablePagination
+        <PaginationComponent count={Math.ceil(total / 10)} handleChangePage={changePage} />
+        {/* <TablePagination
           component="div"
           count={cryptoOrders.length}
           onPageChange={handlePageChange}
@@ -106,7 +109,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
           page={page}
           rowsPerPage={limit}
           rowsPerPageOptions={[5, 10, 25, 30]}
-        />
+        /> */}
       </Box>
     </Card>
   );

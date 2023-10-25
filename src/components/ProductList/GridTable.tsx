@@ -6,6 +6,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 import { getProduct } from '../../../api/ProductAPI/productDashboash';
 import DataTable from './DataTable';
+import { hiddenLoading, showLoading } from 'store/slices/loading';
+import { dispatch } from 'store';
 
 // ==============================|| TABLE - BASIC DATA GRID ||============================== //
 
@@ -21,14 +23,21 @@ export default function TableDataGrid() {
   const getListProduct = useCallback(
     async (searchParam: string) => {
       const res = await getProduct({ search: searchParam, page: page });
-      getProductList(res.data);
-      setTotal(0);
+      getProductList(res.data.results);
+      setTotal(res.data.count);
     },
     [page]
   );
 
-  const reloadListProduct = useCallback(() => {
-    getListProduct(search);
+  const reloadListProduct = useCallback(async () => {
+    try {
+      dispatch(showLoading());
+      await getListProduct(search);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(hiddenLoading());
+    }
   }, [getListProduct, search]);
 
   useEffect(() => {

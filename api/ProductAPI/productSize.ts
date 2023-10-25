@@ -1,10 +1,10 @@
 import { IProductSize } from 'types/services/productApi.types';
-import { IDataDetailResponse } from 'types/services/serviceitem';
+import { IDataPagingResponse } from 'types/services/serviceitem';
 import api from '../config/api';
 
 const productSizeApi = {
-  getListProductSize(): Promise<IDataDetailResponse<IProductSize[]>> {
-    const url = '/list_product_size/';
+  getListProductSize(page: number, limit: number = 10): Promise<IDataPagingResponse<IProductSize[]>> {
+    const url = `/list_product_size?limit=${limit}&page=${page}`;
     return api.get(url);
   },
 

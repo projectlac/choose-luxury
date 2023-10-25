@@ -21,9 +21,12 @@ const initialState: DefaultRootStateProps['product'] = {
   relatedProducts: [],
   reviews: [],
   addresses: [],
-  brand: [],
-  category: [],
-  size: []
+  brand: { count: 0, results: [] },
+  category: {
+    count: 0,
+    results: []
+  },
+  size: { count: 0, results: [] }
 };
 
 const slice = createSlice({
@@ -182,10 +185,10 @@ export function editAddress(address: Address) {
   };
 }
 
-export function getCategories() {
+export function getCategories(page: number = 1, limit: number = 10) {
   return async () => {
     try {
-      const response = await getListCategory();
+      const response = await getListCategory(page, limit);
       dispatch(slice.actions.getCategoriesSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -193,10 +196,10 @@ export function getCategories() {
   };
 }
 
-export function getBrands() {
+export function getBrands(page: number = 1, limit: number = 10) {
   return async () => {
     try {
-      const response = await getListBrand();
+      const response = await getListBrand(page, limit);
       dispatch(slice.actions.getBrandsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -204,10 +207,10 @@ export function getBrands() {
   };
 }
 
-export function getProductSize() {
+export function getProductSize(page: number = 1, limit: number = 10) {
   return async () => {
     try {
-      const response = await productSizeApi.getListProductSize();
+      const response = await productSizeApi.getListProductSize(page, limit);
       dispatch(slice.actions.getSizesSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

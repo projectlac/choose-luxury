@@ -88,7 +88,7 @@ function NewCategory() {
             close: false
           })
         );
-        dispatch(getCategories());
+        dispatch(getCategories(1));
         resetForm();
         setOpen(false);
       } catch (err: any) {
@@ -209,7 +209,7 @@ function NewCategory() {
                     }}
                   >
                     <MenuItem value={''}>(None)</MenuItem>
-                    {categories.map((data) => (
+                    {categories.results.map((data) => (
                       <MenuItem key={data.id} value={data.id}>
                         {renderCategoryName(data.name_category, data.level)}
                       </MenuItem>

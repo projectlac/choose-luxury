@@ -1,8 +1,8 @@
 import qs from 'query-string';
 import { IParamsGetProduct, IResponseGetProductById } from 'types/services/productApi.types';
-import { IDataDetailResponse } from 'types/services/serviceitem';
+import { IDataDetailResponse, IDataPagingResponse } from 'types/services/serviceitem';
 import api from '../config/api';
-export const getProduct = (params: IParamsGetProduct): Promise<IDataDetailResponse<IResponseGetProductById[]>> => {
+export const getProduct = (params: IParamsGetProduct): Promise<IDataPagingResponse<IResponseGetProductById[]>> => {
   let str = qs.stringify(params);
   return api.get(`/list_product?${str}`);
 };

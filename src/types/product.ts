@@ -1,8 +1,10 @@
-import { Products, Reviews, Address } from 'types/e-commerce';
 import { KeyedObject } from 'types';
-import { IResponseGetListCategory } from './services/categoryApi.types';
-import { IProductSize } from './services/productApi.types';
+import { Address, Products, Reviews } from 'types/e-commerce';
 import { IResponseGetBrand } from './services/brandApi.types';
+
+import { IProductSize } from './services/productApi.types';
+import { IResponseGetListCategory } from './services/categoryApi.types';
+import { IPagingResponse } from './services/serviceitem';
 
 export interface ProductCardProps extends KeyedObject {
   id?: string | number;
@@ -22,7 +24,7 @@ export interface ProductStateProps {
   reviews: Reviews[];
   addresses: Address[];
   error: object | string | null;
-  category: IResponseGetListCategory[];
-  brand: IResponseGetBrand[];
-  size: IProductSize[];
+  category: IPagingResponse<IResponseGetListCategory[]>;
+  brand: IPagingResponse<IResponseGetBrand[]>;
+  size: IPagingResponse<IProductSize[]>;
 }
