@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const api = Axios.create({
-  baseURL: 'https://clux.azurewebsites.net/',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
@@ -11,8 +11,9 @@ const api = Axios.create({
 api.interceptors.request.use(
   function (config: AxiosRequestConfig) {
     let token = localStorage.getItem('serviceToken');
-
-    config.headers!.Authorization = `JWT ${token}`;
+    if (token) {
+      config.headers!.Authorization = `JWT ${token}`;
+    }
 
     return config;
   },
@@ -30,6 +31,7 @@ api.interceptors.response.use(
   },
   function (error) {
     if (error.response?.status === 401) {
+      localStorage.removeItem('serviceToken');
       return Promise.reject(error);
     }
 
