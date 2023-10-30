@@ -2,6 +2,7 @@ import qs from 'query-string';
 import { IParamsGetProduct, IResponseGetProductById } from 'types/services/productApi.types';
 import { IDataDetailResponse, IDataPagingResponse } from 'types/services/serviceitem';
 import api from '../config/api';
+import apiFormData from '../config/apiFromData';
 export const getProduct = (params: IParamsGetProduct): Promise<IDataPagingResponse<IResponseGetProductById[]>> => {
   let str = qs.stringify(params);
   return api.get(`/list_product?${str}`);
@@ -12,7 +13,7 @@ export const getProductById = (id: string): Promise<IDataDetailResponse<IRespons
 };
 
 export const editProduct = (id: string, data: FormData) => {
-  return api.patch(`/retrieve_update_destroy_product/${id}`, data);
+  return apiFormData.patch(`/retrieve_update_destroy_product/${id}/`, data);
 };
 
 export const addProduct = (data: FormData) => {
