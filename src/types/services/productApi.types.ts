@@ -26,9 +26,9 @@ export interface IResponseGetProductById {
   product_description: string;
   slug: string;
   unit_in_stock: string;
-  category: string;
-  brand: string;
-  size: string;
+  category_id: string;
+  brand_id: string;
+  size_id: string;
   product_img: string;
   base_price: string;
   is_available: boolean;

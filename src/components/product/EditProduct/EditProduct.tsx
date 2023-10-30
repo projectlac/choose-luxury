@@ -111,22 +111,18 @@ function EditProduct({ id, reload }: IEditProps) {
       fd.append('base_price', price);
       fd.append('slug', slug);
       fd.append('product_description', description);
-      fd.append('category', category);
-      fd.append('product_name', name);
-      fd.append('base_price', price);
-      fd.append('slug', slug);
-      fd.append('product_description', description);
       fd.append('old_price', oldPrice);
-      fd.append('brand', brandProduct);
+      fd.append('brand_id', brandProduct);
       fd.append('is_available', isAvaliable.toString());
       fd.append('unit_in_stock', unitInStock);
-      fd.append('size', sizeProduct);
-      fd.append('category', category);
+      fd.append('size_id', sizeProduct);
+      fd.append('category_id', category);
       if (file) {
-        file.forEach((fileItem: File) => {
-          fd.append('uploaded_images', fileItem);
+        file.forEach((fileItem: File, i: number) => {
+          fd.append(`uploaded_images[${i}]`, fileItem);
         });
       }
+
       try {
         setLoading(true);
         await editProduct(id, fd);
@@ -176,19 +172,18 @@ function EditProduct({ id, reload }: IEditProps) {
       const res = await getProductById(id);
       const getData = {
         oldPrice: res.data.old_price,
-        brand: res.data.brand,
-        size: res.data.size,
+        brand: res.data.brand_id,
+        size: res.data.size_id,
         unitInStock: res.data.unit_in_stock,
         isAvaliable: res.data.is_available,
         name: res.data.product_name,
         price: res.data.base_price,
         slug: res.data.slug,
         description: res.data.product_description,
-        category: res.data.category,
+        category: res.data.category_id,
         file: [],
         submit: null
       };
-      console.log(getData);
 
       setFileListCurreny(res.data.images);
       setDefaultForm(getData);
@@ -407,7 +402,7 @@ function EditProduct({ id, reload }: IEditProps) {
                     }}
                   >
                     {categories.results.map((data) => (
-                      <MenuItem key={data.id} value={data.name_category}>
+                      <MenuItem key={data.id} value={data.id}>
                         {data.name_category}
                       </MenuItem>
                     ))}
@@ -448,7 +443,7 @@ function EditProduct({ id, reload }: IEditProps) {
                     }}
                   >
                     {brand.results.map((data) => (
-                      <MenuItem key={data.id} value={data.product_brand_name}>
+                      <MenuItem key={data.id} value={data.id}>
                         {data.product_brand_name}
                       </MenuItem>
                     ))}
@@ -484,7 +479,7 @@ function EditProduct({ id, reload }: IEditProps) {
                     }}
                   >
                     {size.results.map((data) => (
-                      <MenuItem key={data.id} value={data.product_size_name}>
+                      <MenuItem key={data.id} value={data.id}>
                         {data.product_size_name}
                       </MenuItem>
                     ))}
