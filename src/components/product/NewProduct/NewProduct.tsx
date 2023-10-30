@@ -24,6 +24,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import * as Yup from 'yup';
 import { addProduct } from '../../../../api/ProductAPI/productDashboash';
 import ItemAttachments from '../DropImage/DropImage';
+import { convertToSlug } from 'utils/convert';
 
 interface IAddProductProps {
   reload: () => void;
@@ -98,14 +99,14 @@ function NewProduct({ reload }: IAddProductProps) {
       fd.append('slug', slug);
       fd.append('product_description', description);
       fd.append('old_price', oldPrice);
-      fd.append('product_brand_name', brandProduct);
+      fd.append('brand_id', brandProduct);
       fd.append('is_available', isAvaliable.toString());
       fd.append('unit_in_stock', unitInStock);
-      fd.append('product_size_name', sizeProduct);
-      fd.append('name_category', category);
+      fd.append('size_id', sizeProduct);
+      fd.append('category_id', category);
       if (file) {
-        file.forEach((fileItem: File) => {
-          fd.append('uploaded_images', fileItem);
+        file.forEach((fileItem: File, i: number) => {
+          fd.append(`uploaded_images[${i}]`, fileItem);
         });
       }
       try {
@@ -198,7 +199,12 @@ function NewProduct({ reload }: IAddProductProps) {
                 type="name"
                 value={formik.values.name}
                 name="name"
-                onBlur={formik.handleBlur}
+                onBlur={(e) => {
+                  formik.handleBlur(e);
+                  formik.handleChange({
+                    target: { name: 'slug', value: convertToSlug(e.target.value) }
+                  });
+                }}
                 onChange={formik.handleChange}
                 label="Product name"
                 inputProps={{}}
@@ -365,7 +371,7 @@ function NewProduct({ reload }: IAddProductProps) {
                     }}
                   >
                     {categories.results.map((data) => (
-                      <MenuItem key={data.id} value={data.name_category}>
+                      <MenuItem key={data.id} value={data.id}>
                         {data.name_category}
                       </MenuItem>
                     ))}
@@ -406,7 +412,7 @@ function NewProduct({ reload }: IAddProductProps) {
                     }}
                   >
                     {brand.results.map((data) => (
-                      <MenuItem key={data.id} value={data.product_brand_name}>
+                      <MenuItem key={data.id} value={data.id}>
                         {data.product_brand_name}
                       </MenuItem>
                     ))}
@@ -442,7 +448,7 @@ function NewProduct({ reload }: IAddProductProps) {
                     }}
                   >
                     {size.results.map((data) => (
-                      <MenuItem key={data.id} value={data.product_size_name}>
+                      <MenuItem key={data.id} value={data.id}>
                         {data.product_size_name}
                       </MenuItem>
                     ))}

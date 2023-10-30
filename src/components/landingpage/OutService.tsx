@@ -32,7 +32,7 @@ const OutService = () => {
           paddingBottom: '20px'
         }}
       >
-        Out Service
+        Our Service
       </Typography>
 
       <Grid container columnSpacing={{ lg: 4, md: 3, xs: 2 }} rowSpacing={{ lg: 4, md: 3, xs: 2 }} sx={{ marginTop: '11px' }}>
