@@ -6,17 +6,16 @@ import 'lightgallery/css/lightgallery.css';
 import LightGallery from 'lightgallery/react';
 import Image from 'next/image';
 import { useState } from 'react';
-import { IProductDetail } from 'types/shop/product';
-import SizeSelector from './SizeSelector';
 
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
 import Slider from 'react-slick';
+import { IResponseGetProductById } from 'types/services/productApi.types';
 
 interface IProductDetailProps {
-  data: IProductDetail;
+  data: IResponseGetProductById;
 }
 
 const InfoTypo = styled('div')(({ theme }) => ({
@@ -104,35 +103,37 @@ function ProductDetail({ data }: IProductDetailProps) {
         <Grid item md={6} xs={12}>
           {matchDownSM ? (
             <Slider {...settings}>
-              {data.image.map((d, index) => (
-                <BoxImage key={index}>
-                  <Image src={d} layout="fill" alt="" objectFit="cover"></Image>
-                </BoxImage>
-              ))}
+              {data.images.length > 0 &&
+                data.images.map((d, index) => (
+                  <BoxImage key={index}>
+                    <Image src={d.product_img} layout="fill" alt="" objectFit="cover"></Image>
+                  </BoxImage>
+                ))}
             </Slider>
           ) : (
             <LightGallery speed={500} plugins={[lgThumbnail, lgZoom]} thumbnail={true}>
-              {data.image.map((d, index) => (
-                <a
-                  href={d}
-                  key={index}
-                  style={{
-                    width: `${data.image.length === 1 ? '100%' : '50%'}`,
-                    padding: '5px'
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: `100%`,
-                      height: `${data.image.length === 1 ? '634px' : '350px'}`,
-                      position: 'relative',
-                      background: 'rgb(224 224 224)'
+              {data.images.length > 0 &&
+                data.images.map((d, index) => (
+                  <a
+                    href={d.product_img}
+                    key={index}
+                    style={{
+                      width: `${data.images.length === 1 ? '100%' : '50%'}`,
+                      padding: '5px'
                     }}
                   >
-                    <Image alt={data.name} src={d} layout="fill" objectFit="contain"></Image>
-                  </Box>
-                </a>
-              ))}
+                    <Box
+                      sx={{
+                        width: `100%`,
+                        height: `${data.images.length === 1 ? '634px' : '350px'}`,
+                        position: 'relative',
+                        background: 'rgb(224 224 224)'
+                      }}
+                    >
+                      <Image alt={data.product_name} src={d.product_img} layout="fill" objectFit="contain"></Image>
+                    </Box>
+                  </a>
+                ))}
             </LightGallery>
           )}
         </Grid>
@@ -161,15 +162,15 @@ function ProductDetail({ data }: IProductDetailProps) {
                 fontFamily: 'Quicksand'
               }}
             >
-              {data.name}
+              {data.product_name}
             </Typography>
-            <InfoTypo>Product code: {data.productCode}</InfoTypo>
-            <InfoTypo>Brand: {data.brand}</InfoTypo>
-            <PriceTypo>{data.price}</PriceTypo>
+            <InfoTypo>Product code: {data.id}</InfoTypo>
+            <InfoTypo>Brand: {data.brand_id}</InfoTypo>
+            <PriceTypo>{data.category_id}</PriceTypo>
             <Grid container>
-              <Grid item md={5}>
+              {/* <Grid item md={5}>
                 <SizeSelector size={data.size} />
-              </Grid>
+              </Grid> */}
               <Grid item md={4}>
                 <QualityWrapper>
                   <ButtonQuality
@@ -208,10 +209,7 @@ function ProductDetail({ data }: IProductDetailProps) {
               }}
               className="tableBrand"
             >
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque nesciunt dolor eius iusto ratione, deleniti quam totam rerum
-              qui, cupiditate sapiente iste ea. Error, libero. Nisi cupiditate aperiam numquam minus! Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. <br /> <br /> Accusamus quia architecto incidunt esse aliquid beatae, optio deserunt, magni id eius
-              asperiores voluptate fugiat ullam officiis temporibus vel aliquam laboriosam iusto.
+              {data.product_description}
             </Box>
 
             <Divider sx={{ marginTop: '36px', marginBottom: '18px' }}></Divider>

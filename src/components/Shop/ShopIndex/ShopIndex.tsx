@@ -1,127 +1,21 @@
+import CloseIcon from '@mui/icons-material/Close';
 import { Box, Container, Drawer, Grid, MenuItem, Pagination, TextField, useMediaQuery, useTheme } from '@mui/material';
-import React, { useState } from 'react';
-import { IDataShop } from 'types/shop/shopItem';
+import React, { useCallback, useEffect, useState } from 'react';
+import { dispatch } from 'store';
+import { hiddenLoading, showLoading } from 'store/slices/loading';
+import { IResponseGetProductById } from 'types/services/productApi.types';
+import { getProduct } from '../../../../api/ProductAPI/productDashboash';
+import BrandFilter from '../Filter/BrandFilter';
 import Filter from '../Filter/Filter';
-import ProductItem from '../ProductItem/ProductItem';
 import PriceFilter from '../Filter/PriceFilter';
 import ProductFilter from '../Filter/ProductFilter';
 import SizeFilter from '../Filter/SizeFilter';
-import BrandFilter from '../Filter/BrandFilter';
-import CloseIcon from '@mui/icons-material/Close';
+import ProductItem from '../ProductItem/ProductItem';
 
-const data: IDataShop[] = [
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '1'
-  },
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '2'
-  },
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '3'
-  },
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '4'
-  },
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '0'
-  },
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '5'
-  },
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '6'
-  },
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '7'
-  },
-  {
-    image: [
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_yCKeS9CxUH.jpeg',
-      'https://pos.nvncdn.net/0a688a-28099/ps/20230811_VxQWJyGKil.jpeg'
-    ],
-    name: 'Classique Triomphe Bag in shiny calfskin',
-    price: 'VND 1, 800, 000',
-    oldPrice: 'VND 1, 800, 000',
-    desc: 'Medium Triomphe Bag in shiny calfskin with an adjustable leather shoulder strap. The bag closes with a Triomphe clasp.',
-    url: '',
-    id: '8'
-  }
-];
 function ShopIndex() {
   const [hiddenFilter, setHiddenFilter] = useState<boolean>(false);
-  const [page1, setPage] = React.useState(2);
+  const [page1, setPage] = React.useState(1);
+  const [total, setTotal] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const theme = useTheme();
   const matchDownMD = useMediaQuery(theme.breakpoints.down('md'));
@@ -129,6 +23,35 @@ function ShopIndex() {
   const handleChangePage = (page: number) => {
     setPage(page);
   };
+  const [productList, getProductList] = useState<IResponseGetProductById[]>([]);
+  const [search, setSearch] = useState<string>('');
+
+  // const [page, setPage] = useState<number>(1);
+
+  const getListProduct = useCallback(
+    async (searchParam: string) => {
+      const res = await getProduct({ search: searchParam, page: page1 });
+
+      getProductList(res.data.results);
+      setTotal(res.data.count);
+    },
+    [page1]
+  );
+
+  const reloadListProduct = useCallback(async () => {
+    try {
+      dispatch(showLoading());
+      await getListProduct(search);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(hiddenLoading());
+    }
+  }, [getListProduct, search]);
+
+  useEffect(() => {
+    reloadListProduct();
+  }, [reloadListProduct]);
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
@@ -175,7 +98,7 @@ function ShopIndex() {
         </Grid>
         <Grid item xs={!matchDownMD && !hiddenFilter ? 9 : 12}>
           <Grid container spacing={3}>
-            {data.map((d) => (
+            {productList.map((d) => (
               <Grid item md={3} sm={6} xs={12} key={d.id}>
                 <ProductItem data={d} />
               </Grid>
@@ -205,7 +128,7 @@ function ShopIndex() {
             </TextField>
 
             <Pagination
-              count={10}
+              count={Math.ceil(total / 10)}
               onChange={(_, page) => {
                 handleChangePage(page);
               }}

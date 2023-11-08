@@ -13,8 +13,8 @@ import {
   useTheme
 } from '@mui/material';
 import PaginationComponent from 'components/forms/tables/Pagination';
-import EditProduct from 'components/product/EditProduct/EditProduct';
 import DeleteProduct from 'components/product/DeleteProduct/DeleteProduct';
+import EditProduct from 'components/product/EditProduct/EditProduct';
 
 import NewProduct from 'components/product/NewProduct/NewProduct';
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';

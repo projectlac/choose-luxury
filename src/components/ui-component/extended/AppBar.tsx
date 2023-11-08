@@ -1,19 +1,18 @@
 import Image from 'next/image';
 // material-ui
-import { Box, Container, Drawer, Link, List, ListItemButton, ListItemText, Stack, TextField, Typography } from '@mui/material';
+import { Box, Container, Drawer, Link, List, ListItemButton, ListItemText, Stack, TextField } from '@mui/material';
 
 // project imports
-import Logo from '../../../assets/header/logo.png';
-import WishList from '../../../assets/header/heart.png';
-import Cart from '../../../assets/header/cart.png';
 import MenuIcon from '@mui/icons-material/Menu';
+import Cart from '../../../assets/header/cart.png';
+import WishList from '../../../assets/header/heart.png';
+import Logo from '../../../assets/header/logo.png';
 // assets
 import { styled } from '@mui/styles';
-import User from './User';
-import { useSelector } from 'store';
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
-import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
+import { useState } from 'react';
+import User from './User';
 
 // elevation scroll
 
@@ -93,7 +92,7 @@ const AppBar = ({ ...others }) => {
                       <ListItemText primary="About us" />
                     </ListItemButton>
                   </Link>
-                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                  <Link style={{ textDecoration: 'none' }} href="/shop" target="_blank">
                     <ListItemButton component="a">
                       <ListItemText primary="Products" />
                     </ListItemButton>
@@ -142,7 +141,7 @@ const AppBar = ({ ...others }) => {
           <Stack direction="row" sx={{ display: { xs: 'none', sm: 'flex' } }} spacing={{ xs: 1, sm: 1, md: 2, lg: 4 }}>
             <CustomButton href="/">Homepage</CustomButton>
             <CustomButton href="">About us</CustomButton>
-            <CustomButton href="">Products</CustomButton>
+            <CustomButton href="/shop">Products</CustomButton>
             <CustomButton href="">Fashion trend</CustomButton>
             <CustomButton href="">Contact us</CustomButton>
           </Stack>

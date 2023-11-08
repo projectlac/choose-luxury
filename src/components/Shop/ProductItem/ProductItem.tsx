@@ -1,10 +1,10 @@
 import { Box, Typography } from '@mui/material';
-import { IDataShop } from 'types/shop/shopItem';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import Link from 'next/link';
+import { IResponseGetProductById } from 'types/services/productApi.types';
 interface ProductItemProps {
-  data: IDataShop;
+  data: IResponseGetProductById;
 }
 
 const ProductWrapper = styled(Box)(({ theme }) => ({
@@ -24,55 +24,61 @@ const ProductContent = styled(Box)(({ theme }) => ({
 function ProductItem({ data }: ProductItemProps) {
   return (
     <ProductWrapper>
-      <Link href={'/product-detail/123'}>
-        <ProductImage
-          sx={{
-            '&:before': {
-              content: `""`,
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              background: `url(${data.image[1]})`,
-              zIndex: '1',
-              width: '100%',
-              height: '100%',
-              transition: 'all 0.3s ease-out',
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-              opacity: 0
-            },
-            '&:hover&:before': {
-              opacity: 1
-            }
-          }}
-        >
-          <Image alt={data.name} src={data.image[0]} layout="fill" objectFit="contain"></Image>
-        </ProductImage>
+      <Link href={`/product-detail/${data.id}`}>
+        <a>
+          {data.images && data.images[0]?.product_img && (
+            <ProductImage
+              sx={{
+                '&:before': {
+                  content: `""`,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  background: `url(${data.images[0]?.product_img})`,
+                  zIndex: '1',
+                  width: '100%',
+                  height: '100%',
+                  transition: 'all 0.3s ease-out',
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  opacity: 0
+                },
+                '&:hover&:before': {
+                  opacity: 1
+                }
+              }}
+            >
+              <Image alt={data.product_name} src={data.images[0]?.product_img} layout="fill" objectFit="contain"></Image>
+            </ProductImage>
+          )}
+        </a>
       </Link>
 
       <ProductContent>
-        <Link href={'/product-detail/123'}>
-          <Typography
-            sx={{
-              fontSize: '16px',
-              fontWeight: '600',
-              lineHeight: '17px',
-              fontFamily: "Quicksand,'Roboto',sans-serif",
-              color: '#000',
-              display: '-webkit-box',
-              WebkitBoxOrient: 'vertical',
-              WebkitLineClamp: '2',
-              overflow: 'hidden',
-              marginBottom: '10px',
-              cursor: 'pointer'
-            }}
-          >
-            {data.name}
-          </Typography>
+        <Link href={`/product-detail/${data.id}`}>
+          <a>
+            <Typography
+              sx={{
+                fontSize: '16px',
+                fontWeight: '600',
+                lineHeight: '17px',
+                fontFamily: "Quicksand,'Roboto',sans-serif",
+                color: '#000',
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: '2',
+                overflow: 'hidden',
+                marginBottom: '10px',
+                cursor: 'pointer'
+              }}
+            >
+              {data.product_name}
+            </Typography>
+          </a>
         </Link>
         <Typography color="rgba(245, 34, 34, 1)" style={{ fontSize: '14px', fontWeight: '700', lineHeight: '17px', marginBottom: '5px' }}>
-          {data.price}
+          {data.base_price}
         </Typography>
         <Typography
           sx={{
@@ -84,7 +90,7 @@ function ProductItem({ data }: ProductItemProps) {
             marginBottom: '10px'
           }}
         >
-          {data.oldPrice}
+          {data.old_price}
         </Typography>
         <Typography
           sx={{
@@ -100,7 +106,7 @@ function ProductItem({ data }: ProductItemProps) {
             fontWeight: '500'
           }}
         >
-          {data.desc}
+          {data.product_description}
         </Typography>
       </ProductContent>
     </ProductWrapper>
