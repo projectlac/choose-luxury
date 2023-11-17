@@ -31,35 +31,35 @@ interface DropImageProps {
   trigger: boolean;
 }
 function DropImage({ onChange, initData, trigger }: DropImageProps) {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<any>([]);
 
   useEffect(() => {
     if (trigger) setFiles([]);
   }, [trigger]);
 
   const handleRemove = (file: File) => {
-    const filteredItems = files.filter((_file) => _file !== file);
+    const filteredItems = files.filter((_file: any) => _file !== file);
     setFiles(filteredItems);
     onChange(filteredItems);
   };
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
-      setFiles(
-        acceptedFiles.map((file: File) => {
-          const reader = new FileReader();
+      const listAcceptedFiles = acceptedFiles.map((file: File) => {
+        const reader = new FileReader();
 
-          reader.readAsArrayBuffer(file);
+        reader.readAsArrayBuffer(file);
 
-          return Object.assign(file, {
-            preview: URL.createObjectURL(file)
-          });
-        })
-      );
+        return Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        });
+      });
+
+      setFiles([...files, ...listAcceptedFiles]);
 
       onChange(acceptedFiles as File[]);
     },
-    [onChange]
+    [files, onChange]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -68,7 +68,7 @@ function DropImage({ onChange, initData, trigger }: DropImageProps) {
 
   return (
     <>
-      {files.map((file) => {
+      {files.map((file: any) => {
         const { name, preview } = file;
         const key = isString(file) ? file : name;
 
