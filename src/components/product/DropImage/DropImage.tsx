@@ -57,7 +57,7 @@ function DropImage({ onChange, initData, trigger }: DropImageProps) {
 
       setFiles([...files, ...listAcceptedFiles]);
 
-      onChange(acceptedFiles as File[]);
+      onChange([...files, ...listAcceptedFiles] as File[]);
     },
     [files, onChange]
   );
