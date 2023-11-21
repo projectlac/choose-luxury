@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { forwardRef } from 'react';
 import Link from 'Link';
 
@@ -15,7 +14,6 @@ import { Chance } from 'chance';
 
 // assets
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-const completed = '/assets/images/e-commerce/completed.png';
 
 const chance = new Chance();
 
@@ -61,9 +59,7 @@ const OrderComplete = ({ open }: { open: boolean }) => {
               </Stack>
             </Grid>
             <Grid item xs={12} sx={{ m: 3 }}>
-              <Box sx={{ position: 'relative', width: { xs: '200px', md: '400px' }, height: { xs: '112px', md: '223px' } }}>
-                <Image src={completed} alt="Order Complete" layout="fill" />
-              </Box>
+              <Box sx={{ position: 'relative', width: { xs: '200px', md: '400px' }, height: { xs: '112px', md: '223px' } }}></Box>
             </Grid>
             <Grid item xs={12} sm={9}>
               <Stack alignItems="center" spacing={1}>

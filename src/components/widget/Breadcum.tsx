@@ -1,9 +1,7 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { Breadcrumbs as BC, Box, Container, Link, Typography } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Breadcrumbs as BC, Box, Container, Link, Typography } from '@mui/material';
 import HomeIcon from 'assets/breadcrumbs/home.png';
-import Image from 'next/image';
+import { useRouter } from 'next/router';
 function Breadcrumbs() {
   const router = useRouter();
 
@@ -11,7 +9,7 @@ function Breadcrumbs() {
     <Link underline="hover" key="1" color="rgba(100, 171, 9, 1)" href="/">
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box sx={{ marginRight: '13px', marginLeft: '10px' }}>
-          <Image src={HomeIcon.src} alt="home-icon" width="22px" height="24px"></Image>
+          <img src={HomeIcon.src} alt="home-icon" width="22px" height="24px"></img>
         </Box>
         Homepage
       </Box>

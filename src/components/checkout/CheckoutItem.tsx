@@ -1,7 +1,6 @@
 import { Box, Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import React from 'react';
 import FakeImage from 'assets/products/BAGS-removebg-preview.png';
-import Image from 'next/image';
+import React from 'react';
 
 function CheckoutItem() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -27,10 +26,15 @@ function CheckoutItem() {
               boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
               marginTop: '10px',
               borderRadius: '5px',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              img: {
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain'
+              }
             }}
           >
-            <Image src={FakeImage.src} layout="fill" objectFit="contain" alt={'gaga'}></Image>
+            <img src={FakeImage.src} alt={'gaga'}></img>
           </Box>
         </Grid>
         <Grid item md={6} sm={6} xs={8}>

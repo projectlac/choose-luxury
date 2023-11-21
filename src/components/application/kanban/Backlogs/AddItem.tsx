@@ -1,36 +1,34 @@
-import Image from 'next/image';
 // material-ui
 import {
   Box,
   Button,
   Drawer,
-  Grid,
-  Typography,
-  Autocomplete,
   FormControl,
   FormControlLabel,
+  Grid,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 // third party
-import * as yup from 'yup';
 import { Chance } from 'chance';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 // project imports
-import ItemAttachments from '../Board/ItemAttachments';
-import AnimateButton from 'ui-component/extended/AnimateButton';
-import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
 import { addItem } from 'store/slices/kanban';
-import { KanbanProfile, KanbanColumn } from 'types/kanban';
+import { openSnackbar } from 'store/slices/snackbar';
+import { KanbanColumn } from 'types/kanban';
+import AnimateButton from 'ui-component/extended/AnimateButton';
+import ItemAttachments from '../Board/ItemAttachments';
 
 interface Props {
   open: boolean;
@@ -39,7 +37,6 @@ interface Props {
 }
 
 const chance = new Chance();
-const avatarImage = '/assets/images/users';
 const validationSchema = yup.object({
   title: yup.string().required('Task title is required'),
   dueDate: yup.date()
@@ -139,36 +136,7 @@ const AddItem = ({ open, handleDrawerOpen, storyId }: Props) => {
                       <Typography variant="subtitle1">Assign to:</Typography>
                     </Grid>
                     <Grid item xs={12} sm={8}>
-                      <Grid container justifyContent="flex-start">
-                        <Autocomplete
-                          id="assign"
-                          value={profiles.find((profile: KanbanProfile) => profile.id === formik.values.assign) || null}
-                          onChange={(event, value) => {
-                            formik.setFieldValue('assign', value?.id);
-                          }}
-                          options={profiles}
-                          fullWidth
-                          autoHighlight
-                          getOptionLabel={(option) => option.name}
-                          isOptionEqualToValue={(option) => option.id === formik.values.assign}
-                          renderOption={(props, option) => (
-                            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                              <Image width={20} height={20} src={`${avatarImage}/${option.avatar}`} alt="" />
-                              {option.name}
-                            </Box>
-                          )}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              label="Choose a assignee"
-                              inputProps={{
-                                ...params.inputProps,
-                                autoComplete: 'new-password' // disable autocomplete and autofill
-                              }}
-                            />
-                          )}
-                        />
-                      </Grid>
+                      <Grid container justifyContent="flex-start"></Grid>
                     </Grid>
                   </Grid>
                 </Grid>

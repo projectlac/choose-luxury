@@ -4,7 +4,6 @@ import 'lightgallery/css/lg-thumbnail.css';
 import 'lightgallery/css/lg-zoom.css';
 import 'lightgallery/css/lightgallery.css';
 import LightGallery from 'lightgallery/react';
-import Image from 'next/image';
 import { useState } from 'react';
 
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
@@ -80,7 +79,12 @@ const QualityWrapper = styled('div')(({ theme }) => ({
 const BoxImage = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '392px',
-  position: 'relative'
+  position: 'relative',
+  img: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover'
+  }
 }));
 
 function ProductDetail({ data }: IProductDetailProps) {
@@ -106,7 +110,7 @@ function ProductDetail({ data }: IProductDetailProps) {
               {data.images.length > 0 &&
                 data.images.map((d, index) => (
                   <BoxImage key={index}>
-                    <Image src={d.product_img} layout="fill" alt="" objectFit="cover"></Image>
+                    <img src={d.product_img} alt=""></img>
                   </BoxImage>
                 ))}
             </Slider>
@@ -127,10 +131,15 @@ function ProductDetail({ data }: IProductDetailProps) {
                         width: `100%`,
                         height: `${data.images.length === 1 ? '634px' : '350px'}`,
                         position: 'relative',
-                        background: 'rgb(224 224 224)'
+                        background: 'rgb(224 224 224)',
+                        img: {
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain'
+                        }
                       }}
                     >
-                      <Image alt={data.product_name} src={d.product_img} layout="fill" objectFit="contain"></Image>
+                      <img alt={data.product_name} src={d.product_img}></img>
                     </Box>
                   </a>
                 ))}

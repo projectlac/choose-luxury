@@ -1,20 +1,19 @@
-import Image from 'next/image';
 import Link from 'Link';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { Box, Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // project imports
 
-import AuthForgotPassword from 'components/authentication/auth-forms/AuthForgotPassword';
-import AuthFooter from 'ui-component/cards/AuthFooter';
-import AuthWrapper2 from 'components/authentication/AuthWrapper2';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
-import Logo from 'ui-component/Logo';
-import BackgroundPattern2 from 'ui-component/cards/BackgroundPattern2';
-import AuthSlider from 'ui-component/cards/AuthSlider';
+import AuthWrapper2 from 'components/authentication/AuthWrapper2';
+import AuthForgotPassword from 'components/authentication/auth-forms/AuthForgotPassword';
 import { AuthSliderProps } from 'types';
+import Logo from 'ui-component/Logo';
+import AuthFooter from 'ui-component/cards/AuthFooter';
+import AuthSlider from 'ui-component/cards/AuthSlider';
+import BackgroundPattern2 from 'ui-component/cards/BackgroundPattern2';
 // assets
 const imgMain = '/assets/images/auth/img-a2-forgotpass.svg';
 
@@ -117,9 +116,7 @@ const ForgotPassword = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <Image src={imgMain} alt="Berry Dashboard" layout="intrinsic" width={'300px'} height={'340px'} />
-              </Grid>
+              <Grid item xs={12} sx={{ textAlign: 'center' }}></Grid>
             </Grid>
           </BackgroundPattern2>
         </Grid>

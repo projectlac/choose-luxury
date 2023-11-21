@@ -14,7 +14,9 @@ const withTM = require('next-transpile-modules')([
 
 const nextConfig = withTM({
   reactStrictMode: true,
+  output: 'export',
   images: {
+    unoptimized: true,
     domains: ['pos.nvncdn.net', 'clux.azurewebsites.net', 'cluxstorage.blob.core.windows.net']
   }
 });

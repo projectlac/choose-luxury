@@ -1,8 +1,6 @@
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
-import React from 'react';
 import { IDataService } from 'types/services/serviceitem';
-import Image from 'next/image';
-import { styled, useTheme } from '@mui/material/styles';
 
 import { Button, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -27,6 +25,11 @@ function ServiceItem({ data }: ServiceItemProps) {
         height: '422px',
         width: '100%',
         position: 'relative',
+        img: {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        },
         '&:hover': {
           img: {
             opacity: 0.8,
@@ -35,7 +38,7 @@ function ServiceItem({ data }: ServiceItemProps) {
         }
       }}
     >
-      <Image src={data.image} layout="fill" objectFit="cover" alt={data.name}></Image>
+      <img src={data.image} alt={data.name}></img>
       <ContentBox>
         <Typography
           sx={{

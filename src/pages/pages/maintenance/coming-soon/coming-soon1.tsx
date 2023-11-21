@@ -1,25 +1,24 @@
 import React from 'react';
-import Image from 'next/image';
 // material-ui
-import { useTheme, styled } from '@mui/material/styles';
 import { Avatar, ButtonBase, Card, CardContent, CardMedia, Grid, Link, Typography } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 
 // third-party
 import Carousel, { Modal, ModalGateway } from 'react-images';
 
 // project imports
-import Slider from 'components/maintenance/ComingSoon/ComingSoon1/Slider';
 import MailerSubscriber from 'components/maintenance/ComingSoon/ComingSoon1/MailerSubscriber';
+import Slider from 'components/maintenance/ComingSoon/ComingSoon1/Slider';
 import { gridSpacing } from 'store/constant';
 
 // assets
 import { IconBrandDribbble } from '@tabler/icons';
 
-import FiberManualRecordTwoToneIcon from '@mui/icons-material/FiberManualRecordTwoTone';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import BookIcon from '@mui/icons-material/Book';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import FiberManualRecordTwoToneIcon from '@mui/icons-material/FiberManualRecordTwoTone';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 const logo = '/assets/images/logo.svg';
 const logoDark = '/assets/images/logo-dark.svg';
@@ -160,8 +159,6 @@ const ComingSoon1 = () => {
               transform: 'rotate(145deg)'
             }}
           />
-          {theme.palette.mode === 'light' && <Image src={logo} alt="Berry" width="100" height={100} />}
-          {theme.palette.mode === 'dark' && <Image src={logoDark} alt="Berry" width="100" height={100} />}
         </CardContent>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
@@ -338,9 +335,6 @@ const ComingSoon1 = () => {
                               <Typography variant="body1" align="right" component="div">
                                 Project By
                               </Typography>
-                            </Grid>
-                            <Grid item>
-                              <Image src={companyLogo} alt="Berry" width={128} height={27} />
                             </Grid>
                           </Grid>
                         </Grid>

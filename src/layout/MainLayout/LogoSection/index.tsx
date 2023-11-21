@@ -1,16 +1,15 @@
 import Link from 'Link';
 // material-ui
 import { Link as MuiLink } from '@mui/material';
-import Image from 'next/image';
 // project imports
-import { DASHBOARD_PATH } from 'config';
 import Logo from 'assets/header/logo.png';
+import { DASHBOARD_PATH } from 'config';
 
 // ==============================|| MAIN LOGO ||============================== //
 
 const LogoSection = () => (
   <MuiLink component={Link} href={DASHBOARD_PATH}>
-    <Image alt="logo" src={Logo.src} width={60} height={48} objectFit="contain"></Image>
+    <img alt="logo" src={Logo.src} width={60} height={48}></img>
   </MuiLink>
 );
 

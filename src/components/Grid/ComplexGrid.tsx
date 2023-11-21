@@ -1,6 +1,4 @@
-import Image from 'next/image';
 // material-ui
-import { styled } from '@mui/material/styles';
 import { ButtonBase, Grid, Typography } from '@mui/material';
 
 // project imports
@@ -10,12 +8,6 @@ import SubCard from 'ui-component/cards/SubCard';
 const banner = '/assets/images/profile/profile-back-10.png';
 
 // styled constant
-const Img = styled(Image)({
-  margin: 'auto',
-  display: 'block',
-  maxWidth: '100%',
-  maxHeight: '100%'
-});
 
 // ===============================|| GRID - COMPLEX ||=============================== //
 
@@ -25,7 +17,7 @@ export default function ComplexGrid() {
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: { xs: '100%', sm: 200 } }}>
-            <Img height={'100%'} width="100%" alt="complex" src={banner} />
+            {/* <Img height={'100%'} width="100%" alt="complex" src={banner} /> */}
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>

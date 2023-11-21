@@ -1,36 +1,22 @@
-import Image from 'next/image';
 // material-ui
-import {
-  Autocomplete,
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Button, FormControl, FormControlLabel, Grid, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 // third-party
-import * as yup from 'yup';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 // project imports
-import ItemAttachments from './ItemAttachments';
-import AnimateButton from 'ui-component/extended/AnimateButton';
-import { openSnackbar } from 'store/slices/snackbar';
 import { useDispatch, useSelector } from 'store';
 import { editItem } from 'store/slices/kanban';
+import { openSnackbar } from 'store/slices/snackbar';
+import AnimateButton from 'ui-component/extended/AnimateButton';
+import ItemAttachments from './ItemAttachments';
 
 // types
-import { KanbanItem, KanbanProfile, KanbanUserStory, KanbanColumn } from 'types/kanban';
+import { KanbanColumn, KanbanItem, KanbanProfile, KanbanUserStory } from 'types/kanban';
 
 interface Props {
   item: KanbanItem;
@@ -121,37 +107,7 @@ const EditItem = ({ item, profiles, userStory, columns, handleDrawerOpen }: Prop
                 <Typography variant="subtitle1">Assign to:</Typography>
               </Grid>
               <Grid item xs={12} sm={8}>
-                <Grid container justifyContent="flex-start">
-                  <Autocomplete
-                    id="assign"
-                    value={profiles.find((profile: KanbanProfile) => profile.id === formik.values.assign)}
-                    onChange={(event, value) => {
-                      formik.setFieldValue('assign', value?.id);
-                    }}
-                    options={profiles}
-                    fullWidth
-                    autoHighlight
-                    getOptionLabel={(option) => option.name}
-                    isOptionEqualToValue={(option) => option.id === formik.values.assign}
-                    renderOption={(props, option) => (
-                      <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                        <Image loading="lazy" width="20" height="20" src={`${avatarImage}/${option.avatar}`} alt="" />
-                        {option.name}
-                      </Box>
-                    )}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        name="assign"
-                        label="Choose a assignee"
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: 'new-password' // disable autocomplete and autofill
-                        }}
-                      />
-                    )}
-                  />
-                </Grid>
+                <Grid container justifyContent="flex-start"></Grid>
               </Grid>
             </Grid>
           </Grid>

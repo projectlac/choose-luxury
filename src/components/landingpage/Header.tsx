@@ -1,24 +1,27 @@
 // material-ui
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Image from 'next/image';
-import Banner from '../../assets/header/banner.webp';
 import Banner1 from '../../assets/header/1600w-lYcbGpUSVGo.webp';
 import Banner2 from '../../assets/header/1600w-z8oqB6n7Bjg.webp';
+import Banner from '../../assets/header/banner.webp';
 
 // third party
 // project imports
 // project imports
+import { useRouter } from 'next/router';
 import Slider from 'react-slick';
 import NextSlick from 'ui-component/extended/NextSlick';
-import { useRouter } from 'next/router';
 
 // styles
 const BoxImage = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '700px',
   position: 'relative',
-
+  img: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover'
+  },
   [theme.breakpoints.down('lg')]: {
     height: '600px'
   },
@@ -84,32 +87,32 @@ const HeaderPage = () => {
           <Slider {...settings}>
             <div>
               <BoxImage>
-                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+                <img src={Banner.src}></img>
               </BoxImage>
             </div>
             <div>
               <BoxImage>
-                <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
+                <img src={Banner1.src}></img>
               </BoxImage>
             </div>
             <div>
               <BoxImage>
-                <Image src={Banner2.src} layout="fill" alt="" objectFit="cover"></Image>
+                <img src={Banner2.src}></img>
               </BoxImage>
             </div>
             <div>
               <BoxImage>
-                <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
+                <img src={Banner1.src}></img>
               </BoxImage>
             </div>
             <div>
               <BoxImage>
-                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+                <img src={Banner.src}></img>
               </BoxImage>
             </div>
             <div>
               <BoxImage>
-                <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
+                <img src={Banner1.src}></img>
               </BoxImage>
             </div>
           </Slider>

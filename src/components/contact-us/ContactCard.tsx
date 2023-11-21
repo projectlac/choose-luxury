@@ -1,12 +1,10 @@
-import Image from 'next/image';
-import React from 'react';
 import Link from 'Link';
+import React from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import {
-  Button,
   Box,
+  Button,
   Card,
   CardContent,
   Container,
@@ -18,13 +16,14 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // third-party
 import NumberFormat from 'react-number-format';
 
 // project imports
-import AnimateButton from 'ui-component/extended/AnimateButton';
 import { gridSpacing } from 'store/constant';
+import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // assets
 const mailImg = '/assets/images/landing/img-contact-mail.svg';
@@ -118,9 +117,7 @@ const ContactCard = () => {
               maxWidth: '100%',
               animation: '5s wings ease-in-out infinite'
             }}
-          >
-            <Image src={mailImg} alt="Berry Dashboard" layout="intrinsic" width={'400'} height={'270'} />
-          </Box>
+          ></Box>
         </Grid>
         <Grid item xs={10} sx={{ mb: -37.5 }}>
           <Card sx={{ mb: 6.25 }} elevation={4}>

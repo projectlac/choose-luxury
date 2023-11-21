@@ -1,7 +1,6 @@
-import Image from 'next/image';
 // material-ui
-import { styled } from '@mui/material/styles';
 import { Box, Grid, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 // third party
 import Slider from 'react-slick';
@@ -27,7 +26,7 @@ const Item = ({ item }: { item: { bg: string; image: string; title: string; cont
   <Grid container alignItems="center" justifyContent="center" spacing={3} textAlign="center">
     <Grid item xs={11}>
       <Box sx={{ width: '100%', position: 'relative' }}>
-        <Image src={item.bg} alt="Berry" width={'100%'} height={100} />
+        <img src={item.bg} alt="Berry" width={'100%'} height={100} />
         <LayoutImage src={item.image} alt="Berry" />
       </Box>
     </Grid>

@@ -1,6 +1,5 @@
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
-import Image from 'next/image';
 
 import { Button } from '@mui/material';
 import { IDataService } from 'types/services/serviceitem';
@@ -25,6 +24,11 @@ function BestOfSaleItem({ data }: BestOfSaleItemProps) {
         height: '422px',
         width: '100%',
         position: 'relative',
+        img: {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        },
         '&:hover': {
           img: {
             opacity: 0.8,
@@ -33,7 +37,7 @@ function BestOfSaleItem({ data }: BestOfSaleItemProps) {
         }
       }}
     >
-      <Image src={data?.image || ''} layout="fill" objectFit="cover" alt={data?.name}></Image>
+      <img src={data?.image || ''} alt={data?.name}></img>
       <ContentBox>
         <a href={data?.url}>
           <Button

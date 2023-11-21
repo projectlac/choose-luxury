@@ -1,8 +1,6 @@
-import Image from 'next/image';
-import React, { useEffect } from 'react';
 import Link from 'Link';
+import React, { useEffect } from 'react';
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -20,10 +18,11 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // third party
-import * as Yup from 'yup';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 // project imports
 import useAuth from 'hooks/useAuth';
@@ -94,7 +93,6 @@ const FirebaseRegister = ({ ...others }) => {
               }}
             >
               <Box sx={{ mr: { xs: 1, sm: 2}, width: 20, height:20, marginRight: matchDownSM ? 8 : 16 }}>
-                <Image src={Google} alt="Berry Dashboard" layout='intrinsic' width={'16px'} height={'16px'} />
               </Box>
               Sign up with Google
             </Button>

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 // material-ui
 import { Box, Container, Drawer, Link, List, ListItemButton, ListItemText, Stack, TextField } from '@mui/material';
 
@@ -123,10 +122,15 @@ const AppBar = ({ ...others }) => {
             sx={{
               width: { lg: '191px', md: '150px', xs: '100px' },
               height: { lg: '150px', md: '110px', xs: '85px' },
-              position: 'relative'
+              position: 'relative',
+              img: {
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }
             }}
           >
-            <Image src={Logo.src} layout="fill" alt="" objectFit="cover" />
+            <img src={Logo.src} alt="" />
           </Box>
         </Box>
         <Box
@@ -166,19 +170,19 @@ const AppBar = ({ ...others }) => {
 
             <Box width={20}>
               {isLoggedIn ? (
-                <Image alt="wish-list" src={WishList.src} width={20} height={20}></Image>
+                <img alt="wish-list" src={WishList.src} width={20} height={20}></img>
               ) : (
                 <DialogAuthCommon>
-                  <Image alt="wish-list" src={WishList.src} width={20} height={20}></Image>
+                  <img alt="wish-list" src={WishList.src} width={20} height={20}></img>
                 </DialogAuthCommon>
               )}
             </Box>
             <Box width={20}>
               {isLoggedIn ? (
-                <Image alt="cart" src={Cart.src} width={20} height={20}></Image>
+                <img alt="cart" src={Cart.src} width={20} height={20}></img>
               ) : (
                 <DialogAuthCommon>
-                  <Image alt="cart" src={Cart.src} width={20} height={20}></Image>
+                  <img alt="cart" src={Cart.src} width={20} height={20}></img>
                 </DialogAuthCommon>
               )}
             </Box>

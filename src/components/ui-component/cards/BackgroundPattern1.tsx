@@ -28,7 +28,12 @@ const BackgroundPattern1 = ({ children }: { children: ReactElement | ReactElemen
         left: 0,
         right: 0,
         bottom: 0,
-        opacity: theme.palette.mode === 'dark' ? 0.85 : 0.9
+        opacity: theme.palette.mode === 'dark' ? 0.85 : 0.9,
+        img: {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        }
       }}
     >
       {children}

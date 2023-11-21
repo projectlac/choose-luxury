@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Image from 'next/image';
 import Link from 'next/link';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 interface ProductItemProps {
@@ -46,10 +45,15 @@ function ProductItem({ data }: ProductItemProps) {
                 },
                 '&:hover&:before': {
                   opacity: 1
+                },
+                img: {
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain'
                 }
               }}
             >
-              <Image alt={data.product_name} src={data.images[0]?.product_img} layout="fill" objectFit="contain"></Image>
+              <img alt={data.product_name} src={data.images[0]?.product_img}></img>
             </ProductImage>
           )}
         </a>

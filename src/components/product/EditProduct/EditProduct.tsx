@@ -19,7 +19,6 @@ import {
 import { useTheme } from '@mui/styles';
 import { useFormik } from 'formik';
 import useScriptRef from 'hooks/useScriptRef';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { dispatch, useSelector } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
@@ -541,10 +540,15 @@ function EditProduct({ id, reload }: IEditProps) {
                         borderBottom: '1px solid rgba(169, 169, 169, 1)',
                         width: '100',
                         position: 'relative',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        img: {
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain'
+                        }
                       }}
                     >
-                      <Image src={d.product_img} layout="fill" objectFit="contain" alt={`${i}`} />
+                      <img src={d.product_img} alt={`${i}`} />
                     </Box>
                   ))}
                   {formik.touched.file && formik.errors.file && (

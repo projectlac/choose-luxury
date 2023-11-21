@@ -1,48 +1,46 @@
 import { useState } from 'react';
-import Image from 'next/image';
 // material-ui
 import {
   Box,
   Button,
   Divider,
   Drawer,
-  Grid,
-  Typography,
-  Autocomplete,
   FormControl,
   FormControlLabel,
+  Grid,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
   Stack,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 // third party
-import * as yup from 'yup';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useFormik } from 'formik';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import * as yup from 'yup';
 
 // project imports
+import { useDispatch, useSelector } from 'store';
+import { deleteStory, editStory } from 'store/slices/kanban';
+import { openSnackbar } from 'store/slices/snackbar';
+import AnimateButton from 'ui-component/extended/AnimateButton';
 import ItemAttachments from '../Board/ItemAttachments';
 import AddStoryComment from './AddStoryComment';
-import StoryComment from './StoryComment';
 import AlertStoryDelete from './AlertStoryDelete';
-import AnimateButton from 'ui-component/extended/AnimateButton';
-import { openSnackbar } from 'store/slices/snackbar';
-import { useDispatch, useSelector } from 'store';
-import { editStory, deleteStory } from 'store/slices/kanban';
+import StoryComment from './StoryComment';
 
 // assets
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 // types
-import { KanbanColumn, KanbanProfile, KanbanUserStory } from 'types/kanban';
+import { KanbanColumn, KanbanUserStory } from 'types/kanban';
 
 interface Props {
   story: KanbanUserStory;
@@ -206,36 +204,7 @@ const EditStory = ({ story, open, handleDrawerOpen }: Props) => {
                               <Typography variant="subtitle1">Assign to:</Typography>
                             </Grid>
                             <Grid item xs={12} sm={8}>
-                              <Grid container justifyContent="flex-start">
-                                <Autocomplete
-                                  id="assign"
-                                  value={profiles.find((profile: KanbanProfile) => profile.id === formik.values.assign) || null}
-                                  onChange={(event, value) => {
-                                    formik.setFieldValue('assign', value?.id);
-                                  }}
-                                  options={profiles}
-                                  fullWidth
-                                  autoHighlight
-                                  getOptionLabel={(option) => option.name}
-                                  isOptionEqualToValue={(option) => option.id === formik.values.assign}
-                                  renderOption={(props, option) => (
-                                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                                      <Image height="20" width="20" src={`${avatarImage}/${option.avatar}`} alt="" />
-                                      {option.name}
-                                    </Box>
-                                  )}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      {...params}
-                                      label="Choose a assignee"
-                                      inputProps={{
-                                        ...params.inputProps,
-                                        autoComplete: 'new-password' // disable autocomplete and autofill
-                                      }}
-                                    />
-                                  )}
-                                />
-                              </Grid>
+                              <Grid container justifyContent="flex-start"></Grid>
                             </Grid>
                           </Grid>
                         </Grid>

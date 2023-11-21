@@ -1,11 +1,10 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import { styled } from '@mui/styles';
-import Momo from 'assets/checkout/MoMo_Logo.png';
 import VnPay from 'assets/checkout/492x0w.png';
 import Zalo from 'assets/checkout/Logo-Zalo-Arc.webp';
 import Messenger from 'assets/checkout/Messenger.png';
-import Image from 'next/image';
+import Momo from 'assets/checkout/MoMo_Logo.png';
 const BoxDetail = styled(Box)(({ theme }) => ({
   marginBottom: '14px',
   border: '1px solid rgba(169, 169, 169, 1)',
@@ -82,6 +81,11 @@ const PaymentLink = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
   margin: '15px',
   cursor: 'pointer',
+  img: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain'
+  },
   [theme.breakpoints.down('md')]: {
     width: '60px',
     height: '60px',
@@ -152,10 +156,10 @@ function CheckoutDetail() {
               </Typography>
               <Box display={'flex'} justifyContent={'center'}>
                 <PaymentLink>
-                  <Image src={Momo.src} layout="fill" objectFit="contain" alt={'Momo'} />
+                  <img src={Momo.src} alt={'Momo'} />
                 </PaymentLink>
                 <PaymentLink>
-                  <Image src={VnPay.src} layout="fill" objectFit="contain" alt={'VnPay'} />
+                  <img src={VnPay.src} alt={'VnPay'} />
                 </PaymentLink>
               </Box>
             </Box>
@@ -174,10 +178,10 @@ function CheckoutDetail() {
               </Typography>
               <Box display={'flex'} justifyContent={'center'}>
                 <PaymentLink>
-                  <Image src={Zalo.src} layout="fill" objectFit="contain" alt={'Zalo'} />
+                  <img src={Zalo.src} alt={'Zalo'} />
                 </PaymentLink>
                 <PaymentLink>
-                  <Image src={Messenger.src} layout="fill" objectFit="contain" alt={'Messenger'} />
+                  <img src={Messenger.src} alt={'Messenger'} />
                 </PaymentLink>
               </Box>
             </Box>

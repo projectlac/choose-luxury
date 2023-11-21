@@ -1,20 +1,19 @@
-import Image from 'next/image';
 import Link from 'Link';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { Box, Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // project imports
 
-import AuthRegister from 'components/authentication/auth-forms/AuthRegister';
-import AuthFooter from 'ui-component/cards/AuthFooter';
-import AuthWrapper2 from 'components/authentication/AuthWrapper2';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
-import Logo from 'ui-component/Logo';
-import BackgroundPattern2 from 'ui-component/cards/BackgroundPattern2';
-import AuthSlider from 'ui-component/cards/AuthSlider';
+import AuthWrapper2 from 'components/authentication/AuthWrapper2';
+import AuthRegister from 'components/authentication/auth-forms/AuthRegister';
 import { AuthSliderProps } from 'types';
+import Logo from 'ui-component/Logo';
+import AuthFooter from 'ui-component/cards/AuthFooter';
+import AuthSlider from 'ui-component/cards/AuthSlider';
+import BackgroundPattern2 from 'ui-component/cards/BackgroundPattern2';
 // assets
 const imgMain = '/assets/images/auth/img-a2-signup.svg';
 
@@ -125,9 +124,7 @@ const Register = () => {
                     display: 'block',
                     textAlign: 'center'
                   }}
-                >
-                  <Image alt="Auth method" src={imgMain} width={300} height={300} />
-                </div>
+                ></div>
               </Grid>
             </Grid>
           </BackgroundPattern2>

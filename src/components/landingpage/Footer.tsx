@@ -1,15 +1,15 @@
-import Image from 'next/image';
 // material-ui
-import { useTheme, styled } from '@mui/material/styles';
-import { Box, Container, Grid, Link, Typography } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 
 // project imports
 import { gridSpacing } from 'store/constant';
 
 // assets
 import FacebookIcon from '../../assets/footer/facebook.png';
-import TwitterIcon from '../../assets/footer/twitter.png';
 import InstagramIcon from '../../assets/footer/instagram.png';
+import TwitterIcon from '../../assets/footer/twitter.png';
+import Logo from '../../assets/header/logo.png';
 
 const logoDark = '/assets/images/logo-white.svg';
 
@@ -37,7 +37,6 @@ const Detail = styled(Typography)(({ theme }) => ({
   fontSize: '15px',
   lineHeight: '1.7'
 }));
-import Logo from '../../assets/header/logo.png';
 
 // ==============================|| LANDING - FOOTER PAGE ||============================== //
 
@@ -49,7 +48,7 @@ const FooterPage = () => {
         <Container maxWidth="xl">
           <Grid container alignItems="flex-start" spacing={gridSpacing}>
             <Grid item xs={12} sm={2} textAlign={{ md: 'left', xs: 'center' }}>
-              <Image src={Logo.src} alt="Berry" width={137} height={115} layout={'intrinsic'} />
+              <img src={Logo.src} alt="Berry" width={137} height={115} />
             </Grid>
             <Grid item xs={6} sm={3}>
               <Title>Addrress</Title>
@@ -77,13 +76,13 @@ const FooterPage = () => {
                 }}
               >
                 <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <Image src={FacebookIcon.src} alt="facebook" width={22} height={22}></Image>
+                  <img src={FacebookIcon.src} alt="facebook" width={22} height={22}></img>
                 </a>
                 <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <Image src={InstagramIcon.src} alt="instargram" width={22} height={22}></Image>
+                  <img src={InstagramIcon.src} alt="instargram" width={22} height={22}></img>
                 </a>
                 <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <Image src={TwitterIcon.src} alt="twitter" width={22} height={22}></Image>
+                  <img src={TwitterIcon.src} alt="twitter" width={22} height={22}></img>
                 </a>
               </Box>
             </Grid>

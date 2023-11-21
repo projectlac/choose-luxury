@@ -1,4 +1,4 @@
-import Image from 'next/image';
+// import Image from 'next/image';
 // material-ui
 import { ImageListItem, ImageListItemBar } from '@mui/material';
 import MImageList from '@mui/material/ImageList';
@@ -8,10 +8,10 @@ import { PostImage } from 'types/user-profile';
 import useConfig from 'hooks/useConfig';
 
 // set image width & height radio
-function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
-  return `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format 1x,
-  ${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format&dpr=2 2x`;
-}
+// function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
+//   return `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format 1x,
+//   ${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format&dpr=2 2x`;
+// }
 
 // ==============================|| IMAGE LIST/GRID ||============================== //
 
@@ -38,8 +38,6 @@ const ImageList = ({ itemData }: ImageListProps) => {
 
         return (
           <ImageListItem key={index} cols={cols} rows={rows} sx={{ overflow: 'hidden', borderRadius: `${borderRadius}px` }}>
-            <Image src={srcset(item.img, 250, 200, rows, cols)} alt={item.title} layout="intrinsic" width={'400'} height={'270'} />
-
             <ImageListItemBar
               sx={{
                 background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'

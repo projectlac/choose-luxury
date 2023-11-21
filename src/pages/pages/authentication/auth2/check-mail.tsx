@@ -1,19 +1,18 @@
-import Image from 'next/image';
 import Link from 'Link';
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { Box, Button, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // project imports
 
-import AuthFooter from 'ui-component/cards/AuthFooter';
-import AuthWrapper2 from 'components/authentication/AuthWrapper2';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
-import Logo from 'ui-component/Logo';
-import AnimateButton from 'ui-component/extended/AnimateButton';
-import BackgroundPattern2 from 'ui-component/cards/BackgroundPattern2';
-import AuthSlider from 'ui-component/cards/AuthSlider';
+import AuthWrapper2 from 'components/authentication/AuthWrapper2';
 import { AuthSliderProps } from 'types';
+import Logo from 'ui-component/Logo';
+import AuthFooter from 'ui-component/cards/AuthFooter';
+import AuthSlider from 'ui-component/cards/AuthSlider';
+import BackgroundPattern2 from 'ui-component/cards/BackgroundPattern2';
+import AnimateButton from 'ui-component/extended/AnimateButton';
 // assets
 const imgMain = '/assets/images/auth/img-a2-checkmail.svg';
 
@@ -114,9 +113,7 @@ const CheckMail = () => {
                   textAlign: 'center'
                 }}
                 xs={12}
-              >
-                <Image alt="Auth method" src={imgMain} width={300} height={300} />
-              </Grid>
+              ></Grid>
             </Grid>
           </BackgroundPattern2>
         </Grid>
