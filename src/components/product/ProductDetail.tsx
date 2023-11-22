@@ -5,7 +5,7 @@ import 'lightgallery/css/lg-zoom.css';
 import 'lightgallery/css/lightgallery.css';
 import LightGallery from 'lightgallery/react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
@@ -13,6 +13,7 @@ import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
 import Slider from 'react-slick';
 import { IResponseGetProductById } from 'types/services/productApi.types';
+import cartApi from '../../../api/CartAPI/cartApi';
 
 interface IProductDetailProps {
   data: IResponseGetProductById;
@@ -87,7 +88,7 @@ function ProductDetail({ data }: IProductDetailProps) {
   const { isLoggedIn } = useAuth();
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
-  const [quanlity, setQuanlity] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(1);
 
   var settings = {
     dots: false,
@@ -96,6 +97,29 @@ function ProductDetail({ data }: IProductDetailProps) {
     slidesToShow: 1,
     slidesToScroll: 1
   };
+
+  const addToCart = useCallback(async () => {
+    try {
+      const res = await cartApi.addToCart({
+        items: [
+          {
+            quantity,
+            product: {
+              brand: +data.brand_id,
+              category: +data.category_id,
+              is_available: data.is_available,
+              product_description: data.product_description,
+              product_name: data.product_name,
+              size: +data.size_id,
+              slug: data.slug,
+              unit_in_stock: +data.unit_in_stock
+            }
+          }
+        ]
+      });
+      console.log(res);
+    } catch (error) {}
+  }, [data, quantity]);
 
   return (
     <Container maxWidth="xl">
@@ -174,27 +198,27 @@ function ProductDetail({ data }: IProductDetailProps) {
               <Grid item md={4}>
                 <QualityWrapper>
                   <ButtonQuality
-                    disabled={quanlity === 1}
+                    disabled={quantity === 1}
                     onClick={() => {
-                      setQuanlity((prev) => prev - 1);
+                      setQuantity((prev) => prev - 1);
                     }}
                   >
                     -
                   </ButtonQuality>
                   <input
                     type="number"
-                    name="quanlity"
+                    name="quantity"
                     min="1"
                     maxLength={3}
-                    className="number-quanlity"
-                    value={quanlity}
+                    className="number-quantity"
+                    value={quantity}
                     onChange={(e) => {
-                      setQuanlity(+e.target.value);
+                      setQuantity(+e.target.value);
                     }}
                   />
                   <ButtonQuality
                     onClick={() => {
-                      setQuanlity((prev) => prev + 1);
+                      setQuantity((prev) => prev + 1);
                     }}
                   >
                     +
@@ -223,6 +247,7 @@ function ProductDetail({ data }: IProductDetailProps) {
               {isLoggedIn ? (
                 <Button
                   variant="contained"
+                  onClick={addToCart}
                   sx={{
                     padding: '18px 56px',
                     borderRadius: '10px',
@@ -255,7 +280,7 @@ function ProductDetail({ data }: IProductDetailProps) {
                       ':hover': { backgroundColor: 'rgba(191, 140, 10, 1)' }
                     }}
                   >
-                    Đăng nhập ngay
+                    Login
                   </Button>
                 </DialogAuthCommon>
               )}
