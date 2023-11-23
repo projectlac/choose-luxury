@@ -8,7 +8,7 @@ const cartApi = {
   },
 
   addToCart(data: IReqForCart): Promise<any> {
-    const url = '/list_cart';
+    const url = '/list_cart_item';
     return api.post(url, data);
   }
 
