@@ -39,12 +39,12 @@ interface IDefaultForm {
   price: string;
   slug: string;
   description: string;
-  category: string;
+  category: number;
   file: File[];
   oldPrice: string;
   submit: null | string;
-  brand: string;
-  size: string;
+  brand: number;
+  size: number;
   unitInStock: string;
   isAvaliable: boolean;
 }
@@ -62,10 +62,10 @@ function EditProduct({ id, reload }: IEditProps) {
     price: '',
     slug: '',
     description: '',
-    category: '',
+    category: 0,
     oldPrice: '',
-    brand: '',
-    size: '',
+    brand: 0,
+    size: 0,
     unitInStock: '',
     isAvaliable: false,
     file: [],
@@ -112,11 +112,11 @@ function EditProduct({ id, reload }: IEditProps) {
       fd.append('slug', slug);
       fd.append('product_description', description);
       fd.append('old_price', oldPrice);
-      fd.append('brand_id', brandProduct);
+      fd.append('brand_id', brandProduct.toString());
       fd.append('is_available', isAvaliable.toString());
       fd.append('unit_in_stock', unitInStock);
-      fd.append('size_id', sizeProduct);
-      fd.append('category_id', category);
+      fd.append('size_id', sizeProduct.toString());
+      fd.append('category_id', category.toString());
       if (file) {
         file.forEach((fileItem: File, i: number) => {
           fd.append(`uploaded_images[${i}]`, fileItem);

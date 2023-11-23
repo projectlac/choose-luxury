@@ -1,6 +1,7 @@
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography, styled } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'store';
 import { SizeData } from 'types/shop/shopItem';
 
 const ListItem = styled('li')(({ theme }) => ({
@@ -8,20 +9,11 @@ const ListItem = styled('li')(({ theme }) => ({
 }));
 
 function SizeFilter() {
+  const { size } = useSelector((state) => state.product);
   const [toggle, setToggle] = useState<boolean>(false);
-  const [data, setData] = useState<SizeData[]>([
-    { size: 'XXS', checked: false, id: '1' },
-    { size: 'XS', checked: false, id: '2' },
-    { size: 'S', checked: false, id: '31' },
-    { size: 'M', checked: false, id: '4' },
-    { size: 'L', checked: false, id: '51' },
-    { size: 'XL', checked: false, id: '61' },
-    { size: 'XXL', checked: false, id: '7' },
-    { size: '0', checked: false, id: '3' },
-    { size: 'one size', checked: false, id: '8' }
-  ]);
+  const [data, setData] = useState<SizeData[]>([]);
 
-  const handleDelete = (id: string) => () => {
+  const handleDelete = (id: number) => () => {
     const temp = [...data];
     const index = data.findIndex((d) => d.id === id);
     temp[index].checked = !temp[index].checked;
@@ -30,12 +22,17 @@ function SizeFilter() {
 
   const renderChipData = data.filter((d) => d.checked);
 
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const temp = [...data];
     const index = data.findIndex((d) => d.id === id);
     temp[index].checked = e.target.checked;
     setData(temp);
   };
+
+  useEffect(() => {
+    const formatData: SizeData[] = size.results.map((item) => ({ size: item.product_size_name, id: item.id, checked: false }));
+    setData(formatData);
+  }, [size]);
 
   return (
     <Box>

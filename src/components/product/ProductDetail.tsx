@@ -14,6 +14,7 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import Slider from 'react-slick';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 import cartApi from '../../../api/CartAPI/cartApi';
+import { useSelector } from 'store';
 
 interface IProductDetailProps {
   data: IResponseGetProductById;
@@ -89,7 +90,7 @@ function ProductDetail({ data }: IProductDetailProps) {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
   const [quantity, setQuantity] = useState<number>(1);
-
+  const { size, category, brand } = useSelector((state) => state.product);
   var settings = {
     dots: false,
     infinite: true,
@@ -189,8 +190,10 @@ function ProductDetail({ data }: IProductDetailProps) {
               {data.product_name}
             </Typography>
             <InfoTypo>Product code: {data.id}</InfoTypo>
-            <InfoTypo>Brand: {data.brand_id}</InfoTypo>
-            <PriceTypo>{data.category_id}</PriceTypo>
+            <InfoTypo>Brand: {brand.results.find((d) => d.id === data.brand_id)?.product_brand_name}</InfoTypo>
+            <InfoTypo>Size: {size.results.find((d) => d.id === data.size_id)?.product_size_name}</InfoTypo>
+
+            <PriceTypo>{data.base_price}</PriceTypo>
             <Grid container>
               {/* <Grid item md={5}>
                 <SizeSelector size={data.size} />

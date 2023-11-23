@@ -3,6 +3,7 @@ import { Box, Container, Drawer, Grid, MenuItem, Pagination, TextField, useMedia
 import React, { useCallback, useEffect, useState } from 'react';
 import { dispatch } from 'store';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
+import { getBrands, getCategories, getProductSize } from 'store/slices/product';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 import { getProduct } from '../../../../api/ProductAPI/productDashboash';
 import BrandFilter from '../Filter/BrandFilter';
@@ -42,6 +43,9 @@ function ShopIndex() {
     try {
       dispatch(showLoading());
       await getListProduct(search);
+      dispatch(getBrands(1, 999));
+      dispatch(getProductSize(1, 999));
+      dispatch(getCategories(1, 999));
     } catch (error) {
       console.error(error);
     } finally {

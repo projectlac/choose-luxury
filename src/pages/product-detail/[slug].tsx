@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 import AppBar from 'ui-component/extended/AppBar';
 import { getProductById } from '../../../api/ProductAPI/productDashboash';
+import { dispatch } from 'store';
+import { getBrands, getCategories, getProductSize } from 'store/slices/product';
 const HeaderWrapper = styled('div')(({ theme }) => ({
   overflowX: 'hidden',
   overflowY: 'clip'
@@ -23,6 +25,9 @@ function ProductDetailIndex() {
     const fetchData = async () => {
       const res = await getProductById(slug as string);
       setData(res.data);
+      dispatch(getBrands(1, 999));
+      dispatch(getProductSize(1, 999));
+      dispatch(getCategories(1, 999));
     };
     fetchData();
   }, [slug]);

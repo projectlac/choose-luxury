@@ -11,5 +11,5 @@ export interface IDataShop {
 export interface SizeData {
   size: string;
   checked: boolean;
-  id: string;
+  id: number;
 }

@@ -1,12 +1,13 @@
 import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { styled } from '@mui/system';
+import { useSelector } from 'store';
 
 interface BrandData {
   brand: string;
   checked: boolean;
-  id: string;
+  id: number;
 }
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5)
@@ -14,20 +15,11 @@ const ListItem = styled('li')(({ theme }) => ({
 
 function BrandFilter() {
   const [toggle, setToggle] = useState<boolean>(false);
+  const { brand } = useSelector((state) => state.product);
 
-  const [data, setData] = useState<BrandData[]>([
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '1' },
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '2' },
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '31' },
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '4' },
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '51' },
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '61' },
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '7' },
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '3' },
-    { brand: 'ALEXANDER MCQUEEN', checked: false, id: '8' }
-  ]);
+  const [data, setData] = useState<BrandData[]>([]);
 
-  const handleDelete = (id: string) => () => {
+  const handleDelete = (id: number) => () => {
     const temp = [...data];
     const index = data.findIndex((d) => d.id === id);
     temp[index].checked = !temp[index].checked;
@@ -35,12 +27,17 @@ function BrandFilter() {
   };
 
   const renderChipData = data.filter((d) => d.checked);
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const temp = [...data];
     const index = data.findIndex((d) => d.id === id);
     temp[index].checked = e.target.checked;
     setData(temp);
   };
+
+  useEffect(() => {
+    const formatData: BrandData[] = brand.results.map((item) => ({ brand: item.product_brand_name, id: item.id, checked: false }));
+    setData(formatData);
+  }, [brand]);
 
   return (
     <Box>

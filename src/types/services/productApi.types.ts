@@ -5,6 +5,7 @@ export interface IParamsGetProduct {
   ordering?: string;
   page?: number;
   search?: string;
+  limit?: number;
 }
 
 export interface IParamsPostProduct {
@@ -26,9 +27,9 @@ export interface IResponseGetProductById {
   product_description: string;
   slug: string;
   unit_in_stock: string;
-  category_id: string;
-  brand_id: string;
-  size_id: string;
+  category_id: number;
+  brand_id: number;
+  size_id: number;
   product_img: string;
   base_price: string;
   is_available: boolean;
