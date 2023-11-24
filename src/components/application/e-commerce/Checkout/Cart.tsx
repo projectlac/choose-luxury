@@ -2,15 +2,12 @@ import { useEffect, useState } from 'react';
 
 import Link from 'Link';
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import {
   Button,
   ButtonGroup,
   Grid,
-  IconButton,
   Stack,
   Table,
-  TableBody,
   TableCell,
   TableContainer,
   TableHead,
@@ -18,24 +15,22 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // third-party
 import { sum } from 'lodash';
-import CurrencyFormat from 'react-currency-format';
 
 // project imports
-import CartDiscount from './CartDiscount';
-import ColorOptions from '../ColorOptions';
-import OrderSummary from './OrderSummary';
-import { CartCheckoutStateProps, CartProductStateProps } from 'types/cart';
-import Avatar from 'ui-component/extended/Avatar';
 import { gridSpacing } from 'store/constant';
+import { CartCheckoutStateProps } from 'types/cart';
+import ColorOptions from '../ColorOptions';
+import CartDiscount from './CartDiscount';
+import OrderSummary from './OrderSummary';
 
 // assets
 import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const prodImage = '/assets/images/e-commerce';
 
@@ -126,7 +121,7 @@ const Cart = ({ checkout, onNext, removeProduct, updateQuantity }: CartProps) =>
                 <TableCell align="right" />
               </TableRow>
             </TableHead>
-            <TableBody>
+            {/* <TableBody>
               {rows.map((row: CartProductStateProps, index: number) => {
                 const colorsData = row.color ? getColor(row.color) : false;
                 return (
@@ -208,7 +203,7 @@ const Cart = ({ checkout, onNext, removeProduct, updateQuantity }: CartProps) =>
                   </TableRow>
                 );
               })}
-            </TableBody>
+            </TableBody> */}
           </Table>
         </TableContainer>
       </Grid>

@@ -14,7 +14,10 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import Slider from 'react-slick';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 import cartApi from '../../../api/CartAPI/cartApi';
-import { useSelector } from 'store';
+import { dispatch, useSelector } from 'store';
+import { addProduct } from 'store/slices/cart';
+import { openSnackbar } from 'store/slices/snackbar';
+import formatMoney from 'utils/formatMoney';
 
 interface IProductDetailProps {
   data: IResponseGetProductById;
@@ -98,28 +101,41 @@ function ProductDetail({ data }: IProductDetailProps) {
     slidesToShow: 1,
     slidesToScroll: 1
   };
+  const cart = useSelector((state) => state.cart);
 
   const addToCart = useCallback(async () => {
-    try {
-      const res = await cartApi.addToCart({
-        items: [
-          {
-            quantity,
-            product: {
-              brand: +data.brand_id,
-              category: +data.category_id,
-              is_available: data.is_available,
-              product_description: data.product_description,
-              product_name: data.product_name,
-              size: +data.size_id,
-              slug: data.slug,
-              unit_in_stock: +data.unit_in_stock
-            }
-          }
-        ]
-      });
-      console.log(res);
-    } catch (error) {}
+    dispatch(addProduct({ quantity, id: data.id }));
+    dispatch(
+      openSnackbar({
+        open: true,
+        message: 'Add To Cart Success',
+        variant: 'alert',
+        alert: {
+          color: 'success'
+        },
+        close: false
+      })
+    );
+    // try {
+    //   const res = await cartApi.addToCart({
+    //     items: [
+    //       {
+    //         quantity,
+    //         product: {
+    //           brand: +data.brand_id,
+    //           category: +data.category_id,
+    //           is_available: data.is_available,
+    //           product_description: data.product_description,
+    //           product_name: data.product_name,
+    //           size: +data.size_id,
+    //           slug: data.slug,
+    //           unit_in_stock: +data.unit_in_stock
+    //         }
+    //       }
+    //     ]
+    //   });
+    //   console.log(res);
+    // } catch (error) {}
   }, [data, quantity]);
 
   return (
@@ -155,7 +171,7 @@ function ProductDetail({ data }: IProductDetailProps) {
                         background: 'rgb(224 224 224)'
                       }}
                     >
-                      <Image alt={data.product_name} src={d.product_img} layout="fill" objectFit="contain"></Image>
+                      <Image alt={data.product_name} src={d.product_img} layout="fill" objectFit="cover"></Image>
                     </Box>
                   </a>
                 ))}
@@ -193,7 +209,7 @@ function ProductDetail({ data }: IProductDetailProps) {
             <InfoTypo>Brand: {brand.results.find((d) => d.id === data.brand_id)?.product_brand_name}</InfoTypo>
             <InfoTypo>Size: {size.results.find((d) => d.id === data.size_id)?.product_size_name}</InfoTypo>
 
-            <PriceTypo>{data.base_price}</PriceTypo>
+            <PriceTypo> {formatMoney(data.base_price.split('.')[0])} VNĐ</PriceTypo>
             <Grid container>
               {/* <Grid item md={5}>
                 <SizeSelector size={data.size} />
@@ -247,46 +263,46 @@ function ProductDetail({ data }: IProductDetailProps) {
                 justifyContent: 'center'
               }}
             >
-              {isLoggedIn ? (
-                <Button
-                  variant="contained"
-                  onClick={addToCart}
-                  sx={{
-                    padding: '18px 56px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(191, 140, 10, 1)',
-                    boxShadow: 'none',
-                    fontFamily: 'Open Sans',
-                    fontSize: '16px',
-                    fontWeight: '700',
-                    lineHeight: '22px',
-                    ':hover': {
-                      backgroundColor: 'rgba(191, 140, 10, 1)'
-                    }
-                  }}
-                >
-                  Add to cart
-                </Button>
-              ) : (
-                <DialogAuthCommon>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      padding: '18px 56px',
-                      borderRadius: '10px',
-                      backgroundColor: 'rgba(191, 140, 10, 1)',
-                      boxShadow: 'none',
-                      fontFamily: 'Open Sans',
-                      fontSize: '16px',
-                      fontWeight: '700',
-                      lineHeight: '22px',
-                      ':hover': { backgroundColor: 'rgba(191, 140, 10, 1)' }
-                    }}
-                  >
-                    Login
-                  </Button>
-                </DialogAuthCommon>
-              )}
+              {/* {isLoggedIn ? ( */}
+              <Button
+                variant="contained"
+                onClick={addToCart}
+                sx={{
+                  padding: '18px 56px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(191, 140, 10, 1)',
+                  boxShadow: 'none',
+                  fontFamily: 'Open Sans',
+                  fontSize: '16px',
+                  fontWeight: '700',
+                  lineHeight: '22px',
+                  ':hover': {
+                    backgroundColor: 'rgba(191, 140, 10, 1)'
+                  }
+                }}
+              >
+                Add to cart
+              </Button>
+              {/* // ) : (
+              //   <DialogAuthCommon>
+              //     <Button 
+              //       variant="contained"
+              //       sx={{
+              //         padding: '18px 56px',
+              //         borderRadius: '10px',
+              //         backgroundColor: 'rgba(191, 140, 10, 1)',
+              //         boxShadow: 'none',
+              //         fontFamily: 'Open Sans',
+              //         fontSize: '16px',
+              //         fontWeight: '700',
+              //         lineHeight: '22px',
+              //         ':hover': { backgroundColor: 'rgba(191, 140, 10, 1)' }
+              //       }}
+              //     >
+              //       Login
+              //     </Button>
+              //   </DialogAuthCommon>
+              // )} */}
             </Box>
             <Divider sx={{ marginTop: '19px' }}></Divider>
           </Box>

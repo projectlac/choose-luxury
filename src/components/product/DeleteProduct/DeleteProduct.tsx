@@ -6,7 +6,7 @@ import { dispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
 
 interface IDeleteProps {
-  id: string;
+  id: number;
   name: string;
   reload: () => void;
 }

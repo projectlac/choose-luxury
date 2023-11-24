@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IResponseGetProductById } from 'types/services/productApi.types';
+import formatMoney from 'utils/formatMoney';
 interface ProductItemProps {
   data: IResponseGetProductById;
 }
@@ -39,7 +40,7 @@ function ProductItem({ data }: ProductItemProps) {
                   width: '100%',
                   height: '100%',
                   transition: 'all 0.3s ease-out',
-                  backgroundSize: 'contain',
+                  backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
                   opacity: 0
@@ -49,7 +50,7 @@ function ProductItem({ data }: ProductItemProps) {
                 }
               }}
             >
-              <Image alt={data.product_name} src={data.images[0]?.product_img} layout="fill" objectFit="contain"></Image>
+              <Image alt={data.product_name} src={data.images[0]?.product_img} layout="fill" objectFit="cover"></Image>
             </ProductImage>
           )}
         </a>
@@ -78,7 +79,7 @@ function ProductItem({ data }: ProductItemProps) {
           </a>
         </Link>
         <Typography color="rgba(245, 34, 34, 1)" style={{ fontSize: '14px', fontWeight: '700', lineHeight: '17px', marginBottom: '5px' }}>
-          {data.base_price}
+          {formatMoney(data.base_price.split('.')[0])} VNĐ
         </Typography>
         <Typography
           sx={{
@@ -90,7 +91,7 @@ function ProductItem({ data }: ProductItemProps) {
             marginBottom: '10px'
           }}
         >
-          {data.old_price}
+          {formatMoney(data.old_price.split('.')[0])} VNĐ
         </Typography>
         <Typography
           sx={{

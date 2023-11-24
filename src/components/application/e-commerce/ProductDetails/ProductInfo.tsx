@@ -127,7 +127,7 @@ const ProductInfo = ({ product }: { product: Products }) => {
     },
     validationSchema,
     onSubmit: (values) => {
-      dispatch(addProduct(values, cart.checkout.products));
+      // dispatch(addProduct(values, cart.checkout.products));
       dispatch(
         openSnackbar({
           open: true,
@@ -149,7 +149,7 @@ const ProductInfo = ({ product }: { product: Products }) => {
   const addCart = () => {
     values.color = values.color ? values.color : 'primaryDark';
     values.size = values.size ? values.size : '8';
-    dispatch(addProduct(values, cart.checkout.products));
+    // dispatch(addProduct(values, cart.checkout.products));
     dispatch(
       openSnackbar({
         open: true,

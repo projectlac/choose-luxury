@@ -30,7 +30,7 @@ import { editProduct, getProductById } from '../../../../api/ProductAPI/productD
 import ItemAttachments from '../DropImage/DropImage';
 
 interface IEditProps {
-  id: string;
+  id: number;
   reload: () => void;
 }
 

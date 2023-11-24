@@ -41,9 +41,12 @@ const slice = createSlice({
 
     // ADD PRODUCT
     addProductSuccess(state, action) {
-      state.checkout.products = action.payload.products;
-      state.checkout.subtotal += action.payload.subtotal;
-      state.checkout.total += action.payload.subtotal;
+      state.checkout.products.push(action.payload);
+      // console.log({ ...state, ...action.payload });
+
+      // return { ...state.checkout.products, ...action.payload };
+
+      // localStorage.setItem('cart', [...state.checkout.products, action.payload])
     },
 
     // REMOVE PRODUCT
@@ -129,11 +132,10 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function addProduct(product: ProductCardProps, products: ProductCardProps[]) {
+export function addProduct(product: ProductCardProps) {
   return async () => {
     try {
-      const response = await axios.post('/api/cart/add', { product, products });
-      dispatch(slice.actions.addProductSuccess(response.data));
+      dispatch(slice.actions.addProductSuccess(product));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -154,7 +156,11 @@ export function removeProduct(id: string | number | undefined, products: Product
 export function updateProduct(id: string | number | undefined, quantity: number, products: ProductCardProps[]) {
   return async () => {
     try {
-      const response = await axios.post('/api/cart/update', { id, quantity, products });
+      const response = await axios.post('/api/cart/update', {
+        id,
+        quantity,
+        products
+      });
       dispatch(slice.actions.updateProductSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -183,7 +189,9 @@ export function setBackStep() {
 export function setBillingAddress(address: Address | null) {
   return async () => {
     try {
-      const response = await axios.post('/api/cart/billing-address', { address });
+      const response = await axios.post('/api/cart/billing-address', {
+        address
+      });
       dispatch(slice.actions.setBillingAddressSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -205,7 +213,10 @@ export function setDiscount(code: string, total: number) {
 export function setShippingCharge(charge: string, shipping: number) {
   return async () => {
     try {
-      const response = await axios.post('/api/cart/shipping-charge', { charge, shipping });
+      const response = await axios.post('/api/cart/shipping-charge', {
+        charge,
+        shipping
+      });
       dispatch(slice.actions.setShippingChargeSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

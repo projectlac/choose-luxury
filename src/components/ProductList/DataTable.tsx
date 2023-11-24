@@ -37,7 +37,7 @@ const applyPagination = (cryptoOrders: IResponseGetProductById[], page: number, 
 };
 
 const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload, setPage: changePage, total }) => {
-  const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>([]);
+  const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<number[]>([]);
   const resetSelected = () => {
     setSelectedCryptoOrders([]);
   };

@@ -8,11 +8,11 @@ export const getProduct = (params: IParamsGetProduct): Promise<IDataPagingRespon
   return api.get(`/list_product?${str}`);
 };
 
-export const getProductById = (id: string): Promise<IDataDetailResponse<IResponseGetProductById>> => {
+export const getProductById = (id: string | number): Promise<IDataDetailResponse<IResponseGetProductById>> => {
   return api.get(`/retrieve_update_destroy_product/${id}`);
 };
 
-export const editProduct = (id: string, data: FormData) => {
+export const editProduct = (id: number, data: FormData) => {
   return apiFormData.patch(`/retrieve_update_destroy_product/${id}/`, data);
 };
 
@@ -20,15 +20,15 @@ export const addProduct = (data: FormData) => {
   return api.post(`/list_product/`, data);
 };
 
-export const deleteListProduct = (id: string) => {
+export const deleteListProduct = (id: number) => {
   return api.delete(`/retrieve_update_destroy_product/${id}`);
 };
 
-export const retrieveProduct = (id: string) => {
+export const retrieveProduct = (id: number) => {
   return api.get(`/retrieve_update_destroy_product/${id}`);
 };
 
-export const deleteProduct = (id: string) => {
+export const deleteProduct = (id: number) => {
   return api.get(`/retrieve_update_destroy_product/${id}`);
 };
 

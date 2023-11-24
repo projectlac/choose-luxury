@@ -53,7 +53,7 @@ const RelatedProducts = ({ id }: { id?: string }) => {
   if (related) {
     productResult = related.map((product: Products, index) => (
       <Box key={index} sx={{ p: 1.5 }}>
-        <ProductCard
+        {/* <ProductCard
           key={index}
           id={product.id}
           image={product.image}
@@ -61,7 +61,7 @@ const RelatedProducts = ({ id }: { id?: string }) => {
           offerPrice={product.offerPrice}
           salePrice={product.salePrice}
           rating={product.rating}
-        />
+        /> */}
       </Box>
     ));
   }

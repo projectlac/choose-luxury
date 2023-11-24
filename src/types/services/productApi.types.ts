@@ -21,7 +21,7 @@ export interface IParamsPostProduct {
 }
 
 export interface IResponseGetProductById {
-  id: string;
+  id: number;
   product_name: string;
   old_price: string;
   product_description: string;

@@ -7,14 +7,8 @@ import { IResponseGetListCategory } from './services/categoryApi.types';
 import { IPagingResponse } from './services/serviceitem';
 
 export interface ProductCardProps extends KeyedObject {
-  id?: string | number;
-  color?: string;
-  name: string;
-  image: string;
-  description?: string;
-  offerPrice?: number;
-  salePrice?: number;
-  rating?: number;
+  id?: number;
+  quantity?: number;
 }
 
 export interface ProductStateProps {

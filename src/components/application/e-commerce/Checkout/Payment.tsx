@@ -8,40 +8,35 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
-  RadioGroup,
   Radio,
+  RadioGroup,
   Stack,
   Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableRow,
   Typography
 } from '@mui/material';
 
 // third-party
-import CurrencyFormat from 'react-currency-format';
 
 // project imports
-import OrderSummary from './OrderSummary';
-import AddressCard from './AddressCard';
-import PaymentSelect from './PaymentSelect';
-import ColorOptions from '../ColorOptions';
-import PaymentOptions from './PaymentOptions';
-import PaymentCard from './PaymentCard';
-import AddPaymentCard from './AddPaymentCard';
-import OrderComplete from './OrderComplete';
-import SubCard from 'ui-component/cards/SubCard';
-import Avatar from 'ui-component/extended/Avatar';
-import { openSnackbar } from 'store/slices/snackbar';
 import { gridSpacing } from 'store/constant';
+import { openSnackbar } from 'store/slices/snackbar';
+import SubCard from 'ui-component/cards/SubCard';
+import ColorOptions from '../ColorOptions';
+import AddPaymentCard from './AddPaymentCard';
+import AddressCard from './AddressCard';
+import OrderComplete from './OrderComplete';
+import OrderSummary from './OrderSummary';
+import PaymentCard from './PaymentCard';
+import PaymentOptions from './PaymentOptions';
+import PaymentSelect from './PaymentSelect';
 
 // assets
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { setPaymentCard, setPaymentMethod } from 'store/slices/cart';
 import { CartCheckoutStateProps } from 'types/cart';
 import { PaymentOptionsProps } from 'types/e-commerce';
-import { setPaymentCard, setPaymentMethod } from 'store/slices/cart';
 
 const prodImage = '/assets/images/e-commerce';
 
@@ -245,7 +240,7 @@ const Payment = ({ checkout, onBack, onNext, handleShippingCharge }: PaymentProp
               </Typography>
               <TableContainer>
                 <Table sx={{ minWidth: 280 }} aria-label="simple table">
-                  <TableBody>
+                  {/* <TableBody>
                     {rows.map((row, index) => {
                       const colorsData = row.color ? getColor(row.color) : false;
                       return (
@@ -294,7 +289,7 @@ const Payment = ({ checkout, onBack, onNext, handleShippingCharge }: PaymentProp
                         </TableRow>
                       );
                     })}
-                  </TableBody>
+                  </TableBody> */}
                 </Table>
               </TableContainer>
             </Stack>

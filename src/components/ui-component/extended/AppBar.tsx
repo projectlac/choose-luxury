@@ -11,8 +11,9 @@ import Logo from '../../../assets/header/logo.png';
 import { styled } from '@mui/styles';
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import User from './User';
+import { useSelector } from 'store';
 
 // elevation scroll
 
@@ -57,7 +58,8 @@ const CustomButton = styled('a')(({ theme }) => ({
 const AppBar = ({ ...others }) => {
   const { isLoggedIn } = useAuth();
   const [drawerToggle, setDrawerToggle] = useState<boolean>(false);
-
+  const [shake, setShake] = useState<boolean>(false);
+  const cart = useSelector((state) => state.cart.checkout);
   /** Method called on multiple components with different event types */
   const drawerToggler = (open: boolean) => (event: any) => {
     if (event.type! === 'keydown' && (event.key! === 'Tab' || event.key! === 'Shift')) {
@@ -65,6 +67,15 @@ const AppBar = ({ ...others }) => {
     }
     setDrawerToggle(open);
   };
+
+  useEffect(() => {
+    if (cart?.products.length) {
+      setShake(true);
+      setTimeout(() => {
+        setShake(false);
+      }, 1000);
+    }
+  }, [cart]);
 
   return (
     <>
@@ -173,14 +184,42 @@ const AppBar = ({ ...others }) => {
                 </DialogAuthCommon>
               )}
             </Box>
-            <Box width={20}>
-              {isLoggedIn ? (
+            <Box
+              width={20}
+              sx={{
+                position: 'relative',
+                animation: shake ? 'shakeCart .4s ease-in-out forwards' : ''
+              }}
+            >
+              <Link href="/checkout">
+                <Image alt="cart" src={Cart.src} width={20} height={20}></Image>
+              </Link>
+              <Box
+                sx={{
+                  width: 17,
+                  height: 17,
+                  background: '#d33',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 'bold',
+                  color: '#fff',
+                  fontSize: 10,
+                  position: 'absolute',
+                  top: -10,
+                  right: -10
+                }}
+              >
+                {cart?.products.length ?? 0}
+              </Box>
+              {/* {isLoggedIn ? (
                 <Image alt="cart" src={Cart.src} width={20} height={20}></Image>
               ) : (
                 <DialogAuthCommon>
                   <Image alt="cart" src={Cart.src} width={20} height={20}></Image>
                 </DialogAuthCommon>
-              )}
+              )} */}
             </Box>
           </Box>
         </Box>
