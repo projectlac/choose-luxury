@@ -1,6 +1,7 @@
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography, styled } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'store';
 import { SizeData } from 'types/shop/shopItem';
 
@@ -47,7 +48,7 @@ function SizeFilter() {
             fontFamily: 'Quicksand'
           }}
         >
-          Size
+          <FormattedMessage id="size" />
         </Typography>
         <ArrowForwardIosIcon
           sx={{ color: '#000', transition: 'all 0.2s', transform: `${toggle ? 'rotate(0deg)' : 'rotate(90deg)'}` }}

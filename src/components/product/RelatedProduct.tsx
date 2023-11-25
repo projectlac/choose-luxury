@@ -1,13 +1,21 @@
 import { Container, Grid, Typography } from '@mui/material';
+import { FormattedMessage } from 'react-intl';
 
 function RelatedProduct() {
   return (
     <Container maxWidth="xl" sx={{ marginTop: '140px', marginBottom: '125px' }}>
       <Typography
         variant={'h2'}
-        sx={{ fontFamily: 'Roboto', fontSize: '16px', fontWeight: '700', lineHeight: '19px', marginBottom: '16px' }}
+        sx={{
+          fontFamily: 'Roboto',
+          fontSize: '16px',
+          fontWeight: '700',
+          lineHeight: '19px',
+          marginBottom: '16px',
+          textTransform: 'uppercase'
+        }}
       >
-        RELATED PRODUCTS
+        <FormattedMessage id="related-product" />
       </Typography>
       <Grid container columnSpacing={3} rowSpacing={3}>
         {/* {data.map((d) => (

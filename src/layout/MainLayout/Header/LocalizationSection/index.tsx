@@ -99,12 +99,9 @@ const LocalizationSection = () => {
           onClick={handleToggle}
           color="inherit"
         >
-          {language !== 'en' && (
-            <Typography variant="h5" sx={{ textTransform: 'uppercase' }} color="inherit">
-              {language}
-            </Typography>
-          )}
-          {language === 'en' && <TranslateTwoToneIcon sx={{ fontSize: '1.3rem' }} />}
+          <Typography variant="h5" sx={{ textTransform: 'uppercase' }} color="inherit">
+            {language}
+          </Typography>
         </Avatar>
       </Box>
 
@@ -124,6 +121,9 @@ const LocalizationSection = () => {
               }
             }
           ]
+        }}
+        sx={{
+          zIndex: 99
         }}
       >
         {({ TransitionProps }) => (
@@ -156,37 +156,13 @@ const LocalizationSection = () => {
                         }
                       />
                     </ListItemButton>
-                    <ListItemButton selected={language === 'fr'} onClick={(event) => handleListItemClick(event, 'fr')}>
+                    <ListItemButton selected={language === 'vi'} onClick={(event) => handleListItemClick(event, 'vi')}>
                       <ListItemText
                         primary={
                           <Grid container>
-                            <Typography color="textPrimary">français</Typography>
+                            <Typography color="textPrimary">VietNamese</Typography>
                             <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                              (French)
-                            </Typography>
-                          </Grid>
-                        }
-                      />
-                    </ListItemButton>
-                    <ListItemButton selected={language === 'ro'} onClick={(event) => handleListItemClick(event, 'ro')}>
-                      <ListItemText
-                        primary={
-                          <Grid container>
-                            <Typography color="textPrimary">Română</Typography>
-                            <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                              (Romanian)
-                            </Typography>
-                          </Grid>
-                        }
-                      />
-                    </ListItemButton>
-                    <ListItemButton selected={language === 'zh'} onClick={(event) => handleListItemClick(event, 'zh')}>
-                      <ListItemText
-                        primary={
-                          <Grid container>
-                            <Typography color="textPrimary">中国人</Typography>
-                            <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                              (Chinese)
+                              (VietNamese)
                             </Typography>
                           </Grid>
                         }

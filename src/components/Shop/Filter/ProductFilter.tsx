@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useSelector } from 'store';
 import { ICategoryFilter } from 'types/services/categoryApi.types';
+import { FormattedMessage } from 'react-intl';
 // interface ProductFilterDataChild {
 //   id: string;
 //   name: string;
@@ -104,7 +105,7 @@ function ProductFilter() {
             fontFamily: 'Quicksand'
           }}
         >
-          Product
+          <FormattedMessage id="product" />
         </Typography>
         <ArrowForwardIosIcon
           sx={{ color: '#000', transition: 'all 0.2s', transform: `${toggle ? 'rotate(0deg)' : 'rotate(90deg)'}` }}

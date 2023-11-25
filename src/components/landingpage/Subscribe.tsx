@@ -6,6 +6,7 @@ import { Container, Grid, Typography } from '@mui/material';
 import MailerSubscriber from '../maintenance/ComingSoon/ComingSoon1/MailerSubscriber';
 import { gridSpacing } from 'store/constant';
 import SubImage from '../../assets/header/subimage.png';
+import { FormattedMessage } from 'react-intl';
 // assets
 // const imgMail = '/assets/images/landing/img-groupmail.png';
 
@@ -75,7 +76,7 @@ const Subscribe = () => {
                     component="div"
                     sx={{ fontSize: '20px', marginBottom: '27px', textAlign: { xs: 'center', md: 'left' } }}
                   >
-                    Subscribe to receive 10% off
+                    <FormattedMessage id="subscribe-off" />
                   </Typography>
                 </Grid>
               </Grid>

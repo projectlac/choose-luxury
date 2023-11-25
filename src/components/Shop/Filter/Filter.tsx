@@ -1,5 +1,6 @@
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Box, Typography } from '@mui/material';
+import { FormattedMessage } from 'react-intl';
 
 interface IPropsHiddenFilter {
   hiddenFilter: boolean;
@@ -19,7 +20,7 @@ function Filter({ hiddenFilter, setHiddenFilter }: IPropsHiddenFilter) {
             fontFamily: 'Quicksand'
           }}
         >
-          Filter
+          <FormattedMessage id="filter" />
         </Typography>
         <ArrowForwardIosIcon
           sx={{ color: '#000', transition: 'all 0.2s', transform: `${hiddenFilter ? 'rotate(0deg)' : 'rotate(90deg)'}` }}

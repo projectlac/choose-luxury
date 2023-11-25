@@ -27,6 +27,7 @@ import Transitions from 'ui-component/extended/Transitions';
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
 import useConfig from 'hooks/useConfig';
+import LocalizationSection from '../LocalizationSection';
 
 const User1 = '/assets/images/users/user-round.svg';
 
@@ -83,6 +84,7 @@ const ProfileSection = () => {
 
   return (
     <>
+      <LocalizationSection />
       <Chip
         sx={{
           height: '48px',

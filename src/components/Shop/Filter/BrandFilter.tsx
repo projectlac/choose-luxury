@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { styled } from '@mui/system';
 import { useSelector } from 'store';
+import { FormattedMessage } from 'react-intl';
 
 interface BrandData {
   brand: string;
@@ -52,7 +53,7 @@ function BrandFilter() {
             fontFamily: 'Quicksand'
           }}
         >
-          Brand
+          <FormattedMessage id="brand" />
         </Typography>
         <ArrowForwardIosIcon
           sx={{ color: '#000', transition: 'all 0.2s', transform: `${toggle ? 'rotate(0deg)' : 'rotate(90deg)'}` }}

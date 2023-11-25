@@ -4,6 +4,7 @@ import { Breadcrumbs as BC, Box, Container, Link, Typography } from '@mui/materi
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from 'assets/breadcrumbs/home.png';
 import Image from 'next/image';
+import { FormattedMessage } from 'react-intl';
 function Breadcrumbs() {
   const router = useRouter();
 
@@ -13,7 +14,7 @@ function Breadcrumbs() {
         <Box sx={{ marginRight: '13px', marginLeft: '10px' }}>
           <Image src={HomeIcon.src} alt="home-icon" width="22px" height="24px"></Image>
         </Box>
-        Homepage
+        <FormattedMessage id="homepage" />
       </Box>
     </Link>,
     <Typography key="3" color="text.primary" sx={{ textTransform: 'capitalize', color: '#000' }}>

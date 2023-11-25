@@ -38,6 +38,7 @@ const Detail = styled(Typography)(({ theme }) => ({
   lineHeight: '1.7'
 }));
 import Logo from '../../assets/header/logo.png';
+import { FormattedMessage } from 'react-intl';
 
 // ==============================|| LANDING - FOOTER PAGE ||============================== //
 
@@ -52,23 +53,31 @@ const FooterPage = () => {
               <Image src={Logo.src} alt="Berry" width={137} height={115} layout={'intrinsic'} />
             </Grid>
             <Grid item xs={6} sm={3}>
-              <Title>Addrress</Title>
+              <Title>
+                <FormattedMessage id="address" />
+              </Title>
               <Detail>
                 Central 3, Vinhome central park, <br /> 252 Nguyen Huu Canh street, Ward 22, <br /> Binh Thanh district, HCM
               </Detail>
             </Grid>
             <Grid item xs={6} sm={2}>
-              <Title>Terms and conditions </Title>
+              <Title>
+                <FormattedMessage id="term-footer" />
+              </Title>
               <Detail>Purchasing policy </Detail>
               <Detail>Payment method</Detail>
             </Grid>
             <Grid item xs={6} sm={3}>
-              <Title>Contact us</Title>
+              <Title>
+                <FormattedMessage id="contact-us" />
+              </Title>
               <Detail>Phone: 0945821194/ 0334820791</Detail>
               <Detail>Email: info@chooseluxauth.com</Detail>
             </Grid>
             <Grid item xs={6} sm={2}>
-              <Title>Follow us</Title>
+              <Title>
+                <FormattedMessage id="follow-us" />
+              </Title>
               <Box
                 sx={{
                   a: {

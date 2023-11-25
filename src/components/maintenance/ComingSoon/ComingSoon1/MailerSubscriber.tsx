@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 import useScriptRef from 'hooks/useScriptRef';
 import { openSnackbar } from 'store/slices/snackbar';
 import AnimateButton from 'ui-component/extended/AnimateButton';
+import { FormattedMessage } from 'react-intl';
 
 // ===========================|| MAILER SUBSCRIBER ||=========================== //
 
@@ -72,7 +73,9 @@ const MailerSubscriber = ({ className, ...others }: { className?: string }) => {
           <form noValidate onSubmit={handleSubmit} className={clsx(className)} {...others}>
             <Grid container alignItems="center" spacing={2}>
               <Grid item xs={3} sx={{ display: { md: 'block', xs: 'none' } }}>
-                <Typography>Name</Typography>
+                <Typography>
+                  <FormattedMessage id="name" />
+                </Typography>
               </Grid>
               <Grid item xs={12} md={9}>
                 <FormControl fullWidth error={Boolean(touched.name && errors.name)}>
@@ -95,7 +98,9 @@ const MailerSubscriber = ({ className, ...others }: { className?: string }) => {
                 </FormControl>
               </Grid>
               <Grid item xs={3} sx={{ display: { md: 'block', xs: 'none' } }}>
-                <Typography>Email adress</Typography>
+                <Typography>
+                  <FormattedMessage id="email-address" />
+                </Typography>
               </Grid>
               <Grid item xs={12} md={9}>
                 <FormControl fullWidth error={Boolean(touched.email && errors.email)}>
@@ -118,7 +123,9 @@ const MailerSubscriber = ({ className, ...others }: { className?: string }) => {
                 </FormControl>
               </Grid>
               <Grid item xs={3} sx={{ display: { md: 'block', xs: 'none' } }}>
-                <Typography>Phone number</Typography>
+                <Typography>
+                  <FormattedMessage id="phone-number" />
+                </Typography>
               </Grid>
               <Grid item xs={12} md={9}>
                 <FormControl fullWidth error={Boolean(touched.phone && errors.phone)} sx={{ position: 'relative' }}>
@@ -154,7 +161,7 @@ const MailerSubscriber = ({ className, ...others }: { className?: string }) => {
                     width: { md: '130px', xs: '100%' }
                   }}
                 >
-                  Subscribe
+                  <FormattedMessage id="subscribe" />
                 </Button>
               </Grid>
             </Grid>

@@ -4,6 +4,7 @@ import { Container, Grid, Typography } from '@mui/material';
 import image from '../../assets/header/serivce.png';
 import ServiceItem from 'components/our-service/ServiceItem';
 import { IDataService } from 'types/services/serviceitem';
+import { FormattedMessage } from 'react-intl';
 // project imports
 
 // =============================|| LANDING - FEATURE PAGE ||============================= //
@@ -32,7 +33,7 @@ const OutService = () => {
           paddingBottom: '20px'
         }}
       >
-        Our Service
+        <FormattedMessage id="our-service" />
       </Typography>
 
       <Grid container columnSpacing={{ lg: 4, md: 3, xs: 2 }} rowSpacing={{ lg: 4, md: 3, xs: 2 }} sx={{ marginTop: '11px' }}>

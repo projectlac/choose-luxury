@@ -14,6 +14,8 @@ import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import User from './User';
 import { useSelector } from 'store';
+import LocalizationSection from 'layout/MainLayout/Header/LocalizationSection';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 // elevation scroll
 
@@ -57,6 +59,7 @@ const CustomButton = styled('a')(({ theme }) => ({
 
 const AppBar = ({ ...others }) => {
   const { isLoggedIn } = useAuth();
+  const intl = useIntl();
   const [drawerToggle, setDrawerToggle] = useState<boolean>(false);
   const [shake, setShake] = useState<boolean>(false);
   const cart = useSelector((state) => state.cart.checkout);
@@ -150,13 +153,22 @@ const AppBar = ({ ...others }) => {
           }}
         >
           <Stack direction="row" sx={{ display: { xs: 'none', sm: 'flex' } }} spacing={{ xs: 1, sm: 1, md: 2, lg: 4 }}>
-            <CustomButton href="/">Homepage</CustomButton>
-            <CustomButton href="">About us</CustomButton>
-            <CustomButton href="/shop">Products</CustomButton>
+            <CustomButton href="/">
+              <FormattedMessage id="homepage" />
+            </CustomButton>
+            <CustomButton href="">
+              <FormattedMessage id="about-us" />
+            </CustomButton>
+            <CustomButton href="/shop">
+              <FormattedMessage id="shop" />
+            </CustomButton>
             <CustomButton href="">Fashion trend</CustomButton>
-            <CustomButton href="">Contact us</CustomButton>
+            <CustomButton href="">
+              <FormattedMessage id="contact-us" />
+            </CustomButton>
           </Stack>
-          <CustomButton className="lang">EN/VN</CustomButton>
+          {/* <CustomButton className="lang">EN/VN</CustomButton> */}
+          <LocalizationSection />
           <Box
             sx={{
               display: 'flex',
@@ -234,7 +246,7 @@ const AppBar = ({ ...others }) => {
         <Box width={277}>
           <TextField
             fullWidth
-            placeholder="Search"
+            placeholder={intl.formatMessage({ id: 'search' })}
             sx={{
               input: {
                 background: '#fff',

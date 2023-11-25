@@ -7,16 +7,15 @@ import LightGallery from 'lightgallery/react';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
 
-import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Slider from 'react-slick';
-import { IResponseGetProductById } from 'types/services/productApi.types';
-import cartApi from '../../../api/CartAPI/cartApi';
 import { dispatch, useSelector } from 'store';
 import { addProduct } from 'store/slices/cart';
 import { openSnackbar } from 'store/slices/snackbar';
+import { IResponseGetProductById } from 'types/services/productApi.types';
 import formatMoney from 'utils/formatMoney';
 
 interface IProductDetailProps {
@@ -89,6 +88,7 @@ const BoxImage = styled(Box)(({ theme }) => ({
 }));
 
 function ProductDetail({ data }: IProductDetailProps) {
+  const intl = useIntl();
   const { isLoggedIn } = useAuth();
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
@@ -108,7 +108,7 @@ function ProductDetail({ data }: IProductDetailProps) {
     dispatch(
       openSnackbar({
         open: true,
-        message: 'Add To Cart Success',
+        message: `${intl.formatMessage({ id: 'add-to-cart-success' })}`,
         variant: 'alert',
         alert: {
           color: 'success'
@@ -205,9 +205,15 @@ function ProductDetail({ data }: IProductDetailProps) {
             >
               {data.product_name}
             </Typography>
-            <InfoTypo>Product code: {data.id}</InfoTypo>
-            <InfoTypo>Brand: {brand.results.find((d) => d.id === data.brand_id)?.product_brand_name}</InfoTypo>
-            <InfoTypo>Size: {size.results.find((d) => d.id === data.size_id)?.product_size_name}</InfoTypo>
+            <InfoTypo>
+              <FormattedMessage id="product-code" />: {data.id}
+            </InfoTypo>
+            <InfoTypo>
+              <FormattedMessage id="brand" />: {brand.results.find((d) => d.id === data.brand_id)?.product_brand_name}
+            </InfoTypo>
+            <InfoTypo>
+              <FormattedMessage id="size" />: {size.results.find((d) => d.id === data.size_id)?.product_size_name}
+            </InfoTypo>
 
             <PriceTypo> {formatMoney(data.base_price.split('.')[0])} VNĐ</PriceTypo>
             <Grid container>
@@ -281,7 +287,7 @@ function ProductDetail({ data }: IProductDetailProps) {
                   }
                 }}
               >
-                Add to cart
+                <FormattedMessage id="add-to-cart" />
               </Button>
               {/* // ) : (
               //   <DialogAuthCommon>

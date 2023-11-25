@@ -3,6 +3,7 @@ import { Container, Grid, Typography } from '@mui/material';
 import BestOfSaleItem from 'components/our-service/BestOfSaleItem';
 import { IDataService } from 'types/services/serviceitem';
 import image from '../../assets/header/serivce.png';
+import { FormattedMessage } from 'react-intl';
 // project imports
 
 // =============================|| LANDING - FEATURE PAGE ||============================= //
@@ -27,7 +28,7 @@ const BestOfSale = () => {
           paddingBottom: '20px'
         }}
       >
-        BEST OF SALES
+        <FormattedMessage id="best-of-sale" />
       </Typography>
 
       <Grid container columnSpacing={{ lg: 4, md: 3, xs: 2 }} rowSpacing={{ lg: 4, md: 3, xs: 2 }} sx={{ marginTop: '11px' }}>

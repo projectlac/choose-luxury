@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { FormattedMessage } from 'react-intl';
 
 const PrettoSlider = styled(Slider)({
   color: '#000',
@@ -79,7 +80,7 @@ function PriceFilter() {
             fontFamily: 'Quicksand'
           }}
         >
-          Price
+          <FormattedMessage id="price" />
         </Typography>
         <ArrowForwardIosIcon
           sx={{ color: '#000', transition: 'all 0.2s', transform: `${toggle ? 'rotate(0deg)' : 'rotate(90deg)'}` }}

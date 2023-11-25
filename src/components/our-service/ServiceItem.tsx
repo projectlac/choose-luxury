@@ -6,6 +6,7 @@ import { styled, useTheme } from '@mui/material/styles';
 
 import { Button, Typography } from '@mui/material';
 import Link from 'next/link';
+import { FormattedMessage } from 'react-intl';
 interface ServiceItemProps {
   data: IDataService;
 }
@@ -60,7 +61,7 @@ function ServiceItem({ data }: ServiceItemProps) {
               fontFamily: 'Quicksand'
             }}
           >
-            Shop Now
+            <FormattedMessage id="shop-now" />
           </Button>
         </Link>
       </ContentBox>

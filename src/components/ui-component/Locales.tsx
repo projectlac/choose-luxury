@@ -7,12 +7,8 @@ import useConfig from 'hooks/useConfig';
 // load locales files
 const loadLocaleData = (locale: string) => {
   switch (locale) {
-    case 'fr':
-      return import('../../utils/locales/fr.json');
-    case 'ro':
-      return import('../../utils/locales/ro.json');
-    case 'zh':
-      return import('../../utils/locales/zh.json');
+    case 'vi':
+      return import('../../utils/locales/vi.json');
     default:
       return import('../../utils/locales/en.json');
   }
