@@ -2,14 +2,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // project imports
+import { ProductCardProps } from 'types/product';
 import axios from '../../utils/axios';
 import { dispatch } from '../index';
-import { ProductCardProps } from 'types/product';
 
 // types
 import { DefaultRootStateProps } from '../../types';
 import { Address } from '../../types/cart';
-import cartApi from '../../../api/CartAPI/cartApi';
 
 // ----------------------------------------------------------------------
 
