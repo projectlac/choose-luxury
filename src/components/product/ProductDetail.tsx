@@ -7,6 +7,7 @@ import LightGallery from 'lightgallery/react';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
 
+import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
@@ -215,7 +216,7 @@ function ProductDetail({ data }: IProductDetailProps) {
               <FormattedMessage id="size" />: {size.results.find((d) => d.id === data.size_id)?.product_size_name}
             </InfoTypo>
 
-            <PriceTypo> {formatMoney(data.base_price.split('.')[0])} VNĐ</PriceTypo>
+            <PriceTypo> {formatMoney(data.base_price)} VNĐ</PriceTypo>
             <Grid container>
               {/* <Grid item md={5}>
                 <SizeSelector size={data.size} />
@@ -269,46 +270,46 @@ function ProductDetail({ data }: IProductDetailProps) {
                 justifyContent: 'center'
               }}
             >
-              {/* {isLoggedIn ? ( */}
-              <Button
-                variant="contained"
-                onClick={addToCart}
-                sx={{
-                  padding: '18px 56px',
-                  borderRadius: '10px',
-                  backgroundColor: 'rgba(191, 140, 10, 1)',
-                  boxShadow: 'none',
-                  fontFamily: 'Open Sans',
-                  fontSize: '16px',
-                  fontWeight: '700',
-                  lineHeight: '22px',
-                  ':hover': {
-                    backgroundColor: 'rgba(191, 140, 10, 1)'
-                  }
-                }}
-              >
-                <FormattedMessage id="add-to-cart" />
-              </Button>
-              {/* // ) : (
-              //   <DialogAuthCommon>
-              //     <Button 
-              //       variant="contained"
-              //       sx={{
-              //         padding: '18px 56px',
-              //         borderRadius: '10px',
-              //         backgroundColor: 'rgba(191, 140, 10, 1)',
-              //         boxShadow: 'none',
-              //         fontFamily: 'Open Sans',
-              //         fontSize: '16px',
-              //         fontWeight: '700',
-              //         lineHeight: '22px',
-              //         ':hover': { backgroundColor: 'rgba(191, 140, 10, 1)' }
-              //       }}
-              //     >
-              //       Login
-              //     </Button>
-              //   </DialogAuthCommon>
-              // )} */}
+              {isLoggedIn ? (
+                <Button
+                  variant="contained"
+                  onClick={addToCart}
+                  sx={{
+                    padding: '18px 56px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(191, 140, 10, 1)',
+                    boxShadow: 'none',
+                    fontFamily: 'Open Sans',
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    lineHeight: '22px',
+                    ':hover': {
+                      backgroundColor: 'rgba(191, 140, 10, 1)'
+                    }
+                  }}
+                >
+                  <FormattedMessage id="add-to-cart" />
+                </Button>
+              ) : (
+                <DialogAuthCommon>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      padding: '18px 56px',
+                      borderRadius: '10px',
+                      backgroundColor: 'rgba(191, 140, 10, 1)',
+                      boxShadow: 'none',
+                      fontFamily: 'Open Sans',
+                      fontSize: '16px',
+                      fontWeight: '700',
+                      lineHeight: '22px',
+                      ':hover': { backgroundColor: 'rgba(191, 140, 10, 1)' }
+                    }}
+                  >
+                    Login
+                  </Button>
+                </DialogAuthCommon>
+              )}
             </Box>
             <Divider sx={{ marginTop: '19px' }}></Divider>
           </Box>

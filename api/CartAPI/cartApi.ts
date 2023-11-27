@@ -2,13 +2,13 @@ import { IReqForCart } from 'types/services/cartApi.types';
 import api from '../config/api';
 
 const cartApi = {
-  getListItemInCart(page: number, limit: number = 10): Promise<any> {
-    const url = `/list_cart?page=${page}&limit=${limit}`;
+  getListItemInCart(): Promise<any> {
+    const url = `/create_list_order_item`;
     return api.get(url);
   },
 
   addToCart(data: IReqForCart): Promise<any> {
-    const url = '/list_cart_item';
+    const url = '/create_list_order_item/';
     return api.post(url, data);
   }
 

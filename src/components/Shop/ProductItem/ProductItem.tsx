@@ -35,7 +35,7 @@ function ProductItem({ data }: ProductItemProps) {
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  background: `url(${data.images[0]?.product_img})`,
+                  background: `url(${data.images.length > 1 ? data.images[1]?.product_img : data.images[0]?.product_img})`,
                   zIndex: '1',
                   width: '100%',
                   height: '100%',
@@ -79,7 +79,7 @@ function ProductItem({ data }: ProductItemProps) {
           </a>
         </Link>
         <Typography color="rgba(245, 34, 34, 1)" style={{ fontSize: '14px', fontWeight: '700', lineHeight: '17px', marginBottom: '5px' }}>
-          {formatMoney(data.base_price.split('.')[0])} VNĐ
+          {formatMoney(data.base_price)} VNĐ
         </Typography>
         <Typography
           sx={{
@@ -91,7 +91,7 @@ function ProductItem({ data }: ProductItemProps) {
             marginBottom: '10px'
           }}
         >
-          {formatMoney(data.old_price.split('.')[0])} VNĐ
+          {formatMoney(data.old_price)} VNĐ
         </Typography>
         <Typography
           sx={{
