@@ -9,6 +9,7 @@ import { dispatch } from '../index';
 // types
 import { DefaultRootStateProps } from '../../types';
 import { Address } from '../../types/cart';
+import cartApi from '../../../api/CartAPI/cartApi';
 
 // ----------------------------------------------------------------------
 
@@ -135,8 +136,8 @@ export default slice.reducer;
 export function addProduct(product: ProductCardProps) {
   return async () => {
     try {
-      // const res = await cartApi.addToCart({ quantity: product.quantity, items: product.id, user: 3 });
-      // console.log(res);
+      const res = await cartApi.addToCart({ quantity: product.quantity, items: product.id });
+      console.log(res);
 
       dispatch(slice.actions.addProductSuccess(product));
     } catch (error) {

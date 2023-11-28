@@ -111,6 +111,7 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
 
   const login = async (email: string, password: string) => {
     const response = await authApi.loginUser({ email, password });
+
     const usersData = response.data;
 
     // if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {

@@ -10,6 +10,7 @@ import AuthRegister from 'components/authentication/auth-forms/AuthRegister';
 import Image from 'next/image';
 import { useState } from 'react';
 import BackgroundPattern1 from 'ui-component/cards/BackgroundPattern1';
+import { useIntl } from 'react-intl';
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
@@ -18,7 +19,7 @@ import BackgroundPattern1 from 'ui-component/cards/BackgroundPattern1';
 const Login = () => {
   const [loginMode, setLoginMode] = useState<boolean>(true);
   // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-
+  const intl = useIntl();
   return (
     <AuthWrapper1>
       <Grid container justifyContent="space-between" alignItems="center" sx={{ minHeight: '100vh' }}>
@@ -50,7 +51,9 @@ const Login = () => {
                 <Grid item container direction="column" alignItems="center" xs={12}>
                   <Box color={'#000'} sx={{ fontFamily: 'Roboto', display: 'flex', alignItems: 'center' }}>
                     <Typography color={'#000'} sx={{ textDecoration: 'none', fontFamily: 'Roboto', marginRight: '5px' }}>
-                      {loginMode ? `Not registered yet, create a ${' '}` : 'Login'}{' '}
+                      {loginMode
+                        ? `${intl.formatMessage({ id: 'not-registered-yet-create-a' })} ${' '}`
+                        : `${intl.formatMessage({ id: 'login' })}`}{' '}
                     </Typography>
                     <Typography
                       // component={Link}
@@ -61,7 +64,7 @@ const Login = () => {
                         setLoginMode((prev) => !prev);
                       }}
                     >
-                      {loginMode ? '  new account ' : 'here'}
+                      {loginMode ? `${intl.formatMessage({ id: 'new-account' })}` : `${intl.formatMessage({ id: 'login-here' })}`}
                     </Typography>
                   </Box>
                 </Grid>

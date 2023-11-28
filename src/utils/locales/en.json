@@ -96,7 +96,7 @@
   "authentication": "Authentication",
   "login": "Login",
   "register": "Register",
-  "forgot-password": "Forgot Password",
+  "forgot-password": "Forgot Password?",
   "check-mail": "Check Mail",
   "reset-password": "Reset Password",
   "code-verification": "Code Verification",
@@ -169,5 +169,14 @@
   "term-footer": "Terms and conditions",
   "follow-us": "Follow us",
   "search": "Search",
-  "add-to-cart-success":"Add To Cart Success"
+  "add-to-cart-success": "Add To Cart Success",
+  "remember-me": "Remember me",
+  "not-registered-yet-create-a": "Not registered yet, create a",
+  "new-account": "new account",
+  "login-here": "here",
+  "Poor": "Poor",
+  "Weak": "Weak",
+  "Normal": "Normal",
+  "Good": "Good",
+  "Strong": "Strong"
 }

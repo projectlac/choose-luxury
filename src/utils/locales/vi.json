@@ -94,9 +94,9 @@
   "pages": "Pages",
   "pages-caption": "Prebuild Pages",
   "authentication": "Authentication",
-  "login": "Login",
-  "register": "Register",
-  "forgot-password": "Forgot Password",
+  "login": "Đăng nhập",
+  "register": "Đăng ký",
+  "forgot-password": "Quên mật khẩu?",
   "check-mail": "Check Mail",
   "reset-password": "Reset Password",
   "code-verification": "Code Verification",
@@ -169,5 +169,14 @@
   "term-footer": "Điều khoản - Điều kiện",
   "follow-us": "Theo dõi chúng tôi",
   "search": "Tìm kiếm",
-  "add-to-cart-success": "Thêm vào giỏ hàng thành công!"
+  "add-to-cart-success": "Thêm vào giỏ hàng thành công!",
+  "remember-me": "Ghi nhớ tôi",
+  "not-registered-yet-create-a": "Bạn chưa đăng ký? Hãy tạo một",
+  "new-account": "tài khoản mới",
+  "login-here": "tại đây",
+  "Poor": "Tệ",
+  "Weak": "Yếu",
+  "Normal": "Bình thường",
+  "Good": "Khá tốt",
+  "Strong": "Mạnh"
 }

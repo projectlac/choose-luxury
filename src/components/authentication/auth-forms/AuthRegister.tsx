@@ -30,9 +30,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
 import { StringColorProps } from 'types';
+import { FormattedMessage, useIntl } from 'react-intl';
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
+  const intl = useIntl();
   const { setLoginMode } = others;
   const theme = useTheme();
   const scriptedRef = useScriptRef();
@@ -55,10 +57,6 @@ const FirebaseRegister = ({ ...others }) => {
     setStrength(temp);
     setLevel(strengthColor(temp));
   };
-
-  useEffect(() => {
-    changePassword('123456');
-  }, []);
 
   return (
     <>
@@ -92,7 +90,7 @@ const FirebaseRegister = ({ ...others }) => {
                     close: false
                   })
                 );
-                setLoginMode(true);
+                setLoginMode?.(true);
                 // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
                 // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
@@ -215,11 +213,11 @@ const FirebaseRegister = ({ ...others }) => {
                 <Box sx={{ mb: 2 }}>
                   <Grid container spacing={2} alignItems="center">
                     <Grid item>
-                      <Box style={{ backgroundColor: level?.color }} sx={{ width: 85, height: 8, borderRadius: '7px' }} />
+                      <Box style={{ backgroundColor: level?.color }} sx={{ width: 30 * strength, height: 8, borderRadius: '7px' }} />
                     </Grid>
                     <Grid item>
                       <Typography variant="subtitle1" fontSize="0.75rem">
-                        {level?.label}
+                        <FormattedMessage id={level?.label} />
                       </Typography>
                     </Grid>
                   </Grid>
@@ -249,7 +247,7 @@ const FirebaseRegister = ({ ...others }) => {
                     }
                   }}
                 >
-                  Sign up
+                  <FormattedMessage id="register" />
                 </Button>
               </AnimateButton>
             </Box>

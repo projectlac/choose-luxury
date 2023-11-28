@@ -32,10 +32,10 @@ api.interceptors.response.use(
   function (error) {
     if (error.response?.status === 401) {
       localStorage.removeItem('serviceToken');
-      return Promise.reject(error);
+      return Promise.reject(error.response);
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );
 

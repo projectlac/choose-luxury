@@ -1,7 +1,7 @@
 export interface IReqForCart {
   quantity: number;
   items: number;
-  user: number;
+
   // items: IItemForCart[];
 }
 

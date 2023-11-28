@@ -35,12 +35,14 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useRouter } from 'next/router';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 const Google = '/assets/images/icons/social-google.svg';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
+  const intl = useIntl();
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -103,7 +105,7 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
               (err: any) => {
                 if (scriptedRef.current) {
                   setStatus({ success: false });
-                  setErrors({ submit: err.message });
+                  setErrors({ submit: err.data.detail });
                   setSubmitting(false);
                 }
               }
@@ -112,7 +114,7 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
             console.error(err);
             if (scriptedRef.current) {
               setStatus({ success: false });
-              setErrors({ submit: err.message });
+              setErrors({ submit: err.data.detail });
               setSubmitting(false);
             }
           }
@@ -199,10 +201,10 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
                     }}
                   />
                 }
-                label="Remember me"
+                label={`${intl.formatMessage({ id: 'remember-me' })}`}
               />
               <Typography variant="subtitle1" component={Link} href={'/'} color="secondary" sx={{ textDecoration: 'none' }}>
-                Forgot Password?
+                <FormattedMessage id="forgot-password" />
               </Typography>
             </Stack>
             {errors.submit && (
@@ -227,7 +229,7 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
                     }
                   }}
                 >
-                  Login
+                  <FormattedMessage id="login" />
                 </Button>
               </AnimateButton>
             </Box>
