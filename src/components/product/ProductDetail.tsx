@@ -18,6 +18,7 @@ import { addProduct } from 'store/slices/cart';
 import { openSnackbar } from 'store/slices/snackbar';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 import formatMoney from 'utils/formatMoney';
+import cartApi from '../../../api/CartAPI/cartApi';
 
 interface IProductDetailProps {
   data: IResponseGetProductById;
@@ -105,18 +106,23 @@ function ProductDetail({ data }: IProductDetailProps) {
   const cart = useSelector((state) => state.cart);
 
   const addToCart = useCallback(async () => {
-    dispatch(addProduct({ quantity, id: data.id }));
-    dispatch(
-      openSnackbar({
-        open: true,
-        message: `${intl.formatMessage({ id: 'add-to-cart-success' })}`,
-        variant: 'alert',
-        alert: {
-          color: 'success'
-        },
-        close: false
-      })
-    );
+    try {
+      // const res = await cartApi.addToCart({ quantity, items: data.id });
+      // console.log(res);
+      dispatch(addProduct({ quantity, id: data.id }));
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: `${intl.formatMessage({ id: 'add-to-cart-success' })}`,
+          variant: 'alert',
+          alert: {
+            color: 'success'
+          },
+          close: false
+        })
+      );
+    } catch (error) {}
+
     // try {
     //   const res = await cartApi.addToCart({
     //     items: [
@@ -270,46 +276,25 @@ function ProductDetail({ data }: IProductDetailProps) {
                 justifyContent: 'center'
               }}
             >
-              {isLoggedIn ? (
-                <Button
-                  variant="contained"
-                  onClick={addToCart}
-                  sx={{
-                    padding: '18px 56px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(191, 140, 10, 1)',
-                    boxShadow: 'none',
-                    fontFamily: 'Open Sans',
-                    fontSize: '16px',
-                    fontWeight: '700',
-                    lineHeight: '22px',
-                    ':hover': {
-                      backgroundColor: 'rgba(191, 140, 10, 1)'
-                    }
-                  }}
-                >
-                  <FormattedMessage id="add-to-cart" />
-                </Button>
-              ) : (
-                <DialogAuthCommon>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      padding: '18px 56px',
-                      borderRadius: '10px',
-                      backgroundColor: 'rgba(191, 140, 10, 1)',
-                      boxShadow: 'none',
-                      fontFamily: 'Open Sans',
-                      fontSize: '16px',
-                      fontWeight: '700',
-                      lineHeight: '22px',
-                      ':hover': { backgroundColor: 'rgba(191, 140, 10, 1)' }
-                    }}
-                  >
-                    Login
-                  </Button>
-                </DialogAuthCommon>
-              )}
+              <Button
+                variant="contained"
+                onClick={addToCart}
+                sx={{
+                  padding: '18px 56px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(191, 140, 10, 1)',
+                  boxShadow: 'none',
+                  fontFamily: 'Open Sans',
+                  fontSize: '16px',
+                  fontWeight: '700',
+                  lineHeight: '22px',
+                  ':hover': {
+                    backgroundColor: 'rgba(191, 140, 10, 1)'
+                  }
+                }}
+              >
+                <FormattedMessage id="add-to-cart" />
+              </Button>
             </Box>
             <Divider sx={{ marginTop: '19px' }}></Divider>
           </Box>

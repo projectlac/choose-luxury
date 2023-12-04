@@ -92,7 +92,7 @@ function CheckoutDetail() {
   return (
     <Box>
       <Grid container columnSpacing={3} rowSpacing={3}>
-        <Grid item md={12} xs={12} sm={12}>
+        {/* <Grid item md={12} xs={12} sm={12}>
           <BoxDetail
             sx={{
               height: '126px',
@@ -107,7 +107,7 @@ function CheckoutDetail() {
               <CustomButton>Apply coupon</CustomButton>
             </PromotionWrapper>
           </BoxDetail>
-        </Grid>
+        </Grid> */}
         <Grid item md={12} xs={12} sm={6}>
           <BoxDetail sx={{ height: { md: '260px', xs: '250px' }, padding: { md: '15px 41px 61px', xs: '8px 23px 22px' } }}>
             <Typography variant={'h2'} className="title" sx={{ fontSize: '24px', lineHeight: '32.68px' }}>
@@ -137,7 +137,7 @@ function CheckoutDetail() {
               flexWrap: 'wrap'
             }}
           >
-            <Box alignItems={'center'} sx={{ marginBottom: { md: '17px', xs: '0px' }, flexDirection: { lg: 'row', xs: 'column' } }}>
+            {/* <Box alignItems={'center'} sx={{ marginBottom: { md: '17px', xs: '0px' }, flexDirection: { lg: 'row', xs: 'column' } }}>
               <Typography
                 textAlign={'center'}
                 sx={{
@@ -158,7 +158,7 @@ function CheckoutDetail() {
                   <Image src={VnPay.src} layout="fill" objectFit="contain" alt={'VnPay'} />
                 </PaymentLink>
               </Box>
-            </Box>
+            </Box> */}
             <Box alignItems={'center'} sx={{ flexDirection: { lg: 'row', xs: 'column' } }}>
               <Typography
                 textAlign={'center'}
