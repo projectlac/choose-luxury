@@ -19,6 +19,7 @@ import { openSnackbar } from 'store/slices/snackbar';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 import formatMoney from 'utils/formatMoney';
 import cartApi from '../../../api/CartAPI/cartApi';
+import { hiddenLoading, showLoading } from 'store/slices/loading';
 
 interface IProductDetailProps {
   data: IResponseGetProductById;
@@ -107,43 +108,37 @@ function ProductDetail({ data }: IProductDetailProps) {
 
   const addToCart = useCallback(async () => {
     try {
-      // const res = await cartApi.addToCart({ quantity, items: data.id });
-      // console.log(res);
-      dispatch(addProduct({ quantity, id: data.id }));
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: `${intl.formatMessage({ id: 'add-to-cart-success' })}`,
-          variant: 'alert',
-          alert: {
-            color: 'success'
-          },
-          close: false
-        })
-      );
-    } catch (error) {}
+      dispatch(showLoading());
+      const res = await cartApi.addToCart({
+        product: {
+          description: data.product_description,
+          id: data.id,
+          image: data.product_img,
+          name: data.product_name,
+          price: data.base_price
+        },
+        quantity
+      });
 
-    // try {
-    //   const res = await cartApi.addToCart({
-    //     items: [
-    //       {
-    //         quantity,
-    //         product: {
-    //           brand: +data.brand_id,
-    //           category: +data.category_id,
-    //           is_available: data.is_available,
-    //           product_description: data.product_description,
-    //           product_name: data.product_name,
-    //           size: +data.size_id,
-    //           slug: data.slug,
-    //           unit_in_stock: +data.unit_in_stock
-    //         }
-    //       }
-    //     ]
-    //   });
-    //   console.log(res);
-    // } catch (error) {}
-  }, [data, quantity]);
+      if (res.status === 202) {
+        dispatch(addProduct({ quantity, id: data.id }));
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: `${intl.formatMessage({ id: 'add-to-cart-success' })}`,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: false
+          })
+        );
+      }
+    } catch (error) {
+    } finally {
+      dispatch(hiddenLoading());
+    }
+  }, [data.base_price, data.id, data.product_description, data.product_img, data.product_name, intl, quantity]);
 
   return (
     <Container maxWidth="xl">

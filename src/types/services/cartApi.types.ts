@@ -1,9 +1,16 @@
 export interface IReqForCart {
-  quantity: number;
-  items: number;
-
-  // items: IItemForCart[];
+  product: {
+    id: number;
+    name: string;
+    description: string;
+    price: string;
+    image: string;
+  };
+  quantity?: number;
+  remove?: boolean;
 }
+
+// items: IItemForCart[];
 
 // export interface IItemForCart {
 //   quantity: number;

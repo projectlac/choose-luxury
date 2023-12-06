@@ -49,3 +49,7 @@ export interface IParamsProductSize {
 export interface IProductSize extends IParamsProductSize {
   id: number;
 }
+
+export interface ICartList extends IResponseGetProductById {
+  quantity: number;
+}

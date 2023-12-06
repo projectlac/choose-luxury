@@ -41,7 +41,17 @@ const slice = createSlice({
 
     // ADD PRODUCT
     addProductSuccess(state, action) {
-      state.checkout.products.push(action.payload);
+      const { id, quantity } = action.payload;
+      const sameItem = state.checkout.products.filter((data) => data.id === id)[0];
+      const index = state.checkout.products.indexOf(sameItem);
+      if (index > -1) {
+        const oldData = [...state.checkout.products];
+        oldData[index].quantity = oldData[index].quantity + quantity;
+        state.checkout.products = oldData;
+      } else {
+        state.checkout.products.push(action.payload);
+      }
+      // state.checkout.products.push(action.payload);
       // console.log({ ...state, ...action.payload });
 
       // return { ...state.checkout.products, ...action.payload };

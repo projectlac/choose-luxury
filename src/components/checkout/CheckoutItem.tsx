@@ -1,14 +1,21 @@
-import { Box, Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import React from 'react';
-import FakeImage from 'assets/products/BAGS-removebg-preview.png';
+import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
+import React, { useState } from 'react';
+import { ICartList } from 'types/services/productApi.types';
+import formatMoney from 'utils/formatMoney';
 
-function CheckoutItem() {
+interface CheckoutItemProps {
+  data: ICartList;
+}
+function CheckoutItem({ data }: CheckoutItemProps) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  const [dataGet, setDataGet] = useState<ICartList>(data);
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
   };
+
+  console.log(data);
+
   return (
     <Box
       sx={{
@@ -30,7 +37,7 @@ function CheckoutItem() {
               overflow: 'hidden'
             }}
           >
-            <Image src={FakeImage.src} layout="fill" objectFit="contain" alt={'gaga'}></Image>
+            <Image src={data.images[0].product_img} layout="fill" objectFit="cover" alt={'gaga'}></Image>
           </Box>
         </Grid>
         <Grid item md={6} sm={6} xs={8}>
@@ -46,7 +53,7 @@ function CheckoutItem() {
                   color: '#000'
                 }}
               >
-                Classic triomphe bag in shiny calfskin
+                {data.product_name}
               </Typography>
               <Typography
                 sx={{
@@ -61,8 +68,7 @@ function CheckoutItem() {
                   overflow: 'hidden'
                 }}
               >
-                {`is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type`}
+                {data.product_description}
               </Typography>
             </Box>
             <Box
@@ -83,31 +89,29 @@ function CheckoutItem() {
                     paddingRight: '10px'
                   }}
                 >
-                  $20.20
+                  {formatMoney(data.base_price)} VNĐ
                 </Typography>
+
                 <TextField
-                  select
+                  id="outlined-start-adornment"
                   sx={{
                     width: '100px',
                     height: '32px',
-                    '.MuiSelect-select': {
-                      padding: '6px 10px',
-                      background: '#fff',
-                      textAlign: 'left'
+                    '& .MuiOutlinedInput-input': {
+                      padding: '7px 5px'
                     }
                   }}
-                  SelectProps={{
-                    renderValue: (value) => {
-                      return `Qty: ${value}`;
-                    }
+                  type="number"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const oldValue = { ...data };
+                    oldValue.quantity = +e.target.value;
+                    setDataGet(oldValue);
                   }}
-                  value={rowsPerPage}
-                  onChange={handleChangeRowsPerPage}
-                >
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={30}>30</MenuItem>
-                </TextField>
+                  value={dataGet.quantity}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">Qty: </InputAdornment>
+                  }}
+                />
               </Box>
 
               <Button
@@ -150,31 +154,28 @@ function CheckoutItem() {
               paddingRight: '10px'
             }}
           >
-            $20.20
+            {formatMoney(data.base_price)} VNĐ
           </Typography>
           <TextField
-            select
+            id="outlined-start-adornment"
             sx={{
               width: '100px',
               height: '32px',
-              '.MuiSelect-select': {
-                padding: '6px 10px',
-                background: '#fff',
-                textAlign: 'left'
+              '& .MuiOutlinedInput-input': {
+                padding: '7px 5px'
               }
             }}
-            SelectProps={{
-              renderValue: (value) => {
-                return `Qty: ${value}`;
-              }
+            type="number"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const oldValue = { ...data };
+              oldValue.quantity = +e.target.value;
+              setDataGet(oldValue);
             }}
-            value={rowsPerPage}
-            onChange={handleChangeRowsPerPage}
-          >
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
-          </TextField>
+            value={dataGet.quantity}
+            InputProps={{
+              startAdornment: <InputAdornment position="start">Qty: </InputAdornment>
+            }}
+          />
         </Grid>
       </Grid>
     </Box>
