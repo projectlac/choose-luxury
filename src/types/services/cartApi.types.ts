@@ -11,6 +11,18 @@ export interface IReqForCart {
 }
 
 // items: IItemForCart[];
+export interface IReqForOrder {
+  shippingAddress: IAddressOfCustomer;
+  paymentMethod: string;
+  totalPrice?: number;
+}
+
+export interface IAddressOfCustomer {
+  address: string;
+  city: string;
+  postalCode: number;
+  country: string;
+}
 
 // export interface IItemForCart {
 //   quantity: number;

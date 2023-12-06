@@ -1,4 +1,4 @@
-import { IReqForCart } from 'types/services/cartApi.types';
+import { IReqForCart, IReqForOrder } from 'types/services/cartApi.types';
 import api from '../config/api';
 
 const cartApi = {
@@ -9,6 +9,16 @@ const cartApi = {
 
   addToCart(data: IReqForCart): Promise<any> {
     const url = '/cart';
+    return api.post(url, data);
+  },
+
+  listItemInCart(): Promise<any> {
+    const url = '/cart';
+    return api.get(url);
+  },
+
+  createOrder(data: IReqForOrder): Promise<any> {
+    const url = '/createorder/';
     return api.post(url, data);
   }
 
