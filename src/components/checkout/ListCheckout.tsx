@@ -370,10 +370,6 @@ function ListCheckout() {
             </DialogContentText>
           </form>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose}>Agree</Button>
-        </DialogActions> */}
       </Dialog>
     </>
   );

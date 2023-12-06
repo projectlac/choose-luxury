@@ -264,33 +264,65 @@ function ProductDetail({ data }: IProductDetailProps) {
             </Box>
 
             <Divider sx={{ marginTop: '36px', marginBottom: '18px' }}></Divider>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Button
-                variant="contained"
-                onClick={addToCart}
+            {!isLoggedIn ? (
+              <DialogAuthCommon>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    sx={{
+                      padding: '18px 56px',
+                      borderRadius: '10px',
+                      backgroundColor: 'rgba(191, 140, 10, 1)',
+                      boxShadow: 'none',
+                      fontFamily: 'Open Sans',
+                      fontSize: '16px',
+                      fontWeight: '700',
+                      lineHeight: '22px',
+                      ':hover': {
+                        backgroundColor: 'rgba(191, 140, 10, 1)'
+                      }
+                    }}
+                  >
+                    <FormattedMessage id="add-to-cart" />
+                  </Button>
+                </Box>
+              </DialogAuthCommon>
+            ) : (
+              <Box
                 sx={{
-                  padding: '18px 56px',
-                  borderRadius: '10px',
-                  backgroundColor: 'rgba(191, 140, 10, 1)',
-                  boxShadow: 'none',
-                  fontFamily: 'Open Sans',
-                  fontSize: '16px',
-                  fontWeight: '700',
-                  lineHeight: '22px',
-                  ':hover': {
-                    backgroundColor: 'rgba(191, 140, 10, 1)'
-                  }
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
-                <FormattedMessage id="add-to-cart" />
-              </Button>
-            </Box>
+                <Button
+                  variant="contained"
+                  onClick={addToCart}
+                  sx={{
+                    padding: '18px 56px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(191, 140, 10, 1)',
+                    boxShadow: 'none',
+                    fontFamily: 'Open Sans',
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    lineHeight: '22px',
+                    ':hover': {
+                      backgroundColor: 'rgba(191, 140, 10, 1)'
+                    }
+                  }}
+                >
+                  <FormattedMessage id="add-to-cart" />
+                </Button>
+              </Box>
+            )}
+
             <Divider sx={{ marginTop: '19px' }}></Divider>
           </Box>
         </Grid>
