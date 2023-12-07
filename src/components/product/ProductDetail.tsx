@@ -107,38 +107,37 @@ function ProductDetail({ data }: IProductDetailProps) {
   const cart = useSelector((state) => state.cart);
 
   const addToCart = useCallback(async () => {
-    try {
-      dispatch(showLoading());
-      const res = await cartApi.addToCart({
-        product: {
-          description: data.product_description,
-          id: data.id,
-          image: data.product_img,
-          name: data.product_name,
-          price: data.base_price
-        },
-        quantity
-      });
+    // try {
+    dispatch(showLoading());
+    // const res = await cartApi.addToCart({
+    //   product: {
+    //     description: data.product_description,
+    //     id: data.id,
+    //     image: data.product_img,
+    //     name: data.product_name,
+    //     price: data.base_price
+    //   },
+    //   quantity
+    // });
 
-      if (res.status === 202) {
-        dispatch(addProduct({ quantity, id: data.id }));
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: `${intl.formatMessage({ id: 'add-to-cart-success' })}`,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: false
-          })
-        );
-      }
-    } catch (error) {
-    } finally {
-      dispatch(hiddenLoading());
-    }
-  }, [data.base_price, data.id, data.product_description, data.product_img, data.product_name, intl, quantity]);
+    // if (res.status === 202) {
+    dispatch(addProduct({ quantity, id: data.id }));
+    dispatch(
+      openSnackbar({
+        open: true,
+        message: `${intl.formatMessage({ id: 'add-to-cart-success' })}`,
+        variant: 'alert',
+        alert: {
+          color: 'success'
+        },
+        close: false
+      })
+    );
+    // }
+    // } catch (error) {
+    // } finally {
+    dispatch(hiddenLoading());
+  }, [data.id, intl, quantity]);
 
   return (
     <Container maxWidth="xl">

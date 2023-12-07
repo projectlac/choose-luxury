@@ -26,10 +26,14 @@ import CheckoutItem from './CheckoutItem';
 
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
-import { useSelector } from 'store';
-import { ICartList } from 'types/services/productApi.types';
+import { isUndefined } from 'lodash';
+import Link from 'next/link';
+import { dispatch, useSelector } from 'store';
+import { removeProduct } from 'store/slices/cart';
+import { hiddenLoading, showLoading } from 'store/slices/loading';
+import { IOrderItem } from 'types/services/cartApi.types';
+import { ICartList, IResponseGetProductById } from 'types/services/productApi.types';
 import { LIST_COUNTRIES, PAYMENT_METHODS } from 'utils/const';
-import { getProductById } from '../../../api/ProductAPI/productDashboash';
 const CustomButton = styled(Button)(({ theme }) => ({
   width: '174px',
   height: '46px',
@@ -71,32 +75,32 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function ListCheckout() {
+interface ListCheckoutProps {
+  handlePrice: (data: number) => void;
+  totalPrice: number;
+}
+
+function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
   const [listCart, setListCart] = useState<ICartList[]>([]);
+
   const products = useSelector((state) => state.cart.checkout.products);
 
   const fetch = useCallback(async () => {
-    const dm = await Promise.all(
-      products.map(async (product) => {
-        const res = await getProductById(product.id);
-        return { ...res.data, quantity: product.quantity };
-      })
-    );
-    const res = await cartApi.listItemInCart();
-    console.log(res);
+    const ids: number[] = [];
+    products?.forEach((item) => {
+      ids.push(item.id);
+    });
+    const res1 = await cartApi.getItemsWithListId({ ids });
+    let allPrice: number = 0;
+    const params = res1.data.data?.map((d: IResponseGetProductById) => {
+      const dm = products?.find((item) => item.id === d.id);
+      if (!isUndefined(dm)) allPrice += dm?.quantity * +d.base_price;
+      return { ...d, quantity: dm?.quantity ?? 0 };
+    });
+    handlePrice(allPrice);
 
-    setListCart(dm);
-
-    // if (products.length > 0) {
-    //   products.forEach(async (item) => {
-    //     await getProductById(item.id).then((res) => {
-    //       data.push(res.data);
-    //     });
-    //   });
-
-    //   setListCart(data);
-    // }
-  }, [products]);
+    setListCart(params);
+  }, [handlePrice, products]);
   useEffect(() => {
     fetch();
   }, [fetch]);
@@ -127,7 +131,11 @@ function ListCheckout() {
     onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
       try {
         const { address, city, postalCode, country, paymentMethod } = values;
-        await cartApi.createOrder({ paymentMethod, shippingAddress: { address, city, country, postalCode } }).then(
+        const orderItems: IOrderItem[] = [];
+        listCart.forEach((item) => {
+          orderItems.push({ product: item.id, qty: item.quantity });
+        });
+        await cartApi.createOrder({ orderItems, paymentMethod, shippingAddress: { address, city, country, postalCode }, totalPrice }).then(
           (res) => {
             console.log(res);
           },
@@ -163,8 +171,18 @@ function ListCheckout() {
           justifyContent: 'space-between'
         }}
       >
-        <CustomButton>Back to shop</CustomButton>
-        <CustomButton>Remove all</CustomButton>
+        <Link href={'/shop'}>
+          <CustomButton>Back to shop</CustomButton>
+        </Link>
+        <CustomButton
+          onClick={() => {
+            dispatch(showLoading());
+            dispatch(removeProduct([]));
+            dispatch(hiddenLoading());
+          }}
+        >
+          Remove all
+        </CustomButton>
         {!isLoggedIn ? (
           <DialogAuthCommon>
             <CustomButton>Order</CustomButton>

@@ -6,6 +6,7 @@ import VnPay from 'assets/checkout/492x0w.png';
 import Zalo from 'assets/checkout/Logo-Zalo-Arc.webp';
 import Messenger from 'assets/checkout/Messenger.png';
 import Image from 'next/image';
+import formatMoney from 'utils/formatMoney';
 const BoxDetail = styled(Box)(({ theme }) => ({
   marginBottom: '14px',
   border: '1px solid rgba(169, 169, 169, 1)',
@@ -88,7 +89,7 @@ const PaymentLink = styled(Box)(({ theme }) => ({
     margin: '15px 10px'
   }
 }));
-function CheckoutDetail() {
+function CheckoutDetail({ totalPrice }: { totalPrice: number }) {
   return (
     <Box>
       <Grid container columnSpacing={3} rowSpacing={3}>
@@ -116,12 +117,12 @@ function CheckoutDetail() {
             <Box sx={{ marginTop: '37px' }}>
               <TotalBox>
                 <TotalTypo sx={{ width: '25%' }}>Subtotal:</TotalTypo>
-                <TotalTypo>VND 9.000.000.00</TotalTypo>
+                <TotalTypo>{formatMoney((totalPrice ?? 0).toString())} VND</TotalTypo>
               </TotalBox>
 
               <TotalBox>
                 <TotalTypo sx={{ width: '25%' }}>Total:</TotalTypo>
-                <TotalTypo>VND 9.000.000.00</TotalTypo>
+                <TotalTypo>{formatMoney((totalPrice ?? 0).toString())} VND</TotalTypo>
               </TotalBox>
             </Box>
           </BoxDetail>

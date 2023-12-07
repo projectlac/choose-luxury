@@ -1,6 +1,10 @@
 import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { dispatch, useSelector } from 'store';
+import { removeProduct } from 'store/slices/cart';
+import { hiddenLoading, showLoading } from 'store/slices/loading';
+import { CartProductStateProps } from 'types/cart';
 import { ICartList } from 'types/services/productApi.types';
 import formatMoney from 'utils/formatMoney';
 
@@ -9,12 +13,37 @@ interface CheckoutItemProps {
 }
 function CheckoutItem({ data }: CheckoutItemProps) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const products = useSelector((state) => state.cart.checkout.products);
+
   const [dataGet, setDataGet] = useState<ICartList>(data);
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
   };
 
-  console.log(data);
+  const handleChangeQuantity = useCallback(() => {
+    const findData = products.map((pro) => {
+      if (pro.id === dataGet.id) return { ...pro, quantity: dataGet.quantity };
+      else return pro;
+    });
+    dispatch(showLoading());
+    dispatch(removeProduct(findData));
+    dispatch(hiddenLoading());
+  }, [dataGet, products]);
+
+  const handleRemoveProduct = useCallback(() => {
+    const newList: CartProductStateProps[] = [];
+    products.forEach((pro) => {
+      if (pro.id !== dataGet.id) newList.push(pro);
+    });
+    dispatch(showLoading());
+    dispatch(removeProduct(newList));
+    dispatch(hiddenLoading());
+  }, [dataGet, products]);
+
+  useEffect(() => {
+    setDataGet(data);
+  }, [data]);
 
   return (
     <Box
@@ -111,10 +140,12 @@ function CheckoutItem({ data }: CheckoutItemProps) {
                   InputProps={{
                     startAdornment: <InputAdornment position="start">Qty: </InputAdornment>
                   }}
+                  onBlur={handleChangeQuantity}
                 />
               </Box>
 
               <Button
+                onClick={handleRemoveProduct}
                 variant={'contained'}
                 sx={{
                   backgroundColor: 'rgba(191, 140, 10, 1)',
@@ -171,10 +202,11 @@ function CheckoutItem({ data }: CheckoutItemProps) {
               oldValue.quantity = +e.target.value;
               setDataGet(oldValue);
             }}
-            value={dataGet.quantity}
+            value={dataGet?.quantity ?? 0}
             InputProps={{
               startAdornment: <InputAdornment position="start">Qty: </InputAdornment>
             }}
+            onBlur={handleChangeQuantity}
           />
         </Grid>
       </Grid>

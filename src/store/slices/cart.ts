@@ -61,9 +61,7 @@ const slice = createSlice({
 
     // REMOVE PRODUCT
     removeProductSuccess(state, action) {
-      state.checkout.products = action.payload.products;
-      state.checkout.subtotal += -action.payload.subtotal;
-      state.checkout.total += -action.payload.subtotal;
+      state.checkout.products = action.payload;
     },
 
     // UPDATE PRODUCT
@@ -152,11 +150,10 @@ export function addProduct(product: ProductCardProps) {
   };
 }
 
-export function removeProduct(id: string | number | undefined, products: ProductCardProps[]) {
+export function removeProduct(products: ProductCardProps[]) {
   return async () => {
     try {
-      const response = await axios.post('/api/cart/remove', { id, products });
-      dispatch(slice.actions.removeProductSuccess(response.data));
+      dispatch(slice.actions.removeProductSuccess(products));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

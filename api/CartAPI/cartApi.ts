@@ -1,12 +1,7 @@
-import { IReqForCart, IReqForOrder } from 'types/services/cartApi.types';
+import { IReqForCart, IReqForGetListItem, IReqForOrder } from 'types/services/cartApi.types';
 import api from '../config/api';
 
 const cartApi = {
-  getListItemInCart(): Promise<any> {
-    const url = `/create_list_order_item`;
-    return api.get(url);
-  },
-
   addToCart(data: IReqForCart): Promise<any> {
     const url = '/cart';
     return api.post(url, data);
@@ -20,8 +15,12 @@ const cartApi = {
   createOrder(data: IReqForOrder): Promise<any> {
     const url = '/createorder/';
     return api.post(url, data);
-  }
+  },
 
+  getItemsWithListId(data: IReqForGetListItem): Promise<any> {
+    const url = '/product-list/';
+    return api.post(url, data);
+  }
   // deleteProductSize(id: number): Promise<any> {
   //   const url = `/retrieve_update_destroy_list_cart/${id}`;
   //   return api.delete(url);
