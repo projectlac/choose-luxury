@@ -32,6 +32,7 @@ export interface IReqForGetListItem {
 export interface IOrderItem {
   product: number;
   qty: number;
+  price: number;
 }
 
 // export interface IItemForCart {

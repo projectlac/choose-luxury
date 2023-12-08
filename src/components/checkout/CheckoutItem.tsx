@@ -1,5 +1,6 @@
 import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import { dispatch, useSelector } from 'store';
 import { removeProduct } from 'store/slices/cart';
@@ -63,10 +64,15 @@ function CheckoutItem({ data }: CheckoutItemProps) {
               boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
               marginTop: '10px',
               borderRadius: '5px',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              cursor: 'pointer'
             }}
           >
-            <Image src={data.images[0].product_img} layout="fill" objectFit="cover" alt={'gaga'}></Image>
+            <Link href={`/product-detail/${data.id}`}>
+              <a target="__blank">
+                <Image src={data.images[0].product_img} layout="fill" objectFit="cover" alt={'gaga'}></Image>
+              </a>
+            </Link>
           </Box>
         </Grid>
         <Grid item md={6} sm={6} xs={8}>
@@ -82,7 +88,9 @@ function CheckoutItem({ data }: CheckoutItemProps) {
                   color: '#000'
                 }}
               >
-                {data.product_name}
+                <Link href={`/product-detail/${data.id}`}>
+                  <a target="__blank">{data.product_name}</a>
+                </Link>
               </Typography>
               <Typography
                 sx={{

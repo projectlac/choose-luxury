@@ -107,20 +107,8 @@ function ProductDetail({ data }: IProductDetailProps) {
   const cart = useSelector((state) => state.cart);
 
   const addToCart = useCallback(async () => {
-    // try {
     dispatch(showLoading());
-    // const res = await cartApi.addToCart({
-    //   product: {
-    //     description: data.product_description,
-    //     id: data.id,
-    //     image: data.product_img,
-    //     name: data.product_name,
-    //     price: data.base_price
-    //   },
-    //   quantity
-    // });
 
-    // if (res.status === 202) {
     dispatch(addProduct({ quantity, id: data.id }));
     dispatch(
       openSnackbar({

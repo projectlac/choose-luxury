@@ -44,6 +44,10 @@ export default function DialogAuthCommon({ children }: IDialogAuthCommon) {
     setValue(newValue);
   };
 
+  const toggleTab = (newValue: number) => {
+    setValue(newValue);
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -78,7 +82,7 @@ export default function DialogAuthCommon({ children }: IDialogAuthCommon) {
               <AuthLogin loginProp={1} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-              <AuthRegister loginProp={1} />
+              <AuthRegister loginProp={1} toggleTab={toggleTab} />
             </CustomTabPanel>
           </Card>
         </Box>

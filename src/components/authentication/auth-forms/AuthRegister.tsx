@@ -35,7 +35,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 const FirebaseRegister = ({ ...others }) => {
   const intl = useIntl();
-  const { setLoginMode } = others;
+  const { setLoginMode, toggleTab } = others;
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const [showPassword, setShowPassword] = React.useState(false);
@@ -91,6 +91,7 @@ const FirebaseRegister = ({ ...others }) => {
                   })
                 );
                 setLoginMode?.(true);
+                toggleTab?.(0);
                 // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
                 // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.

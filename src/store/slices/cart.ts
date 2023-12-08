@@ -196,10 +196,7 @@ export function setBackStep() {
 export function setBillingAddress(address: Address | null) {
   return async () => {
     try {
-      const response = await axios.post('/api/cart/billing-address', {
-        address
-      });
-      dispatch(slice.actions.setBillingAddressSuccess(response.data));
+      dispatch(slice.actions.setBillingAddressSuccess(address));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

@@ -28,9 +28,10 @@ import DialogAuthCommon from 'components/authentication/dialog-auth-forms/Dialog
 import useAuth from 'hooks/useAuth';
 import { isUndefined } from 'lodash';
 import Link from 'next/link';
-import { dispatch, useSelector } from 'store';
+import { useDispatch, useSelector } from 'store';
 import { removeProduct } from 'store/slices/cart';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
+import { openSnackbar } from 'store/slices/snackbar';
 import { IOrderItem } from 'types/services/cartApi.types';
 import { ICartList, IResponseGetProductById } from 'types/services/productApi.types';
 import { LIST_COUNTRIES, PAYMENT_METHODS } from 'utils/const';
@@ -51,7 +52,9 @@ const CustomButton = styled(Button)(({ theme }) => ({
     backgroundColor: 'rgb(151 111 8)'
   },
   [theme.breakpoints.down('md')]: {
-    width: '48%'
+    width: '30%',
+    fontSize: '15px',
+    height: '35px'
   }
 }));
 
@@ -82,7 +85,7 @@ interface ListCheckoutProps {
 
 function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
   const [listCart, setListCart] = useState<ICartList[]>([]);
-
+  const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.checkout.products);
 
   const fetch = useCallback(async () => {
@@ -90,16 +93,32 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
     products?.forEach((item) => {
       ids.push(item.id);
     });
-    const res1 = await cartApi.getItemsWithListId({ ids });
-    let allPrice: number = 0;
-    const params = res1.data.data?.map((d: IResponseGetProductById) => {
-      const dm = products?.find((item) => item.id === d.id);
-      if (!isUndefined(dm)) allPrice += dm?.quantity * +d.base_price;
-      return { ...d, quantity: dm?.quantity ?? 0 };
-    });
-    handlePrice(allPrice);
-
-    setListCart(params);
+    dispatch(showLoading());
+    try {
+      const res1 = await cartApi.getItemsWithListId({ ids });
+      let allPrice: number = 0;
+      const params = res1.data.data?.map((d: IResponseGetProductById) => {
+        const dm = products?.find((item) => item.id === d.id);
+        if (!isUndefined(dm)) allPrice += dm?.quantity * +d.base_price;
+        return { ...d, quantity: dm?.quantity ?? 0 };
+      });
+      handlePrice(allPrice);
+      setListCart(params);
+    } catch (error) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: error,
+          variant: 'default',
+          alert: {
+            color: 'error'
+          },
+          close: false
+        })
+      );
+    } finally {
+      dispatch(hiddenLoading());
+    }
   }, [handlePrice, products]);
   useEffect(() => {
     fetch();
@@ -133,19 +152,56 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
         const { address, city, postalCode, country, paymentMethod } = values;
         const orderItems: IOrderItem[] = [];
         listCart.forEach((item) => {
-          orderItems.push({ product: item.id, qty: item.quantity });
+          orderItems.push({ product: item.id, qty: item.quantity, price: +item.base_price });
         });
-        await cartApi.createOrder({ orderItems, paymentMethod, shippingAddress: { address, city, country, postalCode }, totalPrice }).then(
-          (res) => {
-            console.log(res);
-          },
-          (err: any) => {
-            setStatus({ success: false });
-            setErrors({ submit: err.message });
-            setSubmitting(false);
-          }
-        );
+        const res = await cartApi.createOrder({
+          orderItems,
+          paymentMethod,
+          shippingAddress: { address, city, country, postalCode },
+          totalPrice
+        });
+
+        console.log(res);
+
+        // const addressInformation: Address = {
+        //   building: '',
+        //   city,
+        //   country,
+        //   destination: '',
+        //   isDefault: true,
+        //   name: '',
+        //   phone: '',
+        //   post: postalCode,
+        //   state: '',
+        //   street: address
+        // };
+
+        // dispatch(setBillingAddress(addressInformation));
+        // dispatch(
+        //   openSnackbar({
+        //     open: true,
+        //     message: 'Order successfully created',
+        //     variant: 'success',
+        //     alert: {
+        //       color: 'success'
+        //     },
+        //     close: false
+        //   })
+        // );
       } catch (err: any) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: 'Something failed',
+            variant: 'alert',
+            alert: {
+              color: 'error'
+            },
+
+            severity: 'error',
+            close: false
+          })
+        );
         setStatus({ success: false });
         setErrors({ submit: err.message });
         setSubmitting(false);
@@ -168,27 +224,37 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          flexWrap: 'wrap'
         }}
       >
         <Link href={'/shop'}>
           <CustomButton>Back to shop</CustomButton>
         </Link>
-        <CustomButton
-          onClick={() => {
-            dispatch(showLoading());
-            dispatch(removeProduct([]));
-            dispatch(hiddenLoading());
-          }}
-        >
-          Remove all
-        </CustomButton>
-        {!isLoggedIn ? (
-          <DialogAuthCommon>
-            <CustomButton>Order</CustomButton>
-          </DialogAuthCommon>
-        ) : (
-          <CustomButton onClick={handleClickOpen}>Order</CustomButton>
+        {products.length > 0 && (
+          <>
+            <CustomButton
+              onClick={() => {
+                dispatch(showLoading());
+                dispatch(removeProduct([]));
+                dispatch(hiddenLoading());
+              }}
+            >
+              Remove all
+            </CustomButton>
+          </>
+        )}
+
+        {products.length > 0 && (
+          <>
+            {!isLoggedIn ? (
+              <CustomButton sx={{ width: '100%' }}>
+                <DialogAuthCommon>Order </DialogAuthCommon>
+              </CustomButton>
+            ) : (
+              <CustomButton onClick={handleClickOpen}>Order</CustomButton>
+            )}
+          </>
         )}
       </Box>
       <Dialog
@@ -200,12 +266,12 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
         fullWidth
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{'Order Form'}</DialogTitle>
+        <DialogTitle>{'Shipping address'}</DialogTitle>
         <DialogContent>
           <form onSubmit={formik.handleSubmit}>
             <DialogContentText id="alert-dialog-slide-description">
               <Grid container columnSpacing={2}>
-                <Grid item md={6}>
+                <Grid item md={12}>
                   <FormControl
                     fullWidth
                     error={Boolean(formik.touched.address && formik.errors.address)}
@@ -229,8 +295,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     )}
                   </FormControl>
                 </Grid>
-                <Grid item md={6}>
-                  {' '}
+                <Grid item md={3}>
                   <FormControl
                     fullWidth
                     error={Boolean(formik.touched.city && formik.errors.city)}
@@ -255,7 +320,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     )}
                   </FormControl>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item md={3}>
                   <FormControl
                     fullWidth
                     error={Boolean(formik.touched.postalCode && formik.errors.postalCode)}
@@ -280,7 +345,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     )}
                   </FormControl>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item md={3}>
                   <FormControl
                     fullWidth
                     error={Boolean(formik.touched.country && formik.errors.country)}
@@ -318,7 +383,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     )}
                   </FormControl>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item md={3}>
                   <FormControl
                     fullWidth
                     error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
@@ -370,15 +435,15 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                   <Button
                     disableElevation
                     disabled={formik.isSubmitting}
-                    onClick={() => {
-                      console.log(formik.errors);
-                    }}
                     fullWidth
                     size="large"
                     type="submit"
                     variant="contained"
                     sx={{
-                      backgroundColor: 'rgb(191, 140, 10)'
+                      backgroundColor: 'rgb(191, 140, 10)',
+                      '&:hover': {
+                        backgroundColor: 'rgb(151 111 8)'
+                      }
                     }}
                   >
                     Order
