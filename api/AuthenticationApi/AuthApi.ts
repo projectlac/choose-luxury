@@ -1,4 +1,4 @@
-import { ILoginRequest, ILoginResponse, IRegisterRequest, IRegisterResponse, IUserInfo } from 'types/services/authentication.type';
+import { IActive, ILoginRequest, ILoginResponse, IRegisterRequest, IRegisterResponse, IUserInfo } from 'types/services/authentication.type';
 import api from '../config/api';
 import { IDataDetailResponse } from 'types/services/serviceitem';
 
@@ -14,6 +14,10 @@ const authApi = {
   getCurrentUser(): Promise<IDataDetailResponse<IUserInfo>> {
     const url = 'auth/users/me/';
     return api.get(url);
+  },
+  activeAccount(param: IActive): Promise<IDataDetailResponse<IUserInfo>> {
+    const url = 'auth/users/activation/';
+    return api.post(url, param);
   }
 };
 export default authApi;

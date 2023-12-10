@@ -28,15 +28,15 @@ import DialogAuthCommon from 'components/authentication/dialog-auth-forms/Dialog
 import useAuth from 'hooks/useAuth';
 import { isUndefined } from 'lodash';
 import Link from 'next/link';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'store';
 import { removeProduct, setBillingAddress } from 'store/slices/cart';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
 import { openSnackbar } from 'store/slices/snackbar';
+import { Address } from 'types/cart';
 import { IOrderItem } from 'types/services/cartApi.types';
 import { ICartList, IResponseGetProductById } from 'types/services/productApi.types';
 import { LIST_COUNTRIES, PAYMENT_METHODS } from 'utils/const';
-import { Address } from 'types/cart';
-import { useIntl } from 'react-intl';
 const CustomButton = styled(Button)(({ theme }) => ({
   width: '180px',
   height: '46px',
@@ -160,17 +160,21 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
 
   useEffect(() => {
     fetch();
-    console.log(billing);
   }, [billing, fetch]);
 
   const { isLoggedIn } = useAuth();
   const [open, setOpen] = React.useState(false);
+  const [openBill, setOpenBill] = React.useState(false);
+
   const theme = useTheme();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  const handleClickOpenBill = () => {
+    setOpenBill(true);
+  };
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: defaultAddress,
@@ -247,6 +251,11 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
 
   const handleClose = () => {
     setOpen(false);
+    formik.resetForm();
+  };
+
+  const handleCloseBill = () => {
+    setOpenBill(false);
     formik.resetForm();
   };
 
@@ -494,6 +503,7 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
           </form>
         </DialogContent>
       </Dialog>
+      {/* <DialogBill openBill={true} handleCloseBill={handleCloseBill} /> */}
     </>
   );
 }

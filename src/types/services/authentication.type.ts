@@ -29,3 +29,8 @@ export interface IUserInfo {
   id: number;
   email: string;
 }
+
+export interface IActive {
+  uid: string;
+  token: string;
+}

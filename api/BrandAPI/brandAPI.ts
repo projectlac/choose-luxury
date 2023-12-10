@@ -23,5 +23,5 @@ export const updateBrand = (id: number, product_brand_name: string) => {
 };
 
 export const getProductByBrand = (product_brand_name: string) => {
-  return api.get(`/SearchProductBrand?product_brand_name=${product_brand_name}`);
+  return api.get(`/SearchProductBrand`);
 };
