@@ -3,6 +3,7 @@ export interface IRegisterRequest {
   first_name: string;
   last_name: string;
   password: string;
+  re_password: string;
   username: string;
 }
 

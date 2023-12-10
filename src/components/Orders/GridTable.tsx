@@ -4,6 +4,8 @@ import { useTheme } from '@mui/material/styles';
 // import { DataGrid,  } from '@material-ui/data-grid';
 import { IProductOrder } from 'types/shop/product';
 import DataTable from './DataTable';
+import { useCallback, useEffect } from 'react';
+import orderAPI from '../../../api/OrderAPI/OrderAPI';
 
 // ==============================|| TABLE - BASIC DATA GRID ||============================== //
 
@@ -21,6 +23,15 @@ const data: IProductOrder[] = [
   { id: '27', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' }
 ];
 export default function TableDataGrid() {
+  const getListOrder = useCallback(async () => {
+    // const res = await orderAPI.getListOrderByAdmin();
+    const res1 = await orderAPI.myOrder();
+    // console.log(res);
+    console.log(res1);
+  }, []);
+  useEffect(() => {
+    getListOrder();
+  }, [getListOrder]);
   const theme = useTheme();
   return (
     <Box

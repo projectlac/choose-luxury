@@ -178,5 +178,19 @@
   "Weak": "Weak",
   "Normal": "Normal",
   "Good": "Good",
-  "Strong": "Strong"
+  "Strong": "Strong",
+  "cart": "Cart",
+  "your-order": "Your orders",
+  "status": "Status",
+  "total-price": "Total price",
+  "number-of-product": "Number of product",
+  "quantity": "Quantity",
+  "back-to-shop": "Back to shop",
+  "remove-all": "Remove all",
+  "order1": "Order",
+  "city": "City",
+  "postal-code": "Postal Code",
+  "country": "Country",
+  "payment-method": "Payment method",
+  "remove": "Remove"
 }

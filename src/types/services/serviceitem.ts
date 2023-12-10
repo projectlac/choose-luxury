@@ -8,6 +8,10 @@ export interface IDataPagingResponse<T> {
   data: IPagingResponse<T>;
 }
 
+export interface IMyOrderResponse<T> {
+  data: T;
+}
+
 export interface IPagingResponse<T> {
   count: number;
   results: T;

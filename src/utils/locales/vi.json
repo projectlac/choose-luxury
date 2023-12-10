@@ -178,5 +178,19 @@
   "Weak": "Yếu",
   "Normal": "Bình thường",
   "Good": "Khá tốt",
-  "Strong": "Mạnh"
+  "Strong": "Mạnh",
+  "cart": "Giỏ hàng",
+  "your-order": "Đơn hàng của bạn",
+  "status": "Trạng thái",
+  "total-price": "Tổng giá",
+  "number-of-product": "Số lượng sản phẩm",
+  "quantity": "Số lượng",
+  "back-to-shop": "Quay lại cửa hàng",
+  "remove-all": "Xóa tất cả",
+  "order1": "Đặt hàng",
+  "city": "Thành phố",
+  "postal-code": "Mã bưu điện",
+  "country": "Quốc gia",
+  "payment-method": "Phương thước thanh toán",
+  "remove": "Xóa"
 }

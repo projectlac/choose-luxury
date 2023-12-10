@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // material-ui
 import {
   Box,
@@ -27,14 +27,13 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { FormattedMessage } from 'react-intl';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
 import { StringColorProps } from 'types';
-import { FormattedMessage, useIntl } from 'react-intl';
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
-  const intl = useIntl();
   const { setLoginMode, toggleTab } = others;
   const theme = useTheme();
   const scriptedRef = useScriptRef();
@@ -65,48 +64,52 @@ const FirebaseRegister = ({ ...others }) => {
           email: '',
           username: '',
           password: '',
+          re_password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
           username: Yup.string().max(255).required('Username is required'),
-
+          re_password: Yup.string().max(255).required('Confirm password is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          const { email, username, password } = values;
+          const { email, username, password, re_password } = values;
           try {
-            await register({ email, first_name: 'Tim', last_name: 'Dang', password, username }).then(
-              (res) => {
-                dispatch(
-                  openSnackbar({
-                    open: true,
-                    message: 'Register Successful',
-                    variant: 'alert',
-                    anchorOrigin: { vertical: 'top', horizontal: 'right' },
-                    alert: {
-                      color: 'success'
-                    },
-                    close: false
-                  })
-                );
-                setLoginMode?.(true);
-                toggleTab?.(0);
-                // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
-                // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
-                // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
-                // github issue: https://github.com/formium/formik/issues/2430
-              },
-              (err: any) => {
-                if (scriptedRef.current) {
-                  setStatus({ success: false });
-                  setErrors({ submit: err.message });
-                  setSubmitting(false);
-                }
-              }
+            await register({ email, first_name: 'Tim', last_name: 'Dang', password, re_password, username });
+
+            dispatch(
+              openSnackbar({
+                open: true,
+                message: 'Register Successful',
+                variant: 'alert',
+                anchorOrigin: { vertical: 'top', horizontal: 'right' },
+                alert: {
+                  color: 'success'
+                },
+                close: false
+              })
             );
+            setLoginMode?.(true);
+            toggleTab?.(0);
+
+            // (res) => {
           } catch (err: any) {
-            console.error(err);
+            console.log(err);
+
+            dispatch(
+              openSnackbar({
+                open: true,
+                message: `${err.data?.non_field_errors?.[0] ?? err.data?.email?.[0]}`,
+                variant: 'alert',
+                alert: {
+                  color: 'error'
+                },
+
+                severity: 'error',
+                close: false
+              })
+            );
             if (scriptedRef.current) {
               setStatus({ success: false });
               setErrors({ submit: err.message });
@@ -209,6 +212,46 @@ const FirebaseRegister = ({ ...others }) => {
               )}
             </FormControl>
 
+            <FormControl fullWidth error={Boolean(touched.re_password && errors.re_password)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-re_password-register" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
+                Confirm password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-re_password-register"
+                type={showPassword ? 'text' : 'password'}
+                value={values.re_password}
+                name="re_password"
+                label="re_password"
+                onBlur={handleBlur}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle re_password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      size="large"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                inputProps={{}}
+                sx={{
+                  fieldset: {
+                    borderColor: 'rgba(191, 140, 10, 1) !important'
+                  }
+                }}
+              />
+              {touched.re_password && errors.re_password && (
+                <FormHelperText error id="standard-weight-helper-text-re_password-register">
+                  {errors.re_password}
+                </FormHelperText>
+              )}
+            </FormControl>
             {strength !== 0 && (
               <FormControl fullWidth>
                 <Box sx={{ mb: 2 }}>

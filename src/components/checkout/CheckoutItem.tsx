@@ -2,6 +2,7 @@ import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/m
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { dispatch, useSelector } from 'store';
 import { removeProduct } from 'store/slices/cart';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
@@ -13,6 +14,7 @@ interface CheckoutItemProps {
   data: ICartList;
 }
 function CheckoutItem({ data }: CheckoutItemProps) {
+  const intl = useIntl();
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const products = useSelector((state) => state.cart.checkout.products);
 
@@ -170,7 +172,7 @@ function CheckoutItem({ data }: CheckoutItemProps) {
                   }
                 }}
               >
-                Remove
+                {`${intl.formatMessage({ id: 'remove' })}`}
               </Button>
             </Box>
           </Box>

@@ -33,8 +33,17 @@ export interface IOrderItem {
   product: number;
   qty: number;
   price: number;
+  id?: number;
 }
 
+export interface IResponseGetMyOrder extends IReqForOrder {
+  status: string;
+  deliveredAt?: string;
+  paidAt?: string;
+  id: number;
+  isDelivered: boolean;
+  isPaid: boolean;
+}
 // export interface IItemForCart {
 //   quantity: number;
 //   product: IProductForCart;

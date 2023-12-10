@@ -39,7 +39,7 @@ function ProductDetailIndex() {
       </HeaderWrapper>
       <Breadcrumbs />
       {data && <ProductDetail data={data} />}
-      <RelatedProduct />
+      <RelatedProduct id={data?.brand_id ?? 0} />
       <Footer />
     </div>
   );

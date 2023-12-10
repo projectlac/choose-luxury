@@ -29,14 +29,16 @@ import useAuth from 'hooks/useAuth';
 import { isUndefined } from 'lodash';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'store';
-import { removeProduct } from 'store/slices/cart';
+import { removeProduct, setBillingAddress } from 'store/slices/cart';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
 import { openSnackbar } from 'store/slices/snackbar';
 import { IOrderItem } from 'types/services/cartApi.types';
 import { ICartList, IResponseGetProductById } from 'types/services/productApi.types';
 import { LIST_COUNTRIES, PAYMENT_METHODS } from 'utils/const';
+import { Address } from 'types/cart';
+import { useIntl } from 'react-intl';
 const CustomButton = styled(Button)(({ theme }) => ({
-  width: '174px',
+  width: '180px',
   height: '46px',
   cursor: 'pointer',
   display: 'flex',
@@ -44,7 +46,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   justifyContent: 'center',
   backgroundColor: 'rgba(191, 140, 10, 1)',
   fontFamily: 'Open Sans',
-  fontSize: '20px',
+  fontSize: '16px',
   fontWeight: '700',
   lineHeight: '27px',
   color: '#fff',
@@ -81,12 +83,32 @@ const Transition = React.forwardRef(function Transition(
 interface ListCheckoutProps {
   handlePrice: (data: number) => void;
   totalPrice: number;
+  handleToggle: (data: number) => void;
 }
 
-function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
+interface InitFormAddress {
+  address: string;
+  city: string;
+  postalCode: number;
+  country: string;
+  paymentMethod: string;
+  submit: null | boolean;
+}
+
+function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutProps) {
   const [listCart, setListCart] = useState<ICartList[]>([]);
   const dispatch = useDispatch();
+  const intl = useIntl();
   const products = useSelector((state) => state.cart.checkout.products);
+  const [defaultAddress, setDefaultAddress] = useState<InitFormAddress>({
+    address: '',
+    city: '',
+    postalCode: 0,
+    country: 'Viet Nam',
+    paymentMethod: 'Cash delivery',
+    submit: null
+  });
+  const billing = useSelector((state) => state.cart.checkout.billing);
 
   const fetch = useCallback(async () => {
     const ids: number[] = [];
@@ -94,13 +116,26 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
       ids.push(item.id);
     });
     dispatch(showLoading());
+
     try {
+      if (billing) {
+        const ini: InitFormAddress = {
+          address: billing.street ?? '',
+          city: billing.city ?? '',
+          country: billing.country ?? 'Viet Nam',
+          paymentMethod: billing.destination ?? 'Cash delivery',
+          postalCode: +billing.post ?? 0,
+          submit: null
+        };
+
+        setDefaultAddress(ini);
+      }
       const res1 = await cartApi.getItemsWithListId({ ids });
       let allPrice: number = 0;
       const params = res1.data.data?.map((d: IResponseGetProductById) => {
-        const dm = products?.find((item) => item.id === d.id);
-        if (!isUndefined(dm)) allPrice += dm?.quantity * +d.base_price;
-        return { ...d, quantity: dm?.quantity ?? 0 };
+        const productItem = products?.find((item) => item.id === d.id);
+        if (!isUndefined(productItem)) allPrice += productItem?.quantity * +d.base_price;
+        return { ...d, quantity: productItem?.quantity ?? 0 };
       });
       handlePrice(allPrice);
       setListCart(params);
@@ -108,21 +143,26 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
       dispatch(
         openSnackbar({
           open: true,
-          message: error,
-          variant: 'default',
+          message: 'Something went wrong!',
+          variant: 'alert',
           alert: {
             color: 'error'
           },
+
+          severity: 'error',
           close: false
         })
       );
     } finally {
       dispatch(hiddenLoading());
     }
-  }, [handlePrice, products]);
+  }, [billing, dispatch, handlePrice, products]);
+
   useEffect(() => {
     fetch();
-  }, [fetch]);
+    console.log(billing);
+  }, [billing, fetch]);
+
   const { isLoggedIn } = useAuth();
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
@@ -133,14 +173,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      address: '',
-      city: '',
-      postalCode: 0,
-      country: 'Viet Nam',
-      paymentMethod: 'Cash delivery',
-      submit: null
-    },
+    initialValues: defaultAddress,
     validationSchema: Yup.object().shape({
       address: Yup.string().max(255).required('Address is required'),
       city: Yup.string().max(255).required('City is required'),
@@ -161,33 +194,36 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
           totalPrice
         });
 
-        console.log(res);
+        if (res.status === 200) {
+          const addressInformation: Address = {
+            building: '',
+            city,
+            country,
+            destination: paymentMethod,
+            isDefault: true,
+            name: '',
+            phone: '',
+            post: postalCode,
+            state: '',
+            street: address
+          };
 
-        // const addressInformation: Address = {
-        //   building: '',
-        //   city,
-        //   country,
-        //   destination: '',
-        //   isDefault: true,
-        //   name: '',
-        //   phone: '',
-        //   post: postalCode,
-        //   state: '',
-        //   street: address
-        // };
-
-        // dispatch(setBillingAddress(addressInformation));
-        // dispatch(
-        //   openSnackbar({
-        //     open: true,
-        //     message: 'Order successfully created',
-        //     variant: 'success',
-        //     alert: {
-        //       color: 'success'
-        //     },
-        //     close: false
-        //   })
-        // );
+          dispatch(setBillingAddress(addressInformation));
+          dispatch(
+            openSnackbar({
+              open: true,
+              message: 'Order successfully created',
+              variant: 'alert',
+              alert: {
+                color: 'success'
+              },
+              close: false
+            })
+          );
+          dispatch(removeProduct([]));
+          setOpen(false);
+          handleToggle(1);
+        }
       } catch (err: any) {
         dispatch(
           openSnackbar({
@@ -229,7 +265,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
         }}
       >
         <Link href={'/shop'}>
-          <CustomButton>Back to shop</CustomButton>
+          <CustomButton>{`${intl.formatMessage({ id: 'back-to-shop' })}`}</CustomButton>
         </Link>
         {products.length > 0 && (
           <>
@@ -240,7 +276,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                 dispatch(hiddenLoading());
               }}
             >
-              Remove all
+              {`${intl.formatMessage({ id: 'remove-all' })}`}
             </CustomButton>
           </>
         )}
@@ -249,10 +285,12 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
           <>
             {!isLoggedIn ? (
               <CustomButton sx={{ width: '100%' }}>
-                <DialogAuthCommon>Order </DialogAuthCommon>
+                <DialogAuthCommon>
+                  <>{`${intl.formatMessage({ id: 'order1' })}`}</>
+                </DialogAuthCommon>
               </CustomButton>
             ) : (
-              <CustomButton onClick={handleClickOpen}>Order</CustomButton>
+              <CustomButton onClick={handleClickOpen}>{`${intl.formatMessage({ id: 'order1' })}`}</CustomButton>
             )}
           </>
         )}
@@ -277,7 +315,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     error={Boolean(formik.touched.address && formik.errors.address)}
                     sx={{ ...theme.typography.customInput }}
                   >
-                    <InputLabel htmlFor="outlined-adornment-address-login">Address </InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-address-login"> {`${intl.formatMessage({ id: 'address' })}`} </InputLabel>
                     <OutlinedInput
                       id="outlined-adornment-address-login"
                       type="address"
@@ -285,7 +323,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                       name="address"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
-                      label="Address"
+                      label={`${intl.formatMessage({ id: 'address' })}`}
                       inputProps={{}}
                     />
                     {formik.touched.address && formik.errors.address && (
@@ -301,7 +339,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     error={Boolean(formik.touched.city && formik.errors.city)}
                     sx={{ ...theme.typography.customInput }}
                   >
-                    <InputLabel htmlFor="outlined-adornment-city-login">City</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-city-login">{`${intl.formatMessage({ id: 'city' })}`}</InputLabel>
                     <OutlinedInput
                       id="outlined-adornment-city-login"
                       type="city"
@@ -309,7 +347,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                       name="city"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
-                      label="City"
+                      label={`${intl.formatMessage({ id: 'city' })}`}
                       inputProps={{}}
                     />
 
@@ -326,7 +364,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     error={Boolean(formik.touched.postalCode && formik.errors.postalCode)}
                     sx={{ ...theme.typography.customInput }}
                   >
-                    <InputLabel htmlFor="outlined-adornment-postalCode-login">Postal Code</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-postalCode-login">{`${intl.formatMessage({ id: 'postal-code' })}`}</InputLabel>
                     <OutlinedInput
                       id="outlined-adornment-postalCode-login"
                       type="postalCode"
@@ -334,7 +372,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                       name="postalCode"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
-                      label="Postal Code"
+                      label={`${intl.formatMessage({ id: 'postal-code' })}`}
                       inputProps={{}}
                     />
 
@@ -351,7 +389,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     error={Boolean(formik.touched.country && formik.errors.country)}
                     sx={{ ...theme.typography.customInput }}
                   >
-                    <InputLabel htmlFor="outlined-adornment-country-login">Country</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-country-login">{`${intl.formatMessage({ id: 'country' })}`}</InputLabel>
                     <Select
                       labelId="demo-multiple-name-label"
                       id="demo-multiple-name"
@@ -389,7 +427,9 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                     error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
                     sx={{ ...theme.typography.customInput }}
                   >
-                    <InputLabel htmlFor="outlined-adornment-paymentMethod-login">Payment method</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-paymentMethod-login">{`${intl.formatMessage({
+                      id: 'payment-method'
+                    })}`}</InputLabel>
                     <Select
                       labelId="demo-multiple-name-label"
                       id="demo-multiple-name"
@@ -446,7 +486,7 @@ function ListCheckout({ handlePrice, totalPrice }: ListCheckoutProps) {
                       }
                     }}
                   >
-                    Order
+                    {intl.formatMessage({ id: 'order1' })}
                   </Button>
                 </AnimateButton>
               </Box>
