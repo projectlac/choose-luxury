@@ -3,6 +3,7 @@ import * as React from 'react';
 import AuthLogin from '../auth-forms/AuthLogin';
 import { Box, Card, Tab, Tabs, Typography } from '@mui/material';
 import AuthRegister from '../auth-forms/AuthRegister';
+import ForgotPassword from 'pages/pages/authentication/auth3/forgot-password';
 
 interface IDialogAuthCommon {
   children: React.ReactChild;
@@ -37,9 +38,13 @@ function a11yProps(index: number) {
 
 export default function DialogAuthCommon({ children }: IDialogAuthCommon) {
   const [open, setOpen] = React.useState(false);
+  const [isForgotMode, setIsForgotMode] = React.useState<boolean>(false);
 
   const [value, setValue] = React.useState(0);
 
+  const handleChangeMode = React.useCallback((data: boolean) => {
+    setIsForgotMode(data);
+  }, []);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -79,7 +84,11 @@ export default function DialogAuthCommon({ children }: IDialogAuthCommon) {
               </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-              <AuthLogin loginProp={1} />
+              {!isForgotMode ? (
+                <AuthLogin loginProp={1} handleChangeMode={handleChangeMode} />
+              ) : (
+                <ForgotPassword handleChangeMode={handleChangeMode} />
+              )}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
               <AuthRegister loginProp={1} toggleTab={toggleTab} />
