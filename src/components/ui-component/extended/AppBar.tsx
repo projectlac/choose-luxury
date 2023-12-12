@@ -1,10 +1,8 @@
 import Image from 'next/image';
 // material-ui
 import {
-  Avatar,
   Box,
   Container,
-  Divider,
   Drawer,
   Link,
   List,
@@ -23,15 +21,15 @@ import Cart from '../../../assets/header/cart.png';
 import WishList from '../../../assets/header/heart.png';
 import Logo from '../../../assets/header/logo.png';
 // assets
+import { Logout } from '@mui/icons-material';
 import { styled } from '@mui/styles';
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
-import { useEffect, useState } from 'react';
-import User from './User';
-import { useSelector } from 'store';
 import LocalizationSection from 'layout/MainLayout/Header/LocalizationSection';
+import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { PersonAdd, Settings, Logout } from '@mui/icons-material';
+import { useSelector } from 'store';
+import User from './User';
 
 // elevation scroll
 
@@ -126,7 +124,7 @@ const AppBar = ({ ...others }) => {
                       <ListItemText primary="Home" />
                     </ListItemButton>
                   </Link>
-                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                  <Link style={{ textDecoration: 'none' }} href="/about-us" target="_blank">
                     <ListItemButton component="a">
                       <ListItemText primary="About us" />
                     </ListItemButton>
@@ -181,7 +179,7 @@ const AppBar = ({ ...others }) => {
             <CustomButton href="/">
               <FormattedMessage id="homepage" />
             </CustomButton>
-            <CustomButton href="">
+            <CustomButton href="/about-us">
               <FormattedMessage id="about-us" />
             </CustomButton>
             <CustomButton href="/shop">

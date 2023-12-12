@@ -41,7 +41,7 @@ const Google = '/assets/images/icons/social-google.svg';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
-const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
+const FirebaseLogin = ({ loginProp, handleChangeMode, ...others }: { loginProp?: number; handleChangeMode?: (data: boolean) => void }) => {
   const intl = useIntl();
   const theme = useTheme();
   const scriptedRef = useScriptRef();
@@ -203,7 +203,16 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
                 }
                 label={`${intl.formatMessage({ id: 'remember-me' })}`}
               />
-              <Typography variant="subtitle1" component={Link} href={'/'} color="secondary" sx={{ textDecoration: 'none' }}>
+              <Typography
+                variant="subtitle1"
+                component={Link}
+                href={'/'}
+                color="secondary"
+                sx={{ textDecoration: 'none' }}
+                onClick={() => {
+                  handleChangeMode?.(true);
+                }}
+              >
                 <FormattedMessage id="forgot-password" />
               </Typography>
             </Stack>
