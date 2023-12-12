@@ -1,3 +1,5 @@
+import { IResponseGetProductById } from './productApi.types';
+
 export interface IReqForCart {
   product: {
     id: number;
@@ -36,13 +38,20 @@ export interface IOrderItem {
   id?: number;
 }
 
-export interface IResponseGetMyOrder extends IReqForOrder {
-  status: string;
-  deliveredAt?: string;
-  paidAt?: string;
-  id: number;
+export interface IResponseGetMyOrder {
+  items: IResponseGetProductById[];
+  order: IOrderInfomation;
+  shippingAddress: IAddressOfCustomer;
+}
+
+export interface IOrderInfomation {
+  createdAt: string;
+  deliveredAt: null | string;
   isDelivered: boolean;
   isPaid: boolean;
+  paidAt: null | string;
+  status: string;
+  totalPrice: string;
 }
 // export interface IItemForCart {
 //   quantity: number;

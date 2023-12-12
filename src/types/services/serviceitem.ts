@@ -9,7 +9,7 @@ export interface IDataPagingResponse<T> {
 }
 
 export interface IMyOrderResponse<T> {
-  data: T;
+  data: INoData<T>;
 }
 
 export interface IPagingResponse<T> {
@@ -18,5 +18,9 @@ export interface IPagingResponse<T> {
 }
 
 export interface IDataDetailResponse<T> {
+  data: T;
+}
+
+export interface INoData<T> {
   data: T;
 }
