@@ -8,6 +8,11 @@ export const getProduct = (params: IParamsGetProduct): Promise<IDataPagingRespon
   return api.get(`/list_product?${str}`);
 };
 
+export const getProductWithFilter = (): Promise<IDataPagingResponse<IResponseGetProductById[]>> => {
+  // let str = qs.stringify(params);
+  return api.get(`/SearchProd?product_size_name=M`);
+};
+
 export const getProductById = (id: string | number): Promise<IDataDetailResponse<IResponseGetProductById>> => {
   return api.get(`/retrieve_update_destroy_product/${id}`);
 };

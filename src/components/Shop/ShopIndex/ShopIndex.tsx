@@ -5,7 +5,7 @@ import { dispatch } from 'store';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
 import { getBrands, getCategories, getProductSize } from 'store/slices/product';
 import { IResponseGetProductById } from 'types/services/productApi.types';
-import { getProduct } from '../../../../api/ProductAPI/productDashboash';
+import { getProduct, getProductWithFilter } from '../../../../api/ProductAPI/productDashboash';
 import BrandFilter from '../Filter/BrandFilter';
 import Filter from '../Filter/Filter';
 import PriceFilter from '../Filter/PriceFilter';
@@ -31,7 +31,10 @@ function ShopIndex() {
 
   const getListProduct = useCallback(
     async (searchParam: string) => {
+      const res1 = await getProductWithFilter();
       const res = await getProduct({ search: searchParam, page: page1 });
+
+      console.log(res1);
 
       getProductList(res.data.results);
       setTotal(res.data.count);

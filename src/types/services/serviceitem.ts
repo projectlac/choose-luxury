@@ -19,6 +19,8 @@ export interface IPagingResponse<T> {
 
 export interface IDataDetailResponse<T> {
   data: T;
+  responseCode: number;
+  status: number;
 }
 
 export interface INoData<T> {

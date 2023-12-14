@@ -2,33 +2,35 @@
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // import { DataGrid,  } from '@material-ui/data-grid';
-import { IProductOrder } from 'types/shop/product';
-import DataTable from './DataTable';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'store';
+import { hiddenLoading, showLoading } from 'store/slices/loading';
+import { IResponseGetMyOrder } from 'types/services/cartApi.types';
 import orderAPI from '../../../api/OrderAPI/OrderAPI';
+import DataTable from './DataTable';
 
-// ==============================|| TABLE - BASIC DATA GRID ||============================== //
-
-const data: IProductOrder[] = [
-  { id: '1', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Completed' },
-  { id: '2', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' },
-  { id: '3', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Completed' },
-  { id: '4', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' },
-  { id: '12', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' },
-  { id: '22', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' },
-  { id: '32', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' },
-  { id: '42', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' },
-  { id: '52', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' },
-  { id: '62', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' },
-  { id: '27', date: '07-07-2023', customer: 'Cleg Peter', items: '80/100', status: 'Pending' }
-];
 export default function TableDataGrid() {
+  const [data, setData] = useState<IResponseGetMyOrder[]>([]);
+  const dispatch = useDispatch();
   const getListOrder = useCallback(async () => {
-    // const res = await orderAPI.getListOrderByAdmin();
-    const res1 = await orderAPI.myOrder();
+    try {
+      dispatch(showLoading());
+      const res = await orderAPI.getListOrderByAdmin();
+
+      const itemOrder: IResponseGetMyOrder[] = res.data.data;
+      console.log(itemOrder);
+
+      setData(itemOrder);
+    } catch (error) {
+    } finally {
+      dispatch(hiddenLoading());
+    }
+    // const res = await orderAPI.getOrderById(2);
+    // const res1 = await orderAPI.myOrder();
     // console.log(res);
-    console.log(res1);
-  }, []);
+    // console.log(res);
+  }, [dispatch]);
+
   useEffect(() => {
     getListOrder();
   }, [getListOrder]);

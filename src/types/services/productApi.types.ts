@@ -36,6 +36,22 @@ export interface IResponseGetProductById {
   images: IResponseImageArray[];
 }
 
+export interface IResponseGetProductByIdForFrontEnd {
+  id: number;
+  productName: string;
+  oldPrice: string;
+  productDescription: string;
+  slug: string;
+  unitInStock: string;
+  categoryId: number;
+  brandId: number;
+  sizeId: number;
+  productImg: string;
+  basePrice: string;
+  isAvailable: boolean;
+  images: IResponseImageArray[];
+}
+
 export interface IResponseImageArray {
   id: number;
   product: number;

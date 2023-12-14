@@ -24,17 +24,19 @@ import { IProductOrder, OrderStatus } from 'types/shop/product';
 import BulkActions from './BulkActions';
 import CheckIcon from '@mui/icons-material/Check';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { IResponseGetMyOrder, TStatus } from 'types/services/cartApi.types';
+import { format } from 'date-fns';
 
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: IProductOrder[];
+  cryptoOrders: IResponseGetMyOrder[];
 }
 
 interface Filters {
   type: string | null;
 }
 
-const applyPagination = (cryptoOrders: IProductOrder[], page: number, limit: number): IProductOrder[] => {
+const applyPagination = (cryptoOrders: IResponseGetMyOrder[], page: number, limit: number): IResponseGetMyOrder[] => {
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
@@ -56,7 +58,9 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const selectedAllCryptoOrders = selectedCryptoOrders.length === cryptoOrders.length;
 
   const handleSelectAllCryptoOrders = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSelectedCryptoOrders(event.target.checked ? cryptoOrders.map((cryptoOrder) => cryptoOrder.id) : []);
+    setSelectedCryptoOrders(
+      event.target.checked ? cryptoOrders.map((cryptoOrder) => cryptoOrder.shippingAddress?.id?.toString() ?? '') : []
+    );
   };
 
   const handleSelectOneCryptoOrder = (event: ChangeEvent<HTMLInputElement>, cryptoOrderId: string): void => {
@@ -66,8 +70,10 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       setSelectedCryptoOrders((prevSelected) => prevSelected.filter((id) => id !== cryptoOrderId));
     }
   };
+  console.log(cryptoOrders);
+
   const [search, setSearch] = useState<string>('');
-  const getStatusLabel = (type: OrderStatus): JSX.Element => {
+  const getStatusLabel = (type: TStatus): JSX.Element => {
     const map = {
       Completed: {
         icons: <CheckIcon sx={{ margin: '0 5px 0 15px ' }} />,
@@ -76,6 +82,14 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       Pending: {
         icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
         text: 'Pending'
+      },
+      'New Order': {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'New Order'
+      },
+      new: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'New Order'
       }
     };
 
@@ -118,23 +132,23 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const applyFilters = (cryptoOrders1: IProductOrder[], filters1: Filters): IProductOrder[] => {
+  const applyFilters = (cryptoOrders1: IResponseGetMyOrder[], filters1: Filters): IResponseGetMyOrder[] => {
     return cryptoOrders1.filter((cryptoItem) => {
       let matches = true;
 
-      if (filters1.type && cryptoItem.status !== filters1.type) {
+      if (filters1.type && cryptoItem.order.status !== filters1.type) {
         matches = false;
       }
 
       return matches;
     });
   };
-  const filterBySearch = (cryptoOrders1: IProductOrder[]) => {
-    return cryptoOrders1.filter((d) => d.id.toLowerCase().includes(search.toLowerCase()));
-  };
+  // const filterBySearch = (cryptoOrders1: IResponseGetMyOrder[]) => {
+  //   return cryptoOrders1.filter((d) => d.shippingAddress?.id === +search);
+  // };
   const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
-  const filteredCode = filterBySearch(filteredCryptoOrders);
-  const paginatedCryptoOrders = applyPagination(filteredCode, page, limit);
+  // const filteredCode = filterBySearch(filteredCryptoOrders);
+  const paginatedCryptoOrders = applyPagination(filteredCryptoOrders, page, limit);
 
   const theme = useTheme();
   const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +196,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               <TableCell sx={{ width: '200px' }}>Order ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell sx={{ width: '350px' }}>Customer</TableCell>
-              <TableCell sx={{ width: '250px' }}>Items</TableCell>
+              <TableCell sx={{ width: '250px' }}>Number Of Product</TableCell>
               <TableCell sx={{ width: '250px' }} align="center">
                 Status
               </TableCell>
@@ -190,32 +204,34 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
           </TableHead>
           <TableBody>
             {paginatedCryptoOrders.map((cryptoOrder) => {
-              const isCryptoOrderSelected = selectedCryptoOrders.includes(cryptoOrder.id);
+              const isCryptoOrderSelected = selectedCryptoOrders.includes(cryptoOrder.shippingAddress?.id?.toString() ?? '');
               return (
-                <TableRow hover key={cryptoOrder.id} selected={isCryptoOrderSelected}>
+                <TableRow hover key={cryptoOrder.shippingAddress?.id?.toString() ?? ''} selected={isCryptoOrderSelected}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
                       checked={isCryptoOrderSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) => handleSelectOneCryptoOrder(event, cryptoOrder.id)}
+                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                        handleSelectOneCryptoOrder(event, cryptoOrder.shippingAddress?.id?.toString() ?? '')
+                      }
                       value={isCryptoOrderSelected}
                     />
                   </TableCell>
                   <TableCell>
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
                       <Typography variant={`body1`} fontWeight={`normal`} color={'text.primary'} gutterBottom noWrap>
-                        {cryptoOrder.id}
+                        {cryptoOrder.shippingAddress?.id?.toString() ?? ''}
                       </Typography>
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {cryptoOrder.date}
+                      {format(new Date(cryptoOrder.order.createdAt), 'dd/MM/yyyy')}
                     </Typography>
                   </TableCell>
-                  <TableCell>{cryptoOrder.customer}</TableCell>
-                  <TableCell>{cryptoOrder.items}</TableCell>
-                  <TableCell align="center">{getStatusLabel(cryptoOrder.status)}</TableCell>
+                  <TableCell>User: </TableCell>
+                  <TableCell>{cryptoOrder.order.numProducts}</TableCell>
+                  <TableCell align="center">{getStatusLabel(cryptoOrder.order.status)}</TableCell>
                 </TableRow>
               );
             })}

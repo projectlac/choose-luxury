@@ -95,7 +95,7 @@ const Error = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <AnimateButton>
-                    <Button variant="contained" size="large" component={Link} href={DASHBOARD_PATH}>
+                    <Button variant="contained" size="large" component={Link} href={'/'}>
                       <HomeTwoToneIcon sx={{ fontSize: '1.3rem', mr: 0.75 }} /> Home
                     </Button>
                   </AnimateButton>

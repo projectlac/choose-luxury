@@ -1,4 +1,4 @@
-import { IResponseGetProductById } from './productApi.types';
+import { IResponseGetProductById, IResponseGetProductByIdForFrontEnd } from './productApi.types';
 
 export interface IReqForCart {
   product: {
@@ -25,6 +25,7 @@ export interface IAddressOfCustomer {
   city: string;
   postalCode: number;
   country: string;
+  id?: number;
 }
 
 export interface IReqForGetListItem {
@@ -38,19 +39,30 @@ export interface IOrderItem {
   id?: number;
 }
 
+export interface IOrderAdmin {
+  data: IResponseGetMyOrder[];
+}
 export interface IResponseGetMyOrder {
   items: IResponseGetProductById[];
   order: IOrderInfomation;
   shippingAddress: IAddressOfCustomer;
 }
 
+export interface IResponseGetMyOrderForFrontEnd {
+  items: IResponseGetProductByIdForFrontEnd[];
+  order: IOrderInfomation;
+  shippingAddress: IAddressOfCustomer;
+}
+
+export type TStatus = 'Pending' | 'Completed' | 'New Order';
 export interface IOrderInfomation {
   createdAt: string;
   deliveredAt: null | string;
   isDelivered: boolean;
   isPaid: boolean;
   paidAt: null | string;
-  status: string;
+  status: TStatus;
+  numProducts: number;
   totalPrice: string;
 }
 // export interface IItemForCart {

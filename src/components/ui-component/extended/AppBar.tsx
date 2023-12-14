@@ -30,7 +30,8 @@ import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'store';
 import User from './User';
-
+import PersonIcon from '@mui/icons-material/Person';
+import { useRouter } from 'next/router';
 // elevation scroll
 
 const CustomButton = styled('a')(({ theme }) => ({
@@ -74,6 +75,7 @@ const CustomButton = styled('a')(({ theme }) => ({
 const AppBar = ({ ...others }) => {
   const { isLoggedIn, logout } = useAuth();
   const intl = useIntl();
+  const router = useRouter();
   const [drawerToggle, setDrawerToggle] = useState<boolean>(false);
   const [shake, setShake] = useState<boolean>(false);
   const cart = useSelector((state) => state.cart.checkout);
@@ -242,6 +244,16 @@ const AppBar = ({ ...others }) => {
                   transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
+                  <MenuItem
+                    onClick={() => {
+                      router.push('/profile');
+                    }}
+                  >
+                    <ListItemIcon>
+                      <PersonIcon fontSize="small" />
+                    </ListItemIcon>
+                    Profile
+                  </MenuItem>
                   <MenuItem
                     onClick={() => {
                       logout();
