@@ -192,5 +192,10 @@
   "postal-code": "Mã bưu điện",
   "country": "Quốc gia",
   "payment-method": "Phương thước thanh toán",
-  "remove": "Xóa"
+  "remove": "Xóa",
+  "first_name": "Tên",
+  "last_name": "Họ",
+  "current-password": "Mật khẩu hiện tại",
+  "new-password": "Mật khẩu mới",
+  "confirm-password": "Xác nhận mật khẩu "
 }

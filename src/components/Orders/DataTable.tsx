@@ -1,9 +1,13 @@
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CheckIcon from '@mui/icons-material/Check';
 import {
   Box,
   Card,
   Checkbox,
+  Collapse,
   Divider,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -13,20 +17,21 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
   useTheme
 } from '@mui/material';
-import PaginationComponent from 'components/forms/tables/Pagination';
-import { ChangeEvent, FC, useState } from 'react';
-import { IProductOrder, OrderStatus } from 'types/shop/product';
-import BulkActions from './BulkActions';
-import CheckIcon from '@mui/icons-material/Check';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { IResponseGetMyOrder, TStatus } from 'types/services/cartApi.types';
 import { format } from 'date-fns';
-
+import { ChangeEvent, FC, useState } from 'react';
+import { IResponseGetMyOrder, TStatus } from 'types/services/cartApi.types';
+import BulkActions from './BulkActions';
+import EditTag from './EditStatus';
+import React from 'react';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: IResponseGetMyOrder[];
@@ -34,6 +39,112 @@ interface RecentOrdersTableProps {
 
 interface Filters {
   type: string | null;
+}
+
+function Row({ data }: { data: IResponseGetMyOrder }) {
+  const [open, setOpen] = React.useState(false);
+  const getStatusLabel = (type: TStatus): JSX.Element => {
+    const map = {
+      Completed: {
+        icons: <CheckIcon sx={{ margin: '0 5px 0 15px ' }} />,
+        text: 'Completed'
+      },
+      Pending: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'Pending'
+      },
+      'New Order': {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'New Order'
+      },
+      new: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'New Order'
+      }
+    };
+
+    const { text, color, icons }: any = map[type];
+    return (
+      <Typography
+        color={color}
+        sx={{
+          backgroundColor: 'rgba(191, 140, 10, 1)',
+          width: '137px',
+          borderRadius: '5px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'start',
+
+          color: '#fff',
+          height: '26px',
+          margin: '0 auto'
+        }}
+      >
+        {icons} {text}
+      </Typography>
+    );
+  };
+  return (
+    <React.Fragment>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {data.shippingAddress?.id?.toString() ?? ''}
+        </TableCell>
+        <TableCell align="left"> {format(new Date(data.order.createdAt), 'dd/MM/yyyy')}</TableCell>
+        <TableCell align="left">User</TableCell>
+        <TableCell align="left">{data.order.numProducts}</TableCell>
+        <TableCell align="left">{getStatusLabel(data.order.status)}</TableCell>{' '}
+        <TableCell>
+          <Tooltip title="Đổi trạng thái" arrow>
+            <IconButton color="inherit" size="small">
+              <EditTag
+                id={data.shippingAddress.id ?? 0}
+                status={data.order.status}
+                isPaid={data.order.isPaid}
+                isDelivered={data.order.isDelivered}
+              />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                Sản phẩm
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Customer</TableCell>
+                    <TableCell align="right">Amount</TableCell>
+                    <TableCell align="right">Total price ($)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.items.map((historyRow) => (
+                    <TableRow key={historyRow.id}>
+                      <TableCell component="th" scope="row">
+                        {historyRow.product_name}
+                      </TableCell>
+                      <TableCell>{historyRow.base_price}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
 }
 
 const applyPagination = (cryptoOrders: IResponseGetMyOrder[], page: number, limit: number): IResponseGetMyOrder[] => {
@@ -70,8 +181,6 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       setSelectedCryptoOrders((prevSelected) => prevSelected.filter((id) => id !== cryptoOrderId));
     }
   };
-  console.log(cryptoOrders);
-
   const [search, setSearch] = useState<string>('');
   const getStatusLabel = (type: TStatus): JSX.Element => {
     const map = {
@@ -125,6 +234,8 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   };
 
   const handlePageChange = (_event: any, newPage: number): void => {
+    console.log(newPage);
+
     setPage(newPage);
   };
 
@@ -185,14 +296,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ width: '50px', padding: '16px 5px' }}>
-                <Checkbox
-                  color="primary"
-                  checked={selectedAllCryptoOrders}
-                  indeterminate={selectedSomeCryptoOrders}
-                  onChange={handleSelectAllCryptoOrders}
-                />
-              </TableCell>
+              <TableCell sx={{ width: '50px', padding: '16px 5px' }}></TableCell>
               <TableCell sx={{ width: '200px' }}>Order ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell sx={{ width: '350px' }}>Customer</TableCell>
@@ -200,47 +304,22 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               <TableCell sx={{ width: '250px' }} align="center">
                 Status
               </TableCell>
+              <TableCell sx={{ width: '80px' }} align="center">
+                Action
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedCryptoOrders.map((cryptoOrder) => {
-              const isCryptoOrderSelected = selectedCryptoOrders.includes(cryptoOrder.shippingAddress?.id?.toString() ?? '');
-              return (
-                <TableRow hover key={cryptoOrder.shippingAddress?.id?.toString() ?? ''} selected={isCryptoOrderSelected}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isCryptoOrderSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoOrder(event, cryptoOrder.shippingAddress?.id?.toString() ?? '')
-                      }
-                      value={isCryptoOrderSelected}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      <Typography variant={`body1`} fontWeight={`normal`} color={'text.primary'} gutterBottom noWrap>
-                        {cryptoOrder.shippingAddress?.id?.toString() ?? ''}
-                      </Typography>
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {format(new Date(cryptoOrder.order.createdAt), 'dd/MM/yyyy')}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>User: </TableCell>
-                  <TableCell>{cryptoOrder.order.numProducts}</TableCell>
-                  <TableCell align="center">{getStatusLabel(cryptoOrder.order.status)}</TableCell>
-                </TableRow>
-              );
+              // const isCryptoOrderSelected = selectedCryptoOrders.includes(cryptoOrder.shippingAddress?.id?.toString() ?? '');
+              return <Row key={cryptoOrder.shippingAddress.id} data={cryptoOrder} />;
             })}
           </TableBody>
         </Table>
       </TableContainer>
       <Box p={2}>
         {/* <PaginationComponent /> */}
-        {/* <TablePagination
+        <TablePagination
           component="div"
           count={filteredCryptoOrders.length}
           onPageChange={handlePageChange}
@@ -248,7 +327,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
           page={page}
           rowsPerPage={limit}
           rowsPerPageOptions={[5, 10, 25, 30]}
-        /> */}
+        />
       </Box>
     </Card>
   );

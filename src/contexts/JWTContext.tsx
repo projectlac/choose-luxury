@@ -26,7 +26,7 @@ const initialState: InitialLoginContextProps = {
 
 let users = [
   {
-    id: '5e86809283e28b96d2d38537',
+    id: -1,
     email: 'info@codedthemes.com',
     password: '123456',
     name: 'JWT User'
@@ -62,7 +62,7 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
 
   const getProfile = async () => {
     const profile = await authApi.getCurrentUser();
-    console.log(profile);
+    return profile.data;
   };
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
               isLoggedIn: true,
               user: {
                 email: profile.data.email,
-                id: String(profile.data.id),
+                id: profile.data.id,
                 name: 'Admin'
               }
             }
@@ -125,10 +125,11 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     // const serviceToken = jwt.sign({ userId: userFound.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_TIME });
 
     setSession(usersData.access);
-    getProfile();
+    const getUser = await getProfile();
     const user = {
       ...users,
-      email: email
+      email: getUser.email,
+      id: getUser.id
     };
     dispatch({
       type: LOGIN,

@@ -92,7 +92,7 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
               }}
             >
               <span>{`${intl.formatMessage({ id: 'status' })}`}:</span>
-              {/* {data.status} */}
+              {data.order.status}
             </Box>
             <Box
               width={250}
@@ -103,7 +103,7 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
               }}
             >
               <span>{`${intl.formatMessage({ id: 'total-price' })}`}: </span>
-              {/* {data.totalPrice} VNĐ */}
+              {data.order.totalPrice} VNĐ
             </Box>
           </Box>
           <Box
@@ -116,7 +116,7 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
             }}
           >
             <Typography>
-              <span>{`${intl.formatMessage({ id: 'number-of-product' })}`}:</span> {numberOfProducts}
+              <span>{`${intl.formatMessage({ id: 'number-of-product' })}`}:</span> {data.order.numProducts}
             </Typography>
             <Box>
               <KeyboardArrowDownIcon
@@ -166,19 +166,21 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
 function YourOrder() {
   const [listOrder, setListOrder] = useState<IResponseGetMyOrder[]>([]);
   const intl = useIntl();
+  const [loading, setLoading] = useState<boolean>(false);
   const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
 
   const getListOrder = useCallback(async () => {
     // const res = await orderAPI.getListOrderByAdmin();
     try {
+      setLoading(true);
       dispatch(showLoading());
       const res = await orderAPI.myOrder();
-
       setListOrder(res.data.data);
     } catch (error) {
     } finally {
       dispatch(hiddenLoading());
+      setLoading(false);
     }
     // console.log(res);
   }, [dispatch]);
@@ -191,14 +193,18 @@ function YourOrder() {
     <div>
       {isLoggedIn ? (
         <>
-          {listOrder.length === 0 ? (
-            <Box>{`You don't have order`}</Box>
-          ) : (
-            <Box>
-              {listOrder.map((item, index) => (
-                <OrderItem key={index} data={item} />
-              ))}
-            </Box>
+          {!loading && (
+            <>
+              {listOrder.length === 0 ? (
+                <Box>{`You don't have order`}</Box>
+              ) : (
+                <Box>
+                  {listOrder.map((item, index) => (
+                    <OrderItem key={index} data={item} />
+                  ))}
+                </Box>
+              )}
+            </>
           )}
         </>
       ) : (

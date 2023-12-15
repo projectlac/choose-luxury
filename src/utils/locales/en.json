@@ -192,5 +192,10 @@
   "postal-code": "Postal Code",
   "country": "Country",
   "payment-method": "Payment method",
-  "remove": "Remove"
+  "remove": "Remove",
+  "first_name": "First name",
+  "last_name": "Last name",
+  "current-password": "Current password",
+  "new-password": "New password",
+  "confirm-password": "Confirm password"
 }

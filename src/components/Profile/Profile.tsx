@@ -1,6 +1,7 @@
 import { Box, Card, Container, Divider, Tab, Tabs, Typography } from '@mui/material';
 import React from 'react';
 import UserProfile from './UserProfile/UserProfile';
+import ChangePassword from './UserProfile/ChangePassword';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -66,7 +67,7 @@ function Profile() {
                 fontWeight: 'bold'
               }}
             />
-            <Tab
+            {/* <Tab
               label="Billing"
               {...a11yProps(1)}
               sx={{
@@ -74,10 +75,10 @@ function Profile() {
                 fontSize: '15px',
                 fontWeight: 'bold'
               }}
-            />
+            /> */}
             <Tab
               label="Change Password"
-              {...a11yProps(2)}
+              {...a11yProps(1)}
               sx={{
                 alignItems: 'flex-start',
                 fontSize: '15px',
@@ -88,11 +89,11 @@ function Profile() {
           <TabPanel value={value} index={0}>
             <UserProfile />
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          {/* <TabPanel value={value} index={1}>
             Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            Item Three
+          </TabPanel> */}
+          <TabPanel value={value} index={1}>
+            <ChangePassword />
           </TabPanel>
         </Box>
       </Card>

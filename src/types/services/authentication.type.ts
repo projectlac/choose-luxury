@@ -30,7 +30,22 @@ export interface IUserInfo {
   email: string;
 }
 
+export interface IUserProfile {
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone: string | null;
+  role?: string;
+  sex: string;
+}
+
 export interface IActive {
   uid: string;
   token: string;
+}
+
+export interface IChangePasswordForm {
+  new_password: string;
+  re_new_password: string;
+  current_password: string;
 }

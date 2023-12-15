@@ -65,6 +65,19 @@ export interface IOrderInfomation {
   numProducts: number;
   totalPrice: string;
 }
+
+export interface IUpdateStatusOrder {
+  status: TStatus;
+  isDelivered: boolean;
+  isPaid: boolean;
+}
+
+export interface IUpdateStatusOrderForm {
+  status: TStatus;
+  isDelivered: boolean;
+  isPaid: boolean;
+  submit: boolean | null;
+}
 // export interface IItemForCart {
 //   quantity: number;
 //   product: IProductForCart;

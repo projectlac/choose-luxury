@@ -1,4 +1,13 @@
-import { IActive, ILoginRequest, ILoginResponse, IRegisterRequest, IRegisterResponse, IUserInfo } from 'types/services/authentication.type';
+import {
+  IActive,
+  IChangePasswordForm,
+  ILoginRequest,
+  ILoginResponse,
+  IRegisterRequest,
+  IRegisterResponse,
+  IUserInfo,
+  IUserProfile
+} from 'types/services/authentication.type';
 import api from '../config/api';
 import { IDataDetailResponse } from 'types/services/serviceitem';
 
@@ -18,6 +27,18 @@ const authApi = {
   activeAccount(param: IActive): Promise<IDataDetailResponse<IUserInfo>> {
     const url = 'auth/users/activation/';
     return api.post(url, param);
+  },
+  getProfile(id: number): Promise<IDataDetailResponse<IUserProfile>> {
+    const url = `update_profile/${id}`;
+    return api.get(url);
+  },
+  updateProfile(id: number, data: IUserProfile): Promise<IDataDetailResponse<IUserProfile>> {
+    const url = `update_profile/${id}/`;
+    return api.put(url, data);
+  },
+  changePassword(params: IChangePasswordForm): Promise<IDataDetailResponse<IUserProfile>> {
+    const url = `/auth/users/set_password/`;
+    return api.post(url, params);
   }
 };
 export default authApi;

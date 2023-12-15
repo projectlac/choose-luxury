@@ -5,3 +5,10 @@ export interface IFormProfile {
   phoneNumber: string;
   submit: boolean | null;
 }
+
+export interface IFormChangePassword {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+  submit: boolean | null;
+}
