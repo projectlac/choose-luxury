@@ -75,7 +75,7 @@ export type CommentData = {
 };
 
 export type PostData = {
-  id?: string;
+  id?: number;
   content: string;
   images: PostImage[];
   video?: string;
@@ -83,17 +83,17 @@ export type PostData = {
   comments?: Comment[];
 };
 export type Comment = {
-  id: string;
+  id: number;
   profile: Profile;
   data?: CommentData;
 };
 export type Post = {
-  id?: string;
+  id?: number;
   profile: Profile;
   data: PostData;
 };
 
-export type PostDataType = { id: string; data: PostData; profile: Profile };
+export type PostDataType = { id: number; data: PostData; profile: Profile };
 
 export interface PostProps {
   commentAdd: (s: string, c: Reply) => Promise<void>;
@@ -102,7 +102,7 @@ export interface PostProps {
   renderPost?: HandleFunction;
   setPosts?: React.Dispatch<React.SetStateAction<PostDataType[]>>;
   handlePostLikes: (s: string) => Promise<void>;
-  handleReplayLikes: (postId: string, commentId: string, replayId: string) => Promise<void>;
+  handleReplayLikes: (postId: number, commentId: number, replayId: number) => Promise<void>;
   post: PostDataType;
-  replyAdd: (postId: string, commentId: string, reply: Reply) => Promise<void>;
+  replyAdd: (postId: number, commentId: string, reply: Reply) => Promise<void>;
 }

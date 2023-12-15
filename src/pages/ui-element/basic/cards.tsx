@@ -90,16 +90,6 @@ const UICards = () => {
               <FollowerCard {...follower} />
             </SubCard>
           </Grid>
-          <Grid item xs={12} lg={4}>
-            <SubCard title="Basic Card Style 1">
-              <UserDetailsCard {...userDetails} />
-            </SubCard>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <SubCard title="Basic Card Style 2">
-              <UserProfileCard {...userProfile} />
-            </SubCard>
-          </Grid>
         </Grid>
       </MainCard>
 
