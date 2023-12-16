@@ -143,7 +143,7 @@ const AppBar = ({ ...others }) => {
                       <ListItemText primary="Fashion trend" />
                     </ListItemButton>
                   </Link> */}
-                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                  <Link style={{ textDecoration: 'none' }} href="/contact-us" target="_blank">
                     <ListItemButton component="a">
                       <ListItemText primary="Contact us" />
                     </ListItemButton>
@@ -190,7 +190,7 @@ const AppBar = ({ ...others }) => {
               <FormattedMessage id="shop" />
             </CustomButton>
             {/* <CustomButton href="">Fashion trend</CustomButton> */}
-            <CustomButton href="">
+            <CustomButton href="/contact-us">
               <FormattedMessage id="contact-us" />
             </CustomButton>
           </Stack>

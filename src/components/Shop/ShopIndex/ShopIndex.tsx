@@ -31,10 +31,8 @@ function ShopIndex() {
 
   const getListProduct = useCallback(
     async (searchParam: string) => {
-      const res1 = await getProductWithFilter();
+      // const res1 = await getProductWithFilter();
       const res = await getProduct({ search: searchParam, page: page1 });
-
-      console.log(res1);
 
       getProductList(res.data.results);
       setTotal(res.data.count);

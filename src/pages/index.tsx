@@ -6,6 +6,7 @@ import BestOfSale from 'components/landingpage/BestOfSale';
 import Footer from 'components/landingpage/Footer';
 import Header from 'components/landingpage/Header';
 import OutService from 'components/landingpage/OutService';
+import ProductDemo from 'components/landingpage/ProductDemo';
 import Subscribe from 'components/landingpage/Subscribe';
 import AppBar from 'ui-component/extended/AppBar';
 
@@ -31,6 +32,7 @@ const Landing: React.FC = () => (
     </SecondWrapper>
     {/* <SecondWrapper>
       <Subscribe />
+      <ProductDemo />
     </SecondWrapper> */}
     <SecondWrapper>
       <BestOfSale />
