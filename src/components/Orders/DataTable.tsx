@@ -46,13 +46,9 @@ function Row({ data }: { data: IResponseGetMyOrder }) {
   const [open, setOpen] = React.useState(false);
   const getStatusLabel = (type: TStatus): JSX.Element => {
     const map = {
-      Completed: {
+      completed: {
         icons: <CheckIcon sx={{ margin: '0 5px 0 15px ' }} />,
         text: 'Completed'
-      },
-      Pending: {
-        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
-        text: 'Pending'
       },
       'New Order': {
         icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
@@ -61,10 +57,35 @@ function Row({ data }: { data: IResponseGetMyOrder }) {
       new: {
         icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
         text: 'New Order'
+      },
+      preaparing: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'Preaparing'
+      },
+      processing: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'Processing'
+      },
+      hold: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'On hold'
+      },
+      onshipping: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'On Shipping'
+      },
+      closed: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'Close'
+      },
+      canceled: {
+        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
+        text: 'Cancaled'
       }
     };
 
     const { text, color, icons }: any = map[type];
+
     return (
       <Typography
         color={color}
@@ -219,48 +240,6 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     }
   };
   const [search, setSearch] = useState<string>('');
-  const getStatusLabel = (type: TStatus): JSX.Element => {
-    const map = {
-      Completed: {
-        icons: <CheckIcon sx={{ margin: '0 5px 0 15px ' }} />,
-        text: 'Completed'
-      },
-      Pending: {
-        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
-        text: 'Pending'
-      },
-      'New Order': {
-        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
-        text: 'New Order'
-      },
-      new: {
-        icons: <AccessTimeIcon sx={{ margin: '0 5px  0 15px' }} />,
-        text: 'New Order'
-      }
-    };
-
-    const { text, color, icons }: any = map[type];
-
-    return (
-      <Typography
-        color={color}
-        sx={{
-          backgroundColor: 'rgba(191, 140, 10, 1)',
-          width: '137px',
-          borderRadius: '5px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'start',
-
-          color: '#fff',
-          height: '26px',
-          margin: '0 auto'
-        }}
-      >
-        {icons} {text}
-      </Typography>
-    );
-  };
 
   const handleStatusChange = (e: SelectChangeEvent<string>): void => {
     let value: string | null = null;

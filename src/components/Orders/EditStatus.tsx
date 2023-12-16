@@ -30,7 +30,7 @@ function EditTag({ id, status, isDelivered, isPaid }: IEdit) {
   const [initForm, setInitForm] = useState<IUpdateStatusOrderForm>({
     isPaid: false,
     isDelivered: false,
-    status: 'Pending',
+    status: 'new',
     submit: null
   });
 
@@ -48,25 +48,20 @@ function EditTag({ id, status, isDelivered, isPaid }: IEdit) {
     initialValues: initForm,
     onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
       try {
-        console.log('dm');
-
         const { status: status1, isDelivered: isDelivered1, isPaid: isPaid1 } = values;
-        const res = await orderAPI.updateStatusOrder(id, { status: status1, isDelivered: isDelivered1, isPaid: isPaid1 });
-        console.log(res);
+        await orderAPI.updateStatusOrder(id, { status: status1, isDelivered: isDelivered1, isPaid: isPaid1 });
 
-        // if (res.status === 200) {
-        //   dispatch(
-        //     openSnackbar({
-        //       open: true,
-        //       message: 'Update profile successful!',
-        //       variant: 'alert',
-        //       alert: {
-        //         color: 'success'
-        //       },
-        //       close: false
-        //     })
-        //   );
-        // }
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: 'Update status successful!',
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: false
+          })
+        );
       } catch (err: any) {
         dispatch(
           openSnackbar({
@@ -136,23 +131,24 @@ function EditTag({ id, status, isDelivered, isPaid }: IEdit) {
               fullWidth
               sx={{ mt: 3 }}
             >
-              <MenuItem value={'New Order'}> New Order</MenuItem>
-              <MenuItem value={'Pending'}> Pending</MenuItem>
-              <MenuItem value={'Completed'}> Completed</MenuItem>
+              <MenuItem value={'new'}> New Order</MenuItem>
+              <MenuItem value={'canceled'}>Canceled</MenuItem>
+              <MenuItem value={'preaparing'}> Preaparing</MenuItem>
+              <MenuItem value={'hold'}> On hold</MenuItem>
+              <MenuItem value={'processing'}> Processing</MenuItem>
+              <MenuItem value={'onshipping'}> On Shipping</MenuItem>
+              <MenuItem value={'closed'}> Closed</MenuItem>
+              <MenuItem value={'completed'}> Completed</MenuItem>
             </TextField>
 
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox />}
-                value={formik.values && formik.values.isPaid}
-                onChange={formik.handleChange}
+                control={<Checkbox checked={formik.values && formik.values.isPaid} onChange={formik.handleChange} />}
                 label="Is Paid"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={<Checkbox checked={formik.values && formik.values.isDelivered} onChange={formik.handleChange} />}
                 label="Is Delivered"
-                value={formik.values && formik.values.isDelivered}
-                onChange={formik.handleChange}
               />
             </FormGroup>
 

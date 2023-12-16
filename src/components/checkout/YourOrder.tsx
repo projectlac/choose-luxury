@@ -83,8 +83,7 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
                 }
               }}
             >
-              <span>{`${intl.formatMessage({ id: 'status' })}`}:</span>
-              {data.order.status}
+              <span>{`${intl.formatMessage({ id: 'status' })}`}: </span> {data.order.status}
             </Box>
             <Box
               width={250}

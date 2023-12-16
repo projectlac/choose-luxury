@@ -7,17 +7,14 @@ import ApexBarChart from 'components/forms/chart/Apexchart/ApexBarChart';
 import ApexLineChart from 'components/forms/chart/Apexchart/ApexLineChart';
 import ApexMixedChart from 'components/forms/chart/Apexchart/ApexMixedChart';
 import ApexPieChart from 'components/forms/chart/Apexchart/ApexPieChart';
-import { gridSpacing } from '../../store/constant';
-import { useEffect } from 'react';
 import useAuth from 'hooks/useAuth';
+import { gridSpacing } from '../../store/constant';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
   const { getProfile } = useAuth();
-  useEffect(() => {
-    getProfile();
-  }, [getProfile]);
+
   return (
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12}>

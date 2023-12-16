@@ -62,7 +62,8 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
 
   const getProfile = async () => {
     const profile = await authApi.getCurrentUser();
-    return profile.data;
+    const getRole = await authApi.getProfile(profile.data.id);
+    return { ...profile.data, role: getRole.data.role };
   };
 
   useEffect(() => {
@@ -73,6 +74,8 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
           setSession(serviceToken);
 
           const profile = await authApi.getCurrentUser();
+          const getRole = await authApi.getProfile(profile.data.id);
+
           // const jwData = jwt.verify(serviceToken, JWT_SECRET);
           // const { userId } = jwData as JWTData;
           // const user = users.find((_user) => _user.id === userId);
@@ -89,7 +92,7 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
               user: {
                 email: profile.data.email,
                 id: profile.data.id,
-                name: 'Admin'
+                role: getRole.data.role
               }
             }
           });
@@ -126,11 +129,14 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
 
     setSession(usersData.access);
     const getUser = await getProfile();
+
     const user = {
       ...users,
       email: getUser.email,
-      id: getUser.id
+      id: getUser.id,
+      role: getUser.role
     };
+
     dispatch({
       type: LOGIN,
       payload: {

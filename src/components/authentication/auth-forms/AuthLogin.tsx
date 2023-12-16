@@ -36,6 +36,7 @@ import { useRouter } from 'next/router';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
 import { FormattedMessage, useIntl } from 'react-intl';
+import user from 'store/slices/user';
 
 const Google = '/assets/images/icons/social-google.svg';
 
@@ -96,7 +97,8 @@ const FirebaseLogin = ({ loginProp, handleChangeMode, ...others }: { loginProp?:
                   })
                 );
 
-                router.push('/dashboard/default');
+                router.push('/');
+
                 // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
                 // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.

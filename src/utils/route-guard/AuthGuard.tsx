@@ -12,12 +12,20 @@ import Loader from 'components/ui-component/Loader';
  * @param {PropTypes.node} children children element/node
  */
 const AuthGuard = ({ children }: GuardProps) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user, logout } = useAuth();
   const router = useRouter();
   useEffect(() => {
     if (!isLoggedIn) {
       router.push('/login');
+    } else {
+      if (user?.role !== 'Admin') {
+        router.push('/');
+      }
     }
+
+    // if (user?.role !== 'Admin') {
+    //   router.push('/login');
+    // }
     // eslint-disable-next-line
   }, [isLoggedIn]);
 

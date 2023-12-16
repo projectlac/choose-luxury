@@ -66,19 +66,17 @@ function ChangePassword() {
           re_new_password: confirmPassword
         });
 
-        if (res.status === 200) {
-          dispatch(
-            openSnackbar({
-              open: true,
-              message: 'Update profile successful!',
-              variant: 'alert',
-              alert: {
-                color: 'success'
-              },
-              close: false
-            })
-          );
-        }
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: 'Update profile successful!',
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: false
+          })
+        );
       } catch (err: any) {
         dispatch(
           openSnackbar({

@@ -55,8 +55,18 @@ export interface IResponseGetMyOrderForFrontEnd {
   order: IOrderInfomation;
   shippingAddress: IAddressOfCustomer;
 }
+export type TStatus =
+  | 'completed'
+  | 'New Order'
+  | 'new'
+  | 'canceled'
+  | 'preaparing'
+  | 'hold'
+  | 'processing'
+  | 'onshipping'
+  | 'closed'
+  | 'completed';
 
-export type TStatus = 'Pending' | 'Completed' | 'New Order';
 export interface IOrderInfomation {
   createdAt: string;
   deliveredAt: null | string;

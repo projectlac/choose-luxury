@@ -15,12 +15,15 @@ import Loader from 'components/ui-component/Loader';
  */
 
 const GuestGuard = ({ children }: GuardProps) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.push(DASHBOARD_PATH);
+      if (user?.role === 'Admin') router.push(DASHBOARD_PATH);
+      else {
+        router.push('/');
+      }
     }
     // eslint-disable-next-line
   }, [isLoggedIn]);
