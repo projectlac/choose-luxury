@@ -138,6 +138,8 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
         return { ...d, quantity: productItem?.quantity ?? 0 };
       });
       handlePrice(allPrice);
+      console.log(params);
+
       setListCart(params);
     } catch (error) {
       dispatch(

@@ -34,6 +34,7 @@ export interface IReqForGetListItem {
 
 export interface IOrderItem {
   product: number;
+  product_name?: string;
   qty: number;
   price: number;
   id?: number;
@@ -43,7 +44,8 @@ export interface IOrderAdmin {
   data: IResponseGetMyOrder[];
 }
 export interface IResponseGetMyOrder {
-  items: IResponseGetProductById[];
+  customer: ICustomer;
+  items: IOrderItem[];
   order: IOrderInfomation;
   shippingAddress: IAddressOfCustomer;
 }
@@ -64,6 +66,7 @@ export interface IOrderInfomation {
   status: TStatus;
   numProducts: number;
   totalPrice: string;
+  id: number;
 }
 
 export interface IUpdateStatusOrder {
@@ -77,6 +80,16 @@ export interface IUpdateStatusOrderForm {
   isDelivered: boolean;
   isPaid: boolean;
   submit: boolean | null;
+}
+
+export interface ICustomer {
+  email: string;
+  first_name: string;
+  id: number;
+  isAdmin: boolean;
+  last_name: string;
+  phone: number | null;
+  username: string;
 }
 // export interface IItemForCart {
 //   quantity: number;

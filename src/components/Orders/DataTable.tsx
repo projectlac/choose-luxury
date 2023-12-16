@@ -32,6 +32,7 @@ import EditTag from './EditStatus';
 import React from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { TableRows } from '@mui/icons-material';
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: IResponseGetMyOrder[];
@@ -93,21 +94,19 @@ function Row({ data }: { data: IResponseGetMyOrder }) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {data.shippingAddress?.id?.toString() ?? ''}
+          {data.order?.id?.toString() ?? ''}
         </TableCell>
         <TableCell align="left"> {format(new Date(data.order.createdAt), 'dd/MM/yyyy')}</TableCell>
-        <TableCell align="left">User</TableCell>
-        <TableCell align="left">{data.order.numProducts}</TableCell>
-        <TableCell align="left">{getStatusLabel(data.order.status)}</TableCell>{' '}
+        <TableCell align="left">
+          {data.customer.first_name} {data.customer.last_name}
+          <br />
+          Email:{data.customer.email}
+        </TableCell>
+        <TableCell align="left">{data.order.numProducts}</TableCell> <TableCell align="left">{getStatusLabel(data.order.status)}</TableCell>{' '}
         <TableCell>
           <Tooltip title="Đổi trạng thái" arrow>
             <IconButton color="inherit" size="small">
-              <EditTag
-                id={data.shippingAddress.id ?? 0}
-                status={data.order.status}
-                isPaid={data.order.isPaid}
-                isDelivered={data.order.isDelivered}
-              />
+              <EditTag id={data.order.id ?? 0} status={data.order.status} isPaid={data.order.isPaid} isDelivered={data.order.isDelivered} />
             </IconButton>
           </Tooltip>
         </TableCell>
@@ -123,20 +122,58 @@ function Row({ data }: { data: IResponseGetMyOrder }) {
                 <TableHead>
                   <TableRow>
                     <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell align="left">Amount</TableCell>
+                    <TableCell align="left">Total price ($)</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.items.map((historyRow) => (
-                    <TableRow key={historyRow.id}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.product_name}
-                      </TableCell>
-                      <TableCell>{historyRow.base_price}</TableCell>
-                    </TableRow>
-                  ))}
+                  {data.items.map((historyRow) => {
+                    return (
+                      <TableRow key={historyRow.id}>
+                        <TableCell component="th" scope="row">
+                          {historyRow.product_name}
+                        </TableCell>
+
+                        <TableCell>{historyRow.qty}</TableCell>
+                        <TableCell>{historyRow.price}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </Box>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                Thông tin khách hàng
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Họ tên</TableCell>
+                    <TableCell align="left">Số điện thoại</TableCell>
+                    <TableCell align="left">Email</TableCell>
+                    <TableCell align="left"></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableCell component="th" scope="row">
+                    {data.customer.first_name}
+                    {data.customer.last_name}
+                  </TableCell>
+
+                  <TableCell>{data.customer.phone}</TableCell>
+                  <TableCell>{data.customer.email}</TableCell>
+                </TableBody>
+              </Table>
+              <Table size="small" aria-label="purchases">
+                <TableBody>
+                  <TableCell component="th" scope="row">
+                    Địa chỉ: {data.shippingAddress.address}
+                  </TableCell>
+
+                  <TableCell>Thành phố: {data.shippingAddress.city}</TableCell>
+                  <TableCell>Quốc gia: {data.shippingAddress.country}</TableCell>
+                  <TableCell> {data.shippingAddress.postalCode}</TableCell>
                 </TableBody>
               </Table>
             </Box>
@@ -312,7 +349,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
           <TableBody>
             {paginatedCryptoOrders.map((cryptoOrder) => {
               // const isCryptoOrderSelected = selectedCryptoOrders.includes(cryptoOrder.shippingAddress?.id?.toString() ?? '');
-              return <Row key={cryptoOrder.shippingAddress.id} data={cryptoOrder} />;
+              return <Row key={cryptoOrder.order.id} data={cryptoOrder} />;
             })}
           </TableBody>
         </Table>

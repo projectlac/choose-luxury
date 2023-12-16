@@ -8,6 +8,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useIntl } from 'react-intl';
 import useAuth from 'hooks/useAuth';
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
+import Image from 'next/image';
 
 const CustomButton = styled(Button)(({ theme }) => ({
   width: '180px',
@@ -39,15 +40,6 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
     setExpanded((prev) => !prev);
   };
 
-  const numberOfProducts = useMemo(() => {
-    let count = 0;
-
-    data.items.forEach((item) => {
-      // count += item.qty;
-      count += 0;
-    });
-    return count;
-  }, [data.items]);
   return (
     <Accordion
       expanded={expanded}
@@ -133,27 +125,37 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
       <AccordionDetails>
         {data.items.map((item) => (
           <Stack key={item.id} direction={'row'}>
-            <Box
+            {/* <Box
               width={100}
               height={110}
               sx={{
                 boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                borderRadius: '5px'
+                borderRadius: '5px',
+
+                position: 'relative'
               }}
             >
-              Image
-            </Box>
+              <Image src={item.} alt="Order Complete" layout="fill" />
+            </Box> */}
 
-            <Box ml={3}>
+            <Box
+              ml={3}
+              display={'flex'}
+              flexWrap={'wrap'}
+              justifyContent={'space-between'}
+              sx={{
+                width: '90%'
+              }}
+            >
               <Typography>
                 <b>{`${intl.formatMessage({ id: 'product' })}`}:</b> {item.product_name}
               </Typography>
               <Typography>
-                <b>{`${intl.formatMessage({ id: 'price' })}`}:</b> {item.base_price} VNĐ
+                <b>{`${intl.formatMessage({ id: 'price' })}`}:</b> {item.price} VNĐ
               </Typography>
               <Typography>
                 <b>{`${intl.formatMessage({ id: 'quantity' })}`}: </b>
-                {/* {item.qty} */} 0
+                {item.qty}
               </Typography>
             </Box>
           </Stack>
