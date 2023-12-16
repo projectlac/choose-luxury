@@ -11,14 +11,13 @@ import DataTable from './DataTable';
 
 export default function TableDataGrid() {
   const [data, setData] = useState<IResponseGetMyOrder[]>([]);
+  const [toggle, setToggle] = useState<boolean>(false);
   const dispatch = useDispatch();
   const getListOrder = useCallback(async () => {
     try {
       dispatch(showLoading());
       const res = await orderAPI.getListOrderByAdmin();
-
       const itemOrder: IResponseGetMyOrder[] = res.data.data;
-      console.log(itemOrder);
 
       setData(itemOrder);
     } catch (error) {
@@ -29,7 +28,11 @@ export default function TableDataGrid() {
     // const res1 = await orderAPI.myOrder();
     // console.log(res);
     // console.log(res);
-  }, [dispatch]);
+  }, [dispatch, toggle]);
+
+  const research = () => {
+    setToggle((prev) => !prev);
+  };
 
   useEffect(() => {
     getListOrder();
@@ -55,7 +58,7 @@ export default function TableDataGrid() {
         }
       }}
     >
-      <DataTable cryptoOrders={data} />
+      <DataTable cryptoOrders={data} research={research} />
     </Box>
   );
 }

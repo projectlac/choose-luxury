@@ -28,10 +28,11 @@ import useAuth from 'hooks/useAuth';
 import LocalizationSection from 'layout/MainLayout/Header/LocalizationSection';
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'store';
+import { useDispatch, useSelector } from 'store';
 import User from './User';
 import PersonIcon from '@mui/icons-material/Person';
 import { useRouter } from 'next/router';
+import { openSnackbar } from 'store/slices/snackbar';
 // elevation scroll
 
 const CustomButton = styled('a')(({ theme }) => ({
@@ -74,6 +75,7 @@ const CustomButton = styled('a')(({ theme }) => ({
 
 const AppBar = ({ ...others }) => {
   const { isLoggedIn, logout } = useAuth();
+  const dispatch = useDispatch();
   const intl = useIntl();
   const router = useRouter();
   const [drawerToggle, setDrawerToggle] = useState<boolean>(false);
@@ -136,11 +138,11 @@ const AppBar = ({ ...others }) => {
                       <ListItemText primary="Products" />
                     </ListItemButton>
                   </Link>
-                  <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
+                  {/* <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
                     <ListItemButton component="a">
                       <ListItemText primary="Fashion trend" />
                     </ListItemButton>
-                  </Link>
+                  </Link> */}
                   <Link style={{ textDecoration: 'none' }} href="#" target="_blank">
                     <ListItemButton component="a">
                       <ListItemText primary="Contact us" />
@@ -187,7 +189,7 @@ const AppBar = ({ ...others }) => {
             <CustomButton href="/shop">
               <FormattedMessage id="shop" />
             </CustomButton>
-            <CustomButton href="">Fashion trend</CustomButton>
+            {/* <CustomButton href="">Fashion trend</CustomButton> */}
             <CustomButton href="">
               <FormattedMessage id="contact-us" />
             </CustomButton>
@@ -257,6 +259,17 @@ const AppBar = ({ ...others }) => {
                   <MenuItem
                     onClick={() => {
                       logout();
+                      dispatch(
+                        openSnackbar({
+                          open: true,
+                          message: 'Logout successful!',
+                          variant: 'alert',
+                          alert: {
+                            color: 'success'
+                          },
+                          close: false
+                        })
+                      );
                       handleClose();
                     }}
                   >
@@ -273,7 +286,7 @@ const AppBar = ({ ...others }) => {
               </DialogAuthCommon>
             )}
 
-            <Box width={20}>
+            {/* <Box width={20}>
               {isLoggedIn ? (
                 <Image alt="wish-list" src={WishList.src} width={20} height={20}></Image>
               ) : (
@@ -281,7 +294,7 @@ const AppBar = ({ ...others }) => {
                   <Image alt="wish-list" src={WishList.src} width={20} height={20}></Image>
                 </DialogAuthCommon>
               )}
-            </Box>
+            </Box> */}
             <Box
               width={20}
               sx={{

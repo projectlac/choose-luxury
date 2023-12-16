@@ -29,9 +29,9 @@ const Landing: React.FC = () => (
     <SecondWrapper>
       <OutService />
     </SecondWrapper>
-    <SecondWrapper>
+    {/* <SecondWrapper>
       <Subscribe />
-    </SecondWrapper>
+    </SecondWrapper> */}
     <SecondWrapper>
       <BestOfSale />
     </SecondWrapper>

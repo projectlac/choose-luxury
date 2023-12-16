@@ -15,6 +15,7 @@ interface IEdit {
   id: number;
   isDelivered: boolean;
   isPaid: boolean;
+  research: () => void;
 }
 
 const Transition = React.forwardRef(function Transition(
@@ -26,7 +27,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function EditTag({ id, status, isDelivered, isPaid }: IEdit) {
+function EditTag({ id, status, isDelivered, isPaid, research }: IEdit) {
   const [initForm, setInitForm] = useState<IUpdateStatusOrderForm>({
     isPaid: false,
     isDelivered: false,
@@ -49,6 +50,8 @@ function EditTag({ id, status, isDelivered, isPaid }: IEdit) {
     onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
       try {
         const { status: status1, isDelivered: isDelivered1, isPaid: isPaid1 } = values;
+        console.log(values);
+
         await orderAPI.updateStatusOrder(id, { status: status1, isDelivered: isDelivered1, isPaid: isPaid1 });
 
         dispatch(
@@ -62,6 +65,8 @@ function EditTag({ id, status, isDelivered, isPaid }: IEdit) {
             close: false
           })
         );
+        research();
+        setOpenDialog(false);
       } catch (err: any) {
         dispatch(
           openSnackbar({
@@ -143,12 +148,20 @@ function EditTag({ id, status, isDelivered, isPaid }: IEdit) {
 
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox checked={formik.values && formik.values.isPaid} onChange={formik.handleChange} />}
+                control={<Checkbox />}
+                name="isPaid"
+                id="isPaid"
                 label="Is Paid"
+                value={formik.values && formik.values.isPaid}
+                onChange={formik.handleChange}
               />
               <FormControlLabel
-                control={<Checkbox checked={formik.values && formik.values.isDelivered} onChange={formik.handleChange} />}
+                control={<Checkbox />}
                 label="Is Delivered"
+                name="isDelivered"
+                id="isDelivered"
+                value={formik.values && formik.values.isDelivered}
+                onChange={formik.handleChange}
               />
             </FormGroup>
 

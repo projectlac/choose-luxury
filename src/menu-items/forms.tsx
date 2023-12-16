@@ -16,14 +16,14 @@ const forms = {
   title: <FormattedMessage id="management" />,
   type: 'group',
   children: [
-    {
-      id: 'instock',
-      title: <FormattedMessage id="instock" />,
-      type: 'item',
-      url: '/forms/components/instock',
-      icon: BarChartIcon,
-      breadcrumbs: false
-    },
+    // {
+    //   id: 'instock',
+    //   title: <FormattedMessage id="instock" />,
+    //   type: 'item',
+    //   url: '/forms/components/instock',
+    //   icon: BarChartIcon,
+    //   breadcrumbs: false
+    // },
     {
       id: 'orders',
       title: <FormattedMessage id="orders" />,

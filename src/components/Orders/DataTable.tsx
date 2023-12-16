@@ -36,13 +36,14 @@ import { TableRows } from '@mui/icons-material';
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: IResponseGetMyOrder[];
+  research: () => void;
 }
 
 interface Filters {
   type: string | null;
 }
 
-function Row({ data }: { data: IResponseGetMyOrder }) {
+function Row({ data, research }: { data: IResponseGetMyOrder; research: () => void }) {
   const [open, setOpen] = React.useState(false);
   const getStatusLabel = (type: TStatus): JSX.Element => {
     const map = {
@@ -127,7 +128,13 @@ function Row({ data }: { data: IResponseGetMyOrder }) {
         <TableCell>
           <Tooltip title="Đổi trạng thái" arrow>
             <IconButton color="inherit" size="small">
-              <EditTag id={data.order.id ?? 0} status={data.order.status} isPaid={data.order.isPaid} isDelivered={data.order.isDelivered} />
+              <EditTag
+                id={data.order.id ?? 0}
+                status={data.order.status}
+                isPaid={data.order.isPaid}
+                isDelivered={data.order.isDelivered}
+                research={research}
+              />
             </IconButton>
           </Tooltip>
         </TableCell>
@@ -209,7 +216,7 @@ const applyPagination = (cryptoOrders: IResponseGetMyOrder[], page: number, limi
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
+const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, research }) => {
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>([]);
   const resetSelected = () => {
     setSelectedCryptoOrders([]);
@@ -328,7 +335,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
           <TableBody>
             {paginatedCryptoOrders.map((cryptoOrder) => {
               // const isCryptoOrderSelected = selectedCryptoOrders.includes(cryptoOrder.shippingAddress?.id?.toString() ?? '');
-              return <Row key={cryptoOrder.order.id} data={cryptoOrder} />;
+              return <Row key={cryptoOrder.order.id} data={cryptoOrder} research={research} />;
             })}
           </TableBody>
         </Table>

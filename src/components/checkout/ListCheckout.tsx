@@ -13,6 +13,7 @@ import {
   OutlinedInput,
   Select,
   Slide,
+  Typography,
   useTheme
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
@@ -474,7 +475,22 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
                   </FormControl>
                 </Grid>
               </Grid>
-
+              {formik.values.paymentMethod === 'Bank transfer' && (
+                <Box
+                  sx={{
+                    width: '300px',
+                    border: '1px solid',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    margin: '15px auto',
+                    color: '#000'
+                  }}
+                >
+                  <Typography fontWeight={'bold'}>📌TECHCOMBANK THANH XUÂN</Typography>
+                  <Typography fontWeight={'bold'}> 19033245019013</Typography>
+                  <Typography fontWeight={'bold'}> VU PHUONG NGHI</Typography>
+                </Box>
+              )}
               {formik.errors.submit && (
                 <Box sx={{ mt: 3 }}>
                   <FormHelperText error>{formik.errors.submit}</FormHelperText>

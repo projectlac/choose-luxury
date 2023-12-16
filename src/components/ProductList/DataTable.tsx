@@ -92,6 +92,8 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
             <TableRow>
               <TableCell>Product name</TableCell>
               <TableCell sx={{ width: '350px' }}>Price</TableCell>
+              <TableCell sx={{ width: '350px' }}>Quantity</TableCell>
+
               <TableCell sx={{ width: '250px' }}>Product description</TableCell>
               <TableCell sx={{ width: '100px' }} align="center">
                 Actions
@@ -109,6 +111,8 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
                     </Typography>
                   </TableCell>
                   <TableCell>{cryptoOrder.base_price}</TableCell>
+                  <TableCell>{cryptoOrder.unit_in_stock}</TableCell>
+
                   <TableCell>{cryptoOrder.product_description}</TableCell>
                   <TableCell align="center">
                     <Box
