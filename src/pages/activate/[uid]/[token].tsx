@@ -8,6 +8,8 @@ import { openSnackbar } from 'store/slices/snackbar';
 function ActivateAccount() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
+
   const [isActive, setIsActive] = useState<boolean>(false);
   const [time, setTime] = useState<number>(3);
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ function ActivateAccount() {
             close: false
           })
         );
+        setIsError(true);
       }
     }
   }, [dispatch, token, uid]);
@@ -92,23 +95,29 @@ function ActivateAccount() {
             justifyContent: 'center'
           }}
         >
-          {loading ? (
-            <CircularProgress />
+          {isError ? (
+            <Box>Có lỗi xảy ra, vui lòng thử lại sau</Box>
           ) : (
-            <Box>
-              {isActive && (
-                <Box textAlign={'center'}>
-                  <Typography fontSize={'15px'} fontWeight={'bold'}>
-                    Tài khoản của bạn đã được kích hoạt. Vui lòng đợi điều hướng sau:
-                  </Typography>
-                  <Box>
-                    <Typography fontSize={'30px'} fontWeight={'bold'}>
-                      {time}
-                    </Typography>
-                  </Box>
+            <>
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <Box>
+                  {isActive && (
+                    <Box textAlign={'center'}>
+                      <Typography fontSize={'15px'} fontWeight={'bold'}>
+                        Tài khoản của bạn đã được kích hoạt. Vui lòng đợi điều hướng sau:
+                      </Typography>
+                      <Box>
+                        <Typography fontSize={'30px'} fontWeight={'bold'}>
+                          {time}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  )}
                 </Box>
               )}
-            </Box>
+            </>
           )}
         </Box>
       </Box>

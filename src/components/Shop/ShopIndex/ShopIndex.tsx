@@ -19,7 +19,7 @@ function ShopIndex() {
   const [hiddenFilter, setHiddenFilter] = useState<boolean>(false);
   const [page1, setPage] = React.useState(1);
   const [total, setTotal] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(4);
+  const [rowsPerPage, setRowsPerPage] = React.useState(12);
   const theme = useTheme();
   const matchDownMD = useMediaQuery(theme.breakpoints.down('md'));
   const [filterSetup, setFilterSetup] = useState<IFilter>({ priceRange: null, categorySelection: '', size: [], brand: [] });
@@ -92,7 +92,7 @@ function ShopIndex() {
 
   return (
     <Container maxWidth="xl">
-      <Grid container columnSpacing={4}>
+      <Grid container columnSpacing={12}>
         <Grid item xs={3}>
           <Filter setHiddenFilter={setHiddenFilter} hiddenFilter={hiddenFilter} />
           {matchDownMD && (
@@ -128,10 +128,10 @@ function ShopIndex() {
           <SizeFilter handleChange={handleChangeSize} init={filterSetup.size} />
           <BrandFilter handleChange={handleChangeBrand} init={filterSetup.brand} />
         </Grid>
-        <Grid item xs={!matchDownMD && !hiddenFilter ? 9 : 4}>
+        <Grid item xs={!matchDownMD && !hiddenFilter ? 9 : 12}>
           <Grid container spacing={3}>
             {productList.map((d) => (
-              <Grid item md={3} sm={6} xs={4} key={d.id}>
+              <Grid item md={3} sm={6} xs={12} key={d.id}>
                 <ProductItem data={d} />
               </Grid>
             ))}
@@ -154,7 +154,7 @@ function ShopIndex() {
               value={rowsPerPage}
               onChange={handleChangeRowsPerPage}
             >
-              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={12}>12</MenuItem>
               <MenuItem value={20}>20</MenuItem>
               <MenuItem value={30}>30</MenuItem>
             </TextField>
