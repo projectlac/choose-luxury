@@ -152,7 +152,7 @@ function ShopIndex() {
               value={rowsPerPage}
               onChange={handleChangeRowsPerPage}
             >
-              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={12}>12</MenuItem>
               <MenuItem value={20}>20</MenuItem>
               <MenuItem value={30}>30</MenuItem>
             </TextField>
