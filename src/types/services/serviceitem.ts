@@ -20,7 +20,7 @@ export interface IFilterProduct {
   size?: string;
   product_name?: string;
   limit?: number;
-  page?: number;
+  offset?: number;
 }
 
 export interface IMyOrderResponse<T> {
