@@ -19,6 +19,8 @@ export interface IFilterProduct {
   old_price?: string;
   size?: string;
   product_name?: string;
+  limit?: number;
+  page?: number;
 }
 
 export interface IMyOrderResponse<T> {

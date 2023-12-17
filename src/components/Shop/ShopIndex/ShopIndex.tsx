@@ -19,7 +19,7 @@ function ShopIndex() {
   const [hiddenFilter, setHiddenFilter] = useState<boolean>(false);
   const [page1, setPage] = React.useState(1);
   const [total, setTotal] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(12);
   const theme = useTheme();
   const matchDownMD = useMediaQuery(theme.breakpoints.down('md'));
   const [filterSetup, setFilterSetup] = useState<IFilter>({ priceRange: null, categorySelection: '', size: [], brand: [] });
@@ -39,15 +39,17 @@ function ShopIndex() {
         old_price: filterSetup.priceRange?.[1].toString(),
         brand: filterSetup.brand.length === 0 ? undefined : filterSetup.brand.toString(),
         size: filterSetup.size.length === 0 ? undefined : filterSetup.size.toString(),
-        category: filterSetup.categorySelection === '' ? undefined : filterSetup.categorySelection
+        category: filterSetup.categorySelection === '' ? undefined : filterSetup.categorySelection,
+        limit: rowsPerPage,
+        page: page1
       };
       const res1 = await getProductWithFilter(params);
       // const res = await getProduct({ search: searchParam, page: page1 });
 
       getProductList(res1.data.results);
-      setTotal(res1.data.results.length);
+      setTotal(res1.data.count);
     },
-    [filterSetup.brand, filterSetup.categorySelection, filterSetup.priceRange, filterSetup.size]
+    [filterSetup.brand, filterSetup.categorySelection, filterSetup.priceRange, filterSetup.size, page1, rowsPerPage]
   );
 
   const reloadListProduct = useCallback(async () => {
@@ -158,7 +160,7 @@ function ShopIndex() {
             </TextField>
 
             <Pagination
-              count={Math.ceil(total / 10)}
+              count={Math.ceil(total / rowsPerPage)}
               onChange={(_, page) => {
                 handleChangePage(page);
               }}
