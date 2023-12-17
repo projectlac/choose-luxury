@@ -23,7 +23,7 @@ function BulkActions({ selectedCryptoOrders, resetSelected }: IBulk) {
     setOpen(false);
   };
   const handleCloseAll = () => {
-    console.log('a');
+    // console.log('a');
   };
   const deleteAll = () => {
     setOpen(true);

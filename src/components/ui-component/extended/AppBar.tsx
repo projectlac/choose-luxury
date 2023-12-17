@@ -1,8 +1,10 @@
 import Image from 'next/image';
 // material-ui
 import {
+  Autocomplete,
   Box,
   Container,
+  Divider,
   Drawer,
   Link,
   List,
@@ -12,7 +14,8 @@ import {
   Menu,
   MenuItem,
   Stack,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material';
 
 // project imports
@@ -26,7 +29,7 @@ import { styled } from '@mui/styles';
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
 import LocalizationSection from 'layout/MainLayout/Header/LocalizationSection';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'store';
 import User from './User';
@@ -35,6 +38,11 @@ import { useRouter } from 'next/router';
 import { openSnackbar } from 'store/slices/snackbar';
 // elevation scroll
 import CategoryIcon from '@mui/icons-material/Category';
+import { IResponseGetProductById } from 'types/services/productApi.types';
+import _debounce from 'lodash/debounce';
+import { getProductWithFilter } from '../../../../api/ProductAPI/productDashboash';
+import formatMoney from 'utils/formatMoney';
+
 const CustomButton = styled('a')(({ theme }) => ({
   fontFamily: 'Quicksand',
   fontSize: '16px',
@@ -74,6 +82,10 @@ const CustomButton = styled('a')(({ theme }) => ({
 // ==============================|| MINIMAL LAYOUT APP BAR ||============================== //
 
 const AppBar = ({ ...others }) => {
+  const [listItem, setListItem] = useState<IResponseGetProductById[]>([]);
+  const [searchKey, setSearchKey] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
+
   const { isLoggedIn, logout } = useAuth();
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -107,8 +119,31 @@ const AppBar = ({ ...others }) => {
     }
   }, [cart]);
 
+  function handleDebounceFn(inputValue: string) {
+    setSearchKey(inputValue);
+  }
+
+  const debounceFn = useCallback(_debounce(handleDebounceFn, 500), []);
+
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    debounceFn(e.target.value);
+  };
+
+  const searchProduct = useCallback(async () => {
+    const res = await getProductWithFilter({ product_name: searchKey });
+    setListItem(res.data.results);
+  }, [searchKey]);
+  useEffect(() => {
+    searchProduct();
+  }, [searchProduct]);
   return (
-    <>
+    <Box
+      sx={{
+        borderBottom: '2px solid rgb(177 140 91)',
+        paddingBottom: '30px'
+      }}
+    >
       <Container
         maxWidth={'xl'}
         sx={{
@@ -353,7 +388,7 @@ const AppBar = ({ ...others }) => {
         }}
       >
         <Box width={277}>
-          <TextField
+          {/* <TextField
             fullWidth
             placeholder={intl.formatMessage({ id: 'search' })}
             sx={{
@@ -363,10 +398,57 @@ const AppBar = ({ ...others }) => {
                 '&::placeholder': { color: '#000', fontWeight: 'bold', fontSize: '13', opacity: 1 }
               }
             }}
+          /> */}
+
+          <Autocomplete
+            id="country-select-demo"
+            sx={{ width: 277 }}
+            options={listItem}
+            autoHighlight
+            disableClearable
+            getOptionLabel={(option) => option.product_name}
+            renderOption={(props, option) => (
+              <Link href={`/product-detail/${option.id}`} style={{ textDecoration: 'none' }}>
+                <Box component="li" {...props}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: 50,
+                      height: 50,
+                      mr: 1
+                    }}
+                  >
+                    <Image alt={option.product_name} src={option.images[0]?.product_img} layout="fill" objectFit="cover"></Image>
+                  </Box>
+                  <Typography
+                    sx={{
+                      width: 'calc(100% - 70px)',
+                      color: '#000'
+                    }}
+                    fontSize={13}
+                  >
+                    {option.product_name}
+                    <Divider />
+                    <i> {formatMoney(option.base_price)} VNĐ</i>
+                  </Typography>
+                </Box>
+              </Link>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={intl.formatMessage({ id: 'search' })}
+                onChange={handleChangeSearch}
+                inputProps={{
+                  ...params.inputProps,
+                  autoComplete: 'new-password' // disable autocomplete and autofill
+                }}
+              />
+            )}
           />
         </Box>
       </Container>
-    </>
+    </Box>
   );
 };
 

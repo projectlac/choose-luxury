@@ -1,3 +1,4 @@
+import { Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AboutUs from 'components/AboutUs/AboutUs';
 import Footer from 'components/landingpage/Footer';

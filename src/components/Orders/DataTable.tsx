@@ -257,8 +257,6 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, research }) => {
   };
 
   const handlePageChange = (_event: any, newPage: number): void => {
-    console.log(newPage);
-
     setPage(newPage);
   };
 

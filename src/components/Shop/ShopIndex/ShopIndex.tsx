@@ -35,8 +35,8 @@ function ShopIndex() {
   const getListProduct = useCallback(
     async (searchParam: string) => {
       const params: IFilterProduct = {
-        // base_price: filterSetup.priceRange?.[0].toString(),
-        // old_price: filterSetup.priceRange?.[1].toString(),
+        base_price: filterSetup.priceRange?.[0].toString(),
+        old_price: filterSetup.priceRange?.[1].toString(),
         brand: filterSetup.brand.length === 0 ? undefined : filterSetup.brand.toString(),
         size: filterSetup.size.length === 0 ? undefined : filterSetup.size.toString(),
         category: filterSetup.categorySelection === '' ? undefined : filterSetup.categorySelection
@@ -47,7 +47,7 @@ function ShopIndex() {
       getProductList(res1.data.results);
       setTotal(res1.data.results.length);
     },
-    [filterSetup.brand, filterSetup.categorySelection, filterSetup.size]
+    [filterSetup.brand, filterSetup.categorySelection, filterSetup.priceRange, filterSetup.size]
   );
 
   const reloadListProduct = useCallback(async () => {
@@ -87,8 +87,6 @@ function ShopIndex() {
   const handleChangeBrand = useCallback((data: string[]) => {
     setFilterSetup((prev) => ({ ...prev, brand: data }));
   }, []);
-
-  console.log(filterSetup);
 
   return (
     <Container maxWidth="xl">

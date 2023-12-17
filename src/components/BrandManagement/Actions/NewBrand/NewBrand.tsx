@@ -166,9 +166,6 @@ function NewBrand() {
                     <Button
                       disableElevation
                       disabled={formik.isSubmitting}
-                      onClick={() => {
-                        console.log(formik.errors);
-                      }}
                       fullWidth
                       size="large"
                       type="submit"

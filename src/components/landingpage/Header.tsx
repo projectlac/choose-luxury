@@ -79,8 +79,8 @@ const HeaderPage = () => {
 
   return (
     <>
-      {router.asPath === '/' && (
-        <Box sx={{ marginTop: '30px' }}>
+      {['/'].includes(router.asPath) && (
+        <Box>
           <Slider {...settings}>
             <div>
               <BoxImage>

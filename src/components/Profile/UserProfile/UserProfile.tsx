@@ -84,7 +84,6 @@ function UserProfile() {
       };
       setDefaultProfile(param);
     }
-    console.log(user);
   }, [user]);
 
   useEffect(() => {
