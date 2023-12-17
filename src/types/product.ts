@@ -22,3 +22,10 @@ export interface ProductStateProps {
   brand: IPagingResponse<IResponseGetBrand[]>;
   size: IPagingResponse<IProductSize[]>;
 }
+
+export interface IFilter {
+  priceRange: number[] | null;
+  categorySelection: string;
+  size: string[];
+  brand: string[];
+}

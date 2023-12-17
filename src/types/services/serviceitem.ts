@@ -1,11 +1,24 @@
 export interface IDataService {
-  name: string;
-  url: string;
+  name?: string;
+  url?: string;
   image: string;
 }
 
 export interface IDataPagingResponse<T> {
   data: IPagingResponse<T>;
+}
+
+export interface IDataPagingResponseForFilterProduct<T> {
+  results: IPagingResponse<T>;
+}
+
+export interface IFilterProduct {
+  base_price?: string;
+  brand?: string;
+  category?: string;
+  old_price?: string;
+  size?: string;
+  product_name?: string;
 }
 
 export interface IMyOrderResponse<T> {

@@ -45,12 +45,16 @@ const PrettoSlider = styled(Slider)({
   }
 });
 
-function PriceFilter() {
+interface ProductFilterProps {
+  handleChange: (data: number[]) => void;
+}
+function PriceFilter({ handleChange: handleChangePrice }: ProductFilterProps) {
   const [toggle, setToggle] = useState<boolean>(false);
   const [value, setValue] = React.useState<number[]>([0, 52000000]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
+    handleChangePrice(newValue as number[]);
   };
   const fetch = (newValue: number | number[]) => {
     console.log(newValue);
@@ -111,6 +115,9 @@ function PriceFilter() {
               value={value[0]}
               type="number"
               onChange={changeStart}
+              onBlur={() => {
+                handleChangePrice(value);
+              }}
             />
           </FormControl>{' '}
           <FormControl sx={{ width: '120px' }} variant="outlined">
@@ -121,6 +128,9 @@ function PriceFilter() {
               value={value[1]}
               type="number"
               onChange={changeEnd}
+              onBlur={() => {
+                handleChangePrice(value);
+              }}
             />
           </FormControl>
         </Box>

@@ -12,6 +12,8 @@ import PriceFilter from '../Filter/PriceFilter';
 import ProductFilter from '../Filter/ProductFilter';
 import SizeFilter from '../Filter/SizeFilter';
 import ProductItem from '../ProductItem/ProductItem';
+import { IFilterProduct } from 'types/services/serviceitem';
+import { IFilter } from 'types/product';
 
 function ShopIndex() {
   const [hiddenFilter, setHiddenFilter] = useState<boolean>(false);
@@ -20,6 +22,7 @@ function ShopIndex() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const theme = useTheme();
   const matchDownMD = useMediaQuery(theme.breakpoints.down('md'));
+  const [filterSetup, setFilterSetup] = useState<IFilter>({ priceRange: null, categorySelection: '', size: [], brand: [] });
 
   const handleChangePage = (page: number) => {
     setPage(page);
@@ -31,13 +34,20 @@ function ShopIndex() {
 
   const getListProduct = useCallback(
     async (searchParam: string) => {
-      // const res1 = await getProductWithFilter();
-      const res = await getProduct({ search: searchParam, page: page1 });
+      const params: IFilterProduct = {
+        // base_price: filterSetup.priceRange?.[0].toString(),
+        // old_price: filterSetup.priceRange?.[1].toString(),
+        brand: filterSetup.brand.length === 0 ? undefined : filterSetup.brand.toString(),
+        size: filterSetup.size.length === 0 ? undefined : filterSetup.size.toString(),
+        category: filterSetup.categorySelection === '' ? undefined : filterSetup.categorySelection
+      };
+      const res1 = await getProductWithFilter(params);
+      // const res = await getProduct({ search: searchParam, page: page1 });
 
-      getProductList(res.data.results);
-      setTotal(res.data.count);
+      getProductList(res1.data.results);
+      setTotal(res1.data.results.length);
     },
-    [page1]
+    [filterSetup.brand, filterSetup.categorySelection, filterSetup.size]
   );
 
   const reloadListProduct = useCallback(async () => {
@@ -63,6 +73,23 @@ function ShopIndex() {
     setPage(0);
   };
 
+  const handleChangePrice = useCallback((data: number[]) => {
+    setFilterSetup((prev) => ({ ...prev, priceRange: data }));
+  }, []);
+
+  const handleChangeCategory = (data: string) => {
+    setFilterSetup((prev) => ({ ...prev, categorySelection: data }));
+  };
+
+  const handleChangeSize = useCallback((data: string[]) => {
+    setFilterSetup((prev) => ({ ...prev, size: data }));
+  }, []);
+  const handleChangeBrand = useCallback((data: string[]) => {
+    setFilterSetup((prev) => ({ ...prev, brand: data }));
+  }, []);
+
+  console.log(filterSetup);
+
   return (
     <Container maxWidth="xl">
       <Grid container columnSpacing={4}>
@@ -85,10 +112,10 @@ function ShopIndex() {
                       }}
                     />
                   </Box>
-                  <PriceFilter />
-                  <ProductFilter />
-                  <SizeFilter />
-                  <BrandFilter />
+                  <PriceFilter handleChange={handleChangePrice} />
+                  <ProductFilter handleChange={handleChangeCategory} />
+                  <SizeFilter handleChange={handleChangeSize} init={filterSetup.size} />
+                  <BrandFilter handleChange={handleChangeBrand} init={filterSetup.brand} />
                 </Box>
               )}
             </Drawer>
@@ -96,10 +123,10 @@ function ShopIndex() {
         </Grid>
         <Grid item xs={9}></Grid>
         <Grid item xs={3} sx={{ display: !matchDownMD && !hiddenFilter ? 'block' : 'none' }}>
-          <PriceFilter />
-          <ProductFilter />
-          <SizeFilter />
-          <BrandFilter />
+          <PriceFilter handleChange={handleChangePrice} />
+          <ProductFilter handleChange={handleChangeCategory} />
+          <SizeFilter handleChange={handleChangeSize} init={filterSetup.size} />
+          <BrandFilter handleChange={handleChangeBrand} init={filterSetup.brand} />
         </Grid>
         <Grid item xs={!matchDownMD && !hiddenFilter ? 9 : 12}>
           <Grid container spacing={3}>

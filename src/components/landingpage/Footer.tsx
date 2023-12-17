@@ -8,8 +8,10 @@ import { gridSpacing } from 'store/constant';
 
 // assets
 import FacebookIcon from '../../assets/footer/facebook.png';
-import TwitterIcon from '../../assets/footer/twitter.png';
 import InstagramIcon from '../../assets/footer/instagram.png';
+import shoppee from '../../assets/footer/logo-shopee.png';
+import tiktok from '../../assets/footer/tiktok.png';
+import zalo from '../../assets/footer/zalo.png';
 
 const logoDark = '/assets/images/logo-white.svg';
 
@@ -71,8 +73,15 @@ const FooterPage = () => {
               <Title>
                 <FormattedMessage id="contact-us" />
               </Title>
-              <Detail>Phone: 0945821194/ 0334820791</Detail>
-              <Detail>Email: info@chooseluxauth.com</Detail>
+              <Detail>
+                Phone: <a href="tel:+84908796994">0908796994</a>
+              </Detail>
+              <Detail>
+                Link nhóm sỉ lẻ: <br />
+                <a href="https://zalo.me/g/ojzsuc427" target="_blank" rel="noopener noreferrer">
+                  https://zalo.me/g/ojzsuc427
+                </a>
+              </Detail>
             </Grid>
             <Grid item xs={6} sm={2}>
               <Title>
@@ -85,14 +94,20 @@ const FooterPage = () => {
                   }
                 }}
               >
-                <a href="http://" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.facebook.com/chooseluxretail" target="_blank" rel="noopener noreferrer">
                   <Image src={FacebookIcon.src} alt="facebook" width={22} height={22}></Image>
                 </a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/chooseluxauth" target="_blank" rel="noopener noreferrer">
                   <Image src={InstagramIcon.src} alt="instargram" width={22} height={22}></Image>
                 </a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <Image src={TwitterIcon.src} alt="twitter" width={22} height={22}></Image>
+                <a href="https://shopee.vn/chooseyours.closet" target="_blank" rel="noopener noreferrer">
+                  <Image src={shoppee.src} alt="twitter" width={22} height={22}></Image>
+                </a>
+                <a href="https://www.tiktok.com/@chooseyours.closet" target="_blank" rel="noopener noreferrer">
+                  <Image src={tiktok.src} alt="twitter" width={22} height={22}></Image>
+                </a>
+                <a href="https://zalo.me/3863536650460330247" target="_blank" rel="noopener noreferrer">
+                  <Image src={zalo.src} alt="twitter" width={22} height={22}></Image>
                 </a>
               </Box>
             </Grid>

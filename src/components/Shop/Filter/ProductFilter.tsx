@@ -48,7 +48,10 @@ import { FormattedMessage } from 'react-intl';
 //   }
 // ];
 
-function ProductFilter() {
+interface ProductFilterProps {
+  handleChange: (data: string) => void;
+}
+function ProductFilter({ handleChange }: ProductFilterProps) {
   const router = useRouter();
   const { category: categories } = useSelector((state) => state.product);
   const [toggle, setToggle] = useState<boolean>(false);
@@ -148,28 +151,34 @@ function ProductFilter() {
                 cursor: 'pointer',
                 display: categorySelection !== -1 ? 'none' : 'block'
               }}
-              onClick={() => showChildCategory(d.id)}
+              onClick={() => {
+                showChildCategory(d.id);
+                handleChange(d.name_category);
+              }}
             >
               {d.name_category}
             </Typography>
 
             {(d.child || []).map((ch) => (
-              <Link key={ch.id} href={ch.url}>
-                <Typography
-                  sx={{
-                    fontSize: '15px',
-                    fontWeight: '400',
-                    lineHeight: '14px',
-                    color: '#000',
-                    marginBottom: '15px',
-                    cursor: 'pointer',
-                    display: categorySelection !== -1 && d.id === categorySelection ? 'block' : 'none'
-                  }}
-                  key={ch.id}
-                >
-                  {ch.name_category}
-                </Typography>
-              </Link>
+              // <Link key={ch.id} href={ch.url}>
+              <Typography
+                key={ch.id}
+                sx={{
+                  fontSize: '15px',
+                  fontWeight: '400',
+                  lineHeight: '14px',
+                  color: '#000',
+                  marginBottom: '15px',
+                  cursor: 'pointer',
+                  display: categorySelection !== -1 && d.id === categorySelection ? 'block' : 'none'
+                }}
+                onClick={() => {
+                  handleChange(ch.name_category);
+                }}
+              >
+                {ch.name_category}
+              </Typography>
+              // </Link>
             ))}
           </div>
         ))}

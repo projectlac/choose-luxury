@@ -147,12 +147,14 @@
   "title": "Multi Language",
   "home": "Home",
   "change": "Change Language",
-  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiatnulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollitanim id est laborum.",
-
+  "message": "Message",
+  "is-required":"is required",
   "shop": "Shop",
   "homepage": "Home page",
   "about-us": "About us",
   "contact-us": "Contact us",
+  "contact-form": "Contact form",
+
   "our-service": "Our Service",
   "shop-now": "Shop Now",
   "subscribe-off": "Subscribe to receive 10% off",
@@ -180,7 +182,7 @@
   "Good": "Good",
   "Strong": "Strong",
   "cart": "Cart",
-  "your-order": "Your orders",
+  "your-order": "My orders",
   "status": "Status",
   "total-price": "Total price",
   "number-of-product": "Number of product",
@@ -197,5 +199,8 @@
   "last_name": "Last name",
   "current-password": "Current password",
   "new-password": "New password",
-  "confirm-password": "Confirm password"
+  "confirm-password": "Confirm password",
+  "submit1": "Submit",
+  "password": "Password"
+
 }

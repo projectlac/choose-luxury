@@ -1,6 +1,6 @@
 import qs from 'query-string';
 import { IParamsGetProduct, IResponseGetProductById } from 'types/services/productApi.types';
-import { IDataDetailResponse, IDataPagingResponse } from 'types/services/serviceitem';
+import { IDataDetailResponse, IDataPagingResponse, IDataPagingResponseForFilterProduct, IFilterProduct } from 'types/services/serviceitem';
 import api from '../config/api';
 import apiFormData from '../config/apiFromData';
 export const getProduct = (params: IParamsGetProduct): Promise<IDataPagingResponse<IResponseGetProductById[]>> => {
@@ -8,9 +8,13 @@ export const getProduct = (params: IParamsGetProduct): Promise<IDataPagingRespon
   return api.get(`/list_product?${str}`);
 };
 
-export const getProductWithFilter = (): Promise<IDataPagingResponse<IResponseGetProductById[]>> => {
+export const getProductWithFilter = (params?: IFilterProduct): Promise<IDataPagingResponse<IResponseGetProductById[]>> => {
   // let str = qs.stringify(params);
-  return api.get(`/SearchProd?product_size_name=M`);
+  let str = '';
+  if (params) {
+    str = qs.stringify(params);
+  }
+  return api.get(`/SearchProd?${str}`);
 };
 
 export const getProductById = (id: string | number): Promise<IDataDetailResponse<IResponseGetProductById>> => {

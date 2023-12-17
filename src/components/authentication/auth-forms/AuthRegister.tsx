@@ -27,7 +27,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
 import { StringColorProps } from 'types';
@@ -35,6 +35,7 @@ import { StringColorProps } from 'types';
 
 const FirebaseRegister = ({ ...others }) => {
   const { setLoginMode, toggleTab } = others;
+  const intl = useIntl();
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const [showPassword, setShowPassword] = React.useState(false);
@@ -68,10 +69,19 @@ const FirebaseRegister = ({ ...others }) => {
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          username: Yup.string().max(255).required('Username is required'),
-          re_password: Yup.string().max(255).required('Confirm password is required'),
-          password: Yup.string().max(255).required('Password is required')
+          email: Yup.string()
+            .email('Must be a valid email')
+            .max(255)
+            .required(`${`${intl.formatMessage({ id: 'email-address' })}`} ${`${intl.formatMessage({ id: 'is-required' })}`}`),
+          username: Yup.string()
+            .max(255)
+            .required(`Username ${`${intl.formatMessage({ id: 'is-required' })}`}`),
+          re_password: Yup.string()
+            .max(255)
+            .required(`${`${intl.formatMessage({ id: 'confirm-password' })}`} ${`${intl.formatMessage({ id: 'is-required' })}`}`),
+          password: Yup.string()
+            .max(255)
+            .required(`${`${intl.formatMessage({ id: 'password' })}`} ${`${intl.formatMessage({ id: 'is-required' })}`}`)
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           const { email, username, password, re_password } = values;
@@ -147,7 +157,7 @@ const FirebaseRegister = ({ ...others }) => {
 
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-email-register" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
-                Email{' '}
+                {intl.formatMessage({ id: 'email-address' })}
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-register"
@@ -172,7 +182,7 @@ const FirebaseRegister = ({ ...others }) => {
 
             <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-password-register" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
-                Password
+                {intl.formatMessage({ id: 'password' })}
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-register"
@@ -214,7 +224,7 @@ const FirebaseRegister = ({ ...others }) => {
 
             <FormControl fullWidth error={Boolean(touched.re_password && errors.re_password)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-re_password-register" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
-                Confirm password
+                {intl.formatMessage({ id: 'confirm-password' })}
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-re_password-register"

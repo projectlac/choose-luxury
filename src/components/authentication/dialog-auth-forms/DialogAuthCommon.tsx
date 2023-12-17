@@ -4,6 +4,7 @@ import AuthLogin from '../auth-forms/AuthLogin';
 import { Box, Card, Tab, Tabs, Typography } from '@mui/material';
 import AuthRegister from '../auth-forms/AuthRegister';
 import ForgotPassword from 'pages/pages/authentication/auth3/forgot-password';
+import { useIntl } from 'react-intl';
 
 interface IDialogAuthCommon {
   children: React.ReactChild;
@@ -39,7 +40,7 @@ function a11yProps(index: number) {
 export default function DialogAuthCommon({ children }: IDialogAuthCommon) {
   const [open, setOpen] = React.useState(false);
   const [isForgotMode, setIsForgotMode] = React.useState<boolean>(false);
-
+  const intl = useIntl();
   const [value, setValue] = React.useState(0);
 
   const handleChangeMode = React.useCallback((data: boolean) => {
@@ -79,8 +80,8 @@ export default function DialogAuthCommon({ children }: IDialogAuthCommon) {
           <Card sx={{ padding: '0 15px' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                <Tab label="Sign In" {...a11yProps(0)} />
-                <Tab label="Sign Up" {...a11yProps(1)} />
+                <Tab label={intl.formatMessage({ id: 'login' })} {...a11yProps(0)} />
+                <Tab label={intl.formatMessage({ id: 'register' })} {...a11yProps(1)} />
               </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>

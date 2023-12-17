@@ -148,11 +148,12 @@
   "title": "Multi Language",
   "home": "Trang chủ",
   "change": "Change Language",
-  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiatnulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollitanim id est laborum.",
+  "message": "Tin nhắn",
   "shop": "Cửa hàng",
   "homepage": "Trang chủ",
   "about-us": "Về chúng tôi",
   "contact-us": "Liên hệ",
+  "contact-form": "Form liên hệ",
   "our-service": "Dịch vụ của chúng tôi",
   "shop-now": "Khám phá",
   "subscribe-off": "Đăng ký ngay để nhận khuyến mãi 10%",
@@ -180,7 +181,7 @@
   "Good": "Khá tốt",
   "Strong": "Mạnh",
   "cart": "Giỏ hàng",
-  "your-order": "Đơn hàng của bạn",
+  "your-order": "Đơn hàng của tôi",
   "status": "Trạng thái",
   "total-price": "Tổng giá",
   "number-of-product": "Số lượng sản phẩm",
@@ -196,6 +197,11 @@
   "first_name": "Tên",
   "last_name": "Họ",
   "current-password": "Mật khẩu hiện tại",
+  "password": "Mật khẩu",
+
   "new-password": "Mật khẩu mới",
-  "confirm-password": "Xác nhận mật khẩu "
+  "confirm-password": "Xác nhận mật khẩu",
+  "submit1": "Gửi",
+  "is-required":"là trường bắt buộc"
+
 }

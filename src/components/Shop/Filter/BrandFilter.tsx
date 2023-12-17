@@ -1,5 +1,5 @@
 import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { styled } from '@mui/system';
 import { useSelector } from 'store';
@@ -14,17 +14,36 @@ const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5)
 }));
 
-function BrandFilter() {
+interface BrandFilterProps {
+  handleChange: (data: string[]) => void;
+  init: string[];
+}
+
+function BrandFilter({ handleChange, init }: BrandFilterProps) {
   const [toggle, setToggle] = useState<boolean>(false);
   const { brand } = useSelector((state) => state.product);
 
   const [data, setData] = useState<BrandData[]>([]);
+
+  const processDataChange = useCallback(
+    (newData: BrandData[]) => {
+      const filter = newData.filter((item) => item.checked);
+      const itemArray: string[] = [];
+      filter.forEach((d) => {
+        itemArray.push(d.brand);
+      });
+
+      handleChange(itemArray);
+    },
+    [handleChange]
+  );
 
   const handleDelete = (id: number) => () => {
     const temp = [...data];
     const index = data.findIndex((d) => d.id === id);
     temp[index].checked = !temp[index].checked;
     setData(temp);
+    processDataChange(temp);
   };
 
   const renderChipData = data.filter((d) => d.checked);
@@ -33,12 +52,24 @@ function BrandFilter() {
     const index = data.findIndex((d) => d.id === id);
     temp[index].checked = e.target.checked;
     setData(temp);
+    processDataChange(temp);
   };
 
   useEffect(() => {
-    const formatData: BrandData[] = brand.results.map((item) => ({ brand: item.product_brand_name, id: item.id, checked: false }));
-    setData(formatData);
-  }, [brand]);
+    if (init.length === 0) {
+      const formatData: BrandData[] = brand.results.map((item) => ({ brand: item.product_brand_name, id: item.id, checked: false }));
+      setData(formatData);
+    } else {
+      const formatData = brand.results.map((item) => {
+        if (init.includes(item.product_brand_name)) {
+          return { brand: item.product_brand_name, id: item.id, checked: true };
+        } else {
+          return { brand: item.product_brand_name, id: item.id, checked: false };
+        }
+      });
+      setData(formatData);
+    }
+  }, [brand, init]);
 
   return (
     <Box>

@@ -1,9 +1,10 @@
 import { Box, Container, Grid, Tab, Tabs, Typography } from '@mui/material';
 import ListCheckout from './ListCheckout';
 import CheckoutDetail from './CheckoutDetail';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import YourOrder from './YourOrder';
 import { useIntl } from 'react-intl';
+import { useRouter } from 'next/router';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -34,6 +35,8 @@ function a11yProps(index: number) {
 
 function CheckoutIndex() {
   const [value, setValue] = useState(0);
+  const router = useRouter();
+  const { tab } = router.query;
   const intl = useIntl();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -48,6 +51,12 @@ function CheckoutIndex() {
   const handlePrice = useCallback((data: number) => {
     setTotalPrice(data);
   }, []);
+
+  useEffect(() => {
+    if (tab === 'my-order') {
+      setValue(1);
+    }
+  }, [router, tab]);
   return (
     <Container maxWidth="xl">
       <Grid container rowSpacing={3}>

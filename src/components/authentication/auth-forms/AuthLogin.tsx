@@ -77,8 +77,13 @@ const FirebaseLogin = ({ loginProp, handleChangeMode, ...others }: { loginProp?:
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          email: Yup.string()
+            .email('Must be a valid email')
+            .max(255)
+            .required(`${`${intl.formatMessage({ id: 'email-address' })}`} ${`${intl.formatMessage({ id: 'is-required' })}`}`),
+          password: Yup.string()
+            .max(255)
+            .required(`Password ${intl.formatMessage({ id: 'is-required' })}`)
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -126,7 +131,7 @@ const FirebaseLogin = ({ loginProp, handleChangeMode, ...others }: { loginProp?:
           <form noValidate onSubmit={handleSubmit} {...others}>
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-email-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
-                Username
+                Email
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-login"
@@ -135,7 +140,7 @@ const FirebaseLogin = ({ loginProp, handleChangeMode, ...others }: { loginProp?:
                 name="email"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                label="Username"
+                label="Email"
                 inputProps={{}}
                 sx={{
                   fieldset: {
@@ -152,7 +157,7 @@ const FirebaseLogin = ({ loginProp, handleChangeMode, ...others }: { loginProp?:
 
             <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-password-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
-                Password
+                {intl.formatMessage({ id: 'password' })}
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-login"
@@ -174,7 +179,7 @@ const FirebaseLogin = ({ loginProp, handleChangeMode, ...others }: { loginProp?:
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label={intl.formatMessage({ id: 'password' })}
                 inputProps={{}}
                 sx={{
                   fieldset: {

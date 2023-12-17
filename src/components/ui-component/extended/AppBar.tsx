@@ -34,7 +34,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useRouter } from 'next/router';
 import { openSnackbar } from 'store/slices/snackbar';
 // elevation scroll
-
+import CategoryIcon from '@mui/icons-material/Category';
 const CustomButton = styled('a')(({ theme }) => ({
   fontFamily: 'Quicksand',
   fontSize: '16px',
@@ -246,6 +246,16 @@ const AppBar = ({ ...others }) => {
                   transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
+                  <MenuItem
+                    onClick={() => {
+                      router.push('/checkout?tab=my-order');
+                    }}
+                  >
+                    <ListItemIcon>
+                      <CategoryIcon fontSize="small" />
+                    </ListItemIcon>
+                    My Orders
+                  </MenuItem>
                   <MenuItem
                     onClick={() => {
                       router.push('/profile');

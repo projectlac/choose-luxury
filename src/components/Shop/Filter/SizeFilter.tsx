@@ -1,6 +1,6 @@
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography, styled } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'store';
 import { SizeData } from 'types/shop/shopItem';
@@ -9,16 +9,35 @@ const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5)
 }));
 
-function SizeFilter() {
+interface SizeFilterProps {
+  handleChange: (data: string[]) => void;
+  init: string[];
+}
+
+function SizeFilter({ handleChange, init }: SizeFilterProps) {
   const { size } = useSelector((state) => state.product);
   const [toggle, setToggle] = useState<boolean>(false);
   const [data, setData] = useState<SizeData[]>([]);
+
+  const processDataChange = useCallback(
+    (newData: SizeData[]) => {
+      const filter = newData.filter((item) => item.checked);
+      const itemArray: string[] = [];
+      filter.forEach((d) => {
+        itemArray.push(d.size);
+      });
+
+      handleChange(itemArray);
+    },
+    [handleChange]
+  );
 
   const handleDelete = (id: number) => () => {
     const temp = [...data];
     const index = data.findIndex((d) => d.id === id);
     temp[index].checked = !temp[index].checked;
     setData(temp);
+    processDataChange(temp);
   };
 
   const renderChipData = data.filter((d) => d.checked);
@@ -28,12 +47,29 @@ function SizeFilter() {
     const index = data.findIndex((d) => d.id === id);
     temp[index].checked = e.target.checked;
     setData(temp);
+    processDataChange(temp);
   };
 
   useEffect(() => {
     const formatData: SizeData[] = size.results.map((item) => ({ size: item.product_size_name, id: item.id, checked: false }));
     setData(formatData);
   }, [size]);
+
+  useEffect(() => {
+    if (init.length === 0) {
+      const formatData: SizeData[] = size.results.map((item) => ({ size: item.product_size_name, id: item.id, checked: false }));
+      setData(formatData);
+    } else {
+      const formatData = size.results.map((item) => {
+        if (init.includes(item.product_size_name)) {
+          return { size: item.product_size_name, id: item.id, checked: true };
+        } else {
+          return { size: item.product_size_name, id: item.id, checked: false };
+        }
+      });
+      setData(formatData);
+    }
+  }, [init, size.results]);
 
   return (
     <Box>
