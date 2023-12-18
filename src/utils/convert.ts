@@ -1,3 +1,5 @@
+import { TStatus } from 'types/services/cartApi.types';
+
 export const convertToSlug = (str: string) => {
   str = str.replace(/^\s+|\s+$/g, ''); // trim
   str = str.toLowerCase();
@@ -15,4 +17,49 @@ export const convertToSlug = (str: string) => {
     .replace(/-+/g, '-'); // collapse dashes
 
   return str;
+};
+
+export const getStatusLabel = (type: TStatus) => {
+  const map = {
+    completed: {
+      text: 'Completed',
+      color: '#30f558'
+    },
+    'New Order': {
+      text: 'New Order',
+      color: '#BCA81F'
+    },
+    new: {
+      text: 'New Order',
+      color: '#BCA81F'
+    },
+    preaparing: {
+      text: 'Preaparing',
+      color: '#D9C5F2'
+    },
+    processing: {
+      text: 'Processing',
+      color: '#143e2f'
+    },
+    hold: {
+      text: 'On hold',
+      color: '#ff4800'
+    },
+    onshipping: {
+      text: 'On Shipping',
+      color: '#86d3ea'
+    },
+    closed: {
+      text: 'Close',
+      color: '#ff4800'
+    },
+    canceled: {
+      text: 'Cancaled',
+      color: '#8b0000'
+    }
+  };
+
+  const { text, color }: any = map[type];
+
+  return { text, color };
 };

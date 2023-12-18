@@ -37,6 +37,7 @@ export interface IOrderItem {
   product_name?: string;
   qty: number;
   price: number;
+  product_img: string;
   id?: number;
 }
 
@@ -76,6 +77,7 @@ export interface IOrderInfomation {
   status: TStatus;
   numProducts: number;
   totalPrice: string;
+  order_code: string;
   id: number;
 }
 

@@ -19,6 +19,7 @@ import EditProduct from 'components/product/EditProduct/EditProduct';
 import NewProduct from 'components/product/NewProduct/NewProduct';
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 import { IResponseGetProductById } from 'types/services/productApi.types';
+import formatMoney from 'utils/formatMoney';
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: IResponseGetProductById[];
@@ -110,8 +111,27 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
                       {cryptoOrder.product_name}
                     </Typography>
                   </TableCell>
-                  <TableCell>{cryptoOrder.base_price}</TableCell>
-                  <TableCell>{cryptoOrder.unit_in_stock}</TableCell>
+                  <TableCell
+                    sx={{
+                      span: {
+                        color: '#000',
+                        fontWeight: 'bold'
+                      }
+                    }}
+                  >
+                    Giá mới: <span>{formatMoney(cryptoOrder.base_price)} VNĐ</span>
+                    <br />
+                    Giá cũ: <span>{formatMoney(cryptoOrder.old_price)} VNĐ</span>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: +cryptoOrder.unit_in_stock < 10 ? '#ff4500' : 'black',
+                      fontWeight: 'bold',
+                      fontSize: '15px'
+                    }}
+                  >
+                    {cryptoOrder.unit_in_stock}{' '}
+                  </TableCell>
 
                   <TableCell>{cryptoOrder.product_description}</TableCell>
                   <TableCell align="center">

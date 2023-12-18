@@ -201,6 +201,7 @@
   "new-password": "New password",
   "confirm-password": "Confirm password",
   "submit1": "Submit",
-  "password": "Password"
+  "password": "Password",
+  "order-code": "Order Code"
 
 }

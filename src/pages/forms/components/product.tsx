@@ -20,7 +20,7 @@ const ProductDashboash = () => {
     dispatch(getProductSize(1, PAGE.FULL));
   }, []);
   return (
-    <MainCard title="Orders">
+    <MainCard title="Product list">
       <TableDataGrid />
     </MainCard>
   );

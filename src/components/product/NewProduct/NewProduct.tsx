@@ -106,6 +106,7 @@ function NewProduct({ reload }: IAddProductProps) {
       fd.append('category_id', category);
       if (file) {
         file.forEach((fileItem: File, i: number) => {
+          if (i === 0) fd.append(`product_img`, fileItem);
           fd.append(`uploaded_images[${i}]`, fileItem);
         });
       }

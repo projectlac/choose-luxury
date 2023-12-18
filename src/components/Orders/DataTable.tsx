@@ -116,7 +116,7 @@ function Row({ data, research }: { data: IResponseGetMyOrder; research: () => vo
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {data.order?.id?.toString() ?? ''}
+          {data.order?.order_code?.toString() ?? ''}
         </TableCell>
         <TableCell align="left"> {format(new Date(data.order.createdAt), 'dd/MM/yyyy')}</TableCell>
         <TableCell align="left">
@@ -318,7 +318,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, research }) => {
           <TableHead>
             <TableRow>
               <TableCell sx={{ width: '50px', padding: '16px 5px' }}></TableCell>
-              <TableCell sx={{ width: '200px' }}>Order ID</TableCell>
+              <TableCell sx={{ width: '200px' }}>Order Code</TableCell>
               <TableCell>Date</TableCell>
               <TableCell sx={{ width: '350px' }}>Customer</TableCell>
               <TableCell sx={{ width: '250px' }}>Number Of Product</TableCell>
