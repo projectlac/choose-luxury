@@ -36,6 +36,20 @@ function a11yProps(index: number) {
   };
 }
 
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
 function Profile() {
   const [value, setValue] = React.useState(0);
 
@@ -45,11 +59,11 @@ function Profile() {
   return (
     <Container maxWidth="xl">
       <Card>
-        <Typography fontWeight={500} fontSize={'20px'}>
+        <Typography fontWeight={500} fontSize={'20px'} mt={3}>
           Account Setting
         </Typography>
         <Divider sx={{ my: 2 }}></Divider>
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', width: '100%' }}>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', width: '100%', display: { md: 'flex', xs: 'none' } }}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -67,15 +81,7 @@ function Profile() {
                 fontWeight: 'bold'
               }}
             />
-            {/* <Tab
-              label="Billing"
-              {...a11yProps(1)}
-              sx={{
-                alignItems: 'flex-start',
-                fontSize: '15px',
-                fontWeight: 'bold'
-              }}
-            /> */}
+
             <Tab
               label="Change Password"
               {...a11yProps(1)}
@@ -89,12 +95,24 @@ function Profile() {
           <TabPanel value={value} index={0}>
             <UserProfile />
           </TabPanel>
-          {/* <TabPanel value={value} index={1}>
-            Item Two
-          </TabPanel> */}
+
           <TabPanel value={value} index={1}>
             <ChangePassword />
           </TabPanel>
+        </Box>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', width: '100%', display: { md: 'none', xs: 'block' } }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label="User Profile" {...a11yProps(0)} />
+              <Tab label="Change Password" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <UserProfile />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <ChangePassword />
+          </CustomTabPanel>
         </Box>
       </Card>
     </Container>

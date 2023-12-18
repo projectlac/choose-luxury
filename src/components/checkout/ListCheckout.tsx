@@ -47,15 +47,16 @@ const CustomButton = styled(Button)(({ theme }) => ({
   justifyContent: 'center',
   backgroundColor: 'rgba(191, 140, 10, 1)',
   fontFamily: 'Open Sans',
-  fontSize: '16px',
+  fontSize: '14px',
   fontWeight: '700',
   lineHeight: '27px',
   color: '#fff',
+  marginBottom: '15px',
   '&:hover': {
     backgroundColor: 'rgb(151 111 8)'
   },
   [theme.breakpoints.down('md')]: {
-    width: '30%',
+    width: '45%',
     fontSize: '15px',
     height: '35px'
   }
@@ -276,7 +277,16 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
         }}
       >
         <Link href={'/shop'}>
-          <CustomButton>{`${intl.formatMessage({ id: 'back-to-shop' })}`}</CustomButton>
+          <CustomButton
+            sx={{
+              [theme.breakpoints.down('md')]: {
+                width: '100% !important',
+                minWidth: 'inherit',
+                fontSize: '15px',
+                height: '35px'
+              }
+            }}
+          >{`${intl.formatMessage({ id: 'back-to-shop' })}`}</CustomButton>
         </Link>
         {products.length > 0 && (
           <>
@@ -311,7 +321,7 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        maxWidth="lg"
+        maxWidth="md"
         fullWidth
         aria-describedby="alert-dialog-slide-description"
       >

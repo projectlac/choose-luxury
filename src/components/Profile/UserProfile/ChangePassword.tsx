@@ -111,9 +111,9 @@ function ChangePassword() {
             </Stack>
           </Stack>
         </Grid> */}
-          <Grid item md={12}>
+          <Grid item md={12} xs={12}>
             <Grid container columnSpacing={2}>
-              <Grid item md={6}>
+              <Grid item md={6} xs={12}>
                 <FormControl
                   fullWidth
                   error={Boolean(formik.touched.currentPassword && formik.errors.currentPassword)}
@@ -154,7 +154,7 @@ function ChangePassword() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={6} xs={12}>
             <FormControl
               fullWidth
               error={Boolean(formik.touched.newPassword && formik.errors.newPassword)}
@@ -191,7 +191,7 @@ function ChangePassword() {
               )}
             </FormControl>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={6} xs={12}>
             <FormControl
               fullWidth
               error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
@@ -232,9 +232,21 @@ function ChangePassword() {
             </FormControl>
           </Grid>
 
-          <Grid item md={12}>
+          <Grid item md={12} xs={12} mt={2}>
             <Stack direction={'row'} justifyContent={'flex-end'}>
-              <CustomButton variant="contained" type="submit" disabled={formik.isSubmitting}>
+              <CustomButton
+                variant="contained"
+                type="submit"
+                disabled={formik.isSubmitting}
+                sx={{
+                  [theme.breakpoints.down('md')]: {
+                    width: '100%',
+                    minWidth: 'inherit',
+                    fontSize: '15px',
+                    height: '35px'
+                  }
+                }}
+              >
                 Update
               </CustomButton>
             </Stack>

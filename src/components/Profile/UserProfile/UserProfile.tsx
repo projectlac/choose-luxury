@@ -103,7 +103,7 @@ function UserProfile() {
             </Stack>
           </Stack>
         </Grid> */}
-          <Grid item md={6}>
+          <Grid item md={6} xs={12}>
             <FormControl
               fullWidth
               error={Boolean(formik.touched.first_name && formik.errors.first_name)}
@@ -127,7 +127,7 @@ function UserProfile() {
               )}
             </FormControl>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={6} xs={12}>
             <FormControl
               fullWidth
               error={Boolean(formik.touched.last_name && formik.errors.last_name)}
@@ -151,7 +151,7 @@ function UserProfile() {
               )}
             </FormControl>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={6} xs={12}>
             <FormControl fullWidth error={Boolean(formik.touched.email && formik.errors.email)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-email-login"> {`${intl.formatMessage({ id: 'email-address' })}`} </InputLabel>
               <OutlinedInput
@@ -171,7 +171,7 @@ function UserProfile() {
               )}
             </FormControl>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={6} xs={12}>
             <FormControl
               fullWidth
               error={Boolean(formik.touched.phoneNumber && formik.errors.phoneNumber)}
@@ -195,9 +195,21 @@ function UserProfile() {
               )}
             </FormControl>
           </Grid>
-          <Grid item md={12}>
+          <Grid item md={12} xs={12} mt={2}>
             <Stack direction={'row'} justifyContent={'flex-end'}>
-              <CustomButton variant="contained" type="submit" disabled={formik.isSubmitting}>
+              <CustomButton
+                variant="contained"
+                type="submit"
+                disabled={formik.isSubmitting}
+                sx={{
+                  [theme.breakpoints.down('md')]: {
+                    width: '100%',
+                    minWidth: 'inherit',
+                    fontSize: '15px',
+                    height: '35px'
+                  }
+                }}
+              >
                 Update
               </CustomButton>
             </Stack>

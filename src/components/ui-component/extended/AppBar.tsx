@@ -21,27 +21,27 @@ import {
 // project imports
 import MenuIcon from '@mui/icons-material/Menu';
 import Cart from '../../../assets/header/cart.png';
-import WishList from '../../../assets/header/heart.png';
 import Logo from '../../../assets/header/logo.png';
 // assets
 import { Logout } from '@mui/icons-material';
+import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/styles';
 import DialogAuthCommon from 'components/authentication/dialog-auth-forms/DialogAuthCommon';
 import useAuth from 'hooks/useAuth';
 import LocalizationSection from 'layout/MainLayout/Header/LocalizationSection';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'store';
-import User from './User';
-import PersonIcon from '@mui/icons-material/Person';
-import { useRouter } from 'next/router';
 import { openSnackbar } from 'store/slices/snackbar';
+import User from './User';
 // elevation scroll
 import CategoryIcon from '@mui/icons-material/Category';
-import { IResponseGetProductById } from 'types/services/productApi.types';
 import _debounce from 'lodash/debounce';
-import { getProductWithFilter } from '../../../../api/ProductAPI/productDashboash';
+import { IResponseGetProductById } from 'types/services/productApi.types';
 import formatMoney from 'utils/formatMoney';
+import { getProductWithFilter } from '../../../../api/ProductAPI/productDashboash';
+import Script from 'next/script';
 
 const CustomButton = styled('a')(({ theme }) => ({
   fontFamily: 'Quicksand',
@@ -141,7 +141,7 @@ const AppBar = ({ ...others }) => {
     <Box
       sx={{
         borderBottom: '2px solid rgb(177 140 91)',
-        paddingBottom: '30px'
+        paddingBottom: { md: '30px', xs: 0 }
       }}
     >
       <Container
@@ -316,6 +316,7 @@ const AppBar = ({ ...others }) => {
                         })
                       );
                       handleClose();
+                      router.push('/');
                     }}
                   >
                     <ListItemIcon>
@@ -447,6 +448,15 @@ const AppBar = ({ ...others }) => {
             )}
           />
         </Box>
+        <div
+          className="zalo-chat-widget"
+          data-oaid="3863536650460330247"
+          data-welcome-message="Rất vui khi được hỗ trợ bạn!"
+          data-autopopup="0"
+          data-width=""
+          data-height=""
+        ></div>
+        <Script src="https://sp.zalo.me/plugins/sdk.js"></Script>
       </Container>
     </Box>
   );
