@@ -174,6 +174,8 @@ const MailerSubscriberContact = ({ className, ...others }: { className?: string 
                     inputProps={{
                       rows: 5
                     }}
+                    multiline
+                    rows={5}
                   />
                   {touched.message && errors.message && (
                     <Box sx={{ position: 'absolute', bottom: '-16px' }}>
