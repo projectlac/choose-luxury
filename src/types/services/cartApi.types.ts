@@ -37,7 +37,7 @@ export interface IOrderItem {
   product_name?: string;
   qty: number;
   price: number;
-  product_img: string;
+  product_img?: string;
   id?: number;
 }
 
