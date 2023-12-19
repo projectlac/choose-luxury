@@ -15,7 +15,7 @@ const withTM = require('next-transpile-modules')([
 const nextConfig = withTM({
   reactStrictMode: true,
   images: {
-    domains: ['pos.nvncdn.net', 'clux.azurewebsites.net', 'cluxstorage.blob.core.windows.net']
+    domains: ['pos.nvncdn.net', 'clux.azurewebsites.net', 'cluxstorage.blob.core.windows.net', 'chooselux.blob.core.windows.net']
   }
 });
 
