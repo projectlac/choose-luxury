@@ -203,5 +203,7 @@
   "confirm-password": "Xác nhận mật khẩu",
   "submit1": "Gửi",
   "is-required": "là trường bắt buộc",
-  "order-code": "Mã đơn"
+  "order-code": "Mã đơn",
+  "choose-address": "Chọn địa chỉ",
+  "create-one": "Không có, tạo mới"
 }

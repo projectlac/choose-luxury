@@ -40,4 +40,18 @@ export interface IDataDetailResponse<T> {
 
 export interface INoData<T> {
   data: T;
+  pagination: IMyOrderPagingDetail;
+}
+
+export interface IAddressList {
+  id: number;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  user: number;
+}
+
+export interface IMyOrderPagingDetail {
+  count: number;
 }

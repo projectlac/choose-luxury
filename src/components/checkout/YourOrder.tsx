@@ -11,6 +11,7 @@ import DialogAuthCommon from 'components/authentication/dialog-auth-forms/Dialog
 import Image from 'next/image';
 import formatMoney from 'utils/formatMoney';
 import { getStatusLabel } from 'utils/convert';
+import PaginationComponent from 'components/forms/tables/Pagination';
 
 const CustomButton = styled(Button)(({ theme }) => ({
   width: '180px',
@@ -196,6 +197,10 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
 
 function YourOrder() {
   const [listOrder, setListOrder] = useState<IResponseGetMyOrder[]>([]);
+  const [total, setTotal] = useState<number>(0);
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
+
   const intl = useIntl();
   const [loading, setLoading] = useState<boolean>(false);
   const { isLoggedIn } = useAuth();
@@ -206,15 +211,16 @@ function YourOrder() {
     try {
       setLoading(true);
       dispatch(showLoading());
-      const res = await orderAPI.myOrder();
+      const res = await orderAPI.myOrder(limit, (page - 1) * 10);
       setListOrder(res.data.data);
+      setTotal(res.data.pagination.count);
     } catch (error) {
     } finally {
       dispatch(hiddenLoading());
       setLoading(false);
     }
     // console.log(res);
-  }, [dispatch]);
+  }, [dispatch, limit, page]);
 
   useEffect(() => {
     getListOrder();
@@ -237,6 +243,7 @@ function YourOrder() {
               )}
             </>
           )}
+          <PaginationComponent count={Math.ceil(total / 10)} handleChangePage={setPage} handleChangeLimit={setLimit} />
         </>
       ) : (
         <Box>

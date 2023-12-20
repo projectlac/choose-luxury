@@ -3,13 +3,16 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 interface IPaginationProps {
   handleChangePage: Dispatch<SetStateAction<number>>;
+  handleChangeLimit: Dispatch<SetStateAction<number>>;
+
   count: number;
 }
-function PaginationComponent({ handleChangePage, count }: IPaginationProps) {
-  const [rowsPerPage, setRowsPerPage] = React.useState(4);
+function PaginationComponent({ handleChangePage, handleChangeLimit, count }: IPaginationProps) {
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
+    handleChangeLimit(+event.target.value);
     handleChangePage(0);
   };
 
@@ -32,7 +35,7 @@ function PaginationComponent({ handleChangePage, count }: IPaginationProps) {
         value={rowsPerPage}
         onChange={handleChangeRowsPerPage}
       >
-        <MenuItem value={4}>4</MenuItem>
+        <MenuItem value={10}>10</MenuItem>
         <MenuItem value={20}>20</MenuItem>
         <MenuItem value={30}>30</MenuItem>
       </TextField>

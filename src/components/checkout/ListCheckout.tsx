@@ -37,7 +37,9 @@ import { openSnackbar } from 'store/slices/snackbar';
 import { Address } from 'types/cart';
 import { IOrderItem } from 'types/services/cartApi.types';
 import { ICartList, IResponseGetProductById } from 'types/services/productApi.types';
+import { IAddressList } from 'types/services/serviceitem';
 import { LIST_COUNTRIES, PAYMENT_METHODS } from 'utils/const';
+import orderAPI from '../../../api/OrderAPI/OrderAPI';
 const CustomButton = styled(Button)(({ theme }) => ({
   width: '180px',
   height: '46px',
@@ -89,6 +91,7 @@ interface ListCheckoutProps {
 }
 
 interface InitFormAddress {
+  addressId: number;
   address: string;
   city: string;
   postalCode: number;
@@ -101,8 +104,10 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
   const [listCart, setListCart] = useState<ICartList[]>([]);
   const dispatch = useDispatch();
   const intl = useIntl();
+  const [addressList, setAddressList] = useState<IAddressList[]>([]);
   const products = useSelector((state) => state.cart.checkout.products);
   const [defaultAddress, setDefaultAddress] = useState<InitFormAddress>({
+    addressId: -1,
     address: '',
     city: '',
     postalCode: 0,
@@ -111,59 +116,6 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
     submit: null
   });
   const billing = useSelector((state) => state.cart.checkout.billing);
-
-  const fetch = useCallback(async () => {
-    const ids: number[] = [];
-    products?.forEach((item) => {
-      ids.push(item.id);
-    });
-    dispatch(showLoading());
-
-    try {
-      if (billing) {
-        const ini: InitFormAddress = {
-          address: billing.street ?? '',
-          city: billing.city ?? '',
-          country: billing.country ?? 'Viet Nam',
-          paymentMethod: billing.destination ?? 'Cash delivery',
-          postalCode: +billing.post ?? 0,
-          submit: null
-        };
-
-        setDefaultAddress(ini);
-      }
-      const res1 = await cartApi.getItemsWithListId({ ids });
-      let allPrice: number = 0;
-      const params = res1.data.data?.map((d: IResponseGetProductById) => {
-        const productItem = products?.find((item) => item.id === d.id);
-        if (!isUndefined(productItem)) allPrice += productItem?.quantity * +d.base_price;
-        return { ...d, quantity: productItem?.quantity ?? 0 };
-      });
-      handlePrice(allPrice);
-
-      setListCart(params);
-    } catch (error) {
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: 'Something went wrong!',
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-
-          severity: 'error',
-          close: false
-        })
-      );
-    } finally {
-      dispatch(hiddenLoading());
-    }
-  }, [billing, dispatch, handlePrice, products]);
-
-  useEffect(() => {
-    fetch();
-  }, [billing, fetch]);
 
   const { isLoggedIn } = useAuth();
   const [open, setOpen] = React.useState(false);
@@ -182,14 +134,32 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
     enableReinitialize: true,
     initialValues: defaultAddress,
     validationSchema: Yup.object().shape({
-      address: Yup.string().max(255).required('Address is required'),
-      city: Yup.string().max(255).required('City is required'),
-      country: Yup.string().max(255).required('Country is required'),
+      address: Yup.string().when(['addressId'], {
+        is: (addressId: number) => {
+          return addressId !== -1;
+        }, // alternatively: (isBig, isSpecial) => isBig && isSpecial
+        then: (schema) => schema.notRequired(),
+        otherwise: (schema) => schema.required('Address is required')
+      }),
+      city: Yup.string().when(['addressId'], {
+        is: (addressId: number) => {
+          return addressId !== -1;
+        }, // alternatively: (isBig, isSpecial) => isBig && isSpecial
+        then: (schema) => schema.notRequired(),
+        otherwise: (schema) => schema.required('City is required')
+      }),
+      country: Yup.string().when(['addressId'], {
+        is: (addressId: number) => {
+          return addressId !== -1;
+        }, // alternatively: (isBig, isSpecial) => isBig && isSpecial
+        then: (schema) => schema.notRequired(),
+        otherwise: (schema) => schema.required('Country is required')
+      }),
       paymentMethod: Yup.string().max(255).required('Payment method is required')
     }),
     onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
       try {
-        const { address, city, postalCode, country, paymentMethod } = values;
+        const { address, city, postalCode, country, paymentMethod, addressId } = values;
         const orderItems: IOrderItem[] = [];
         listCart.forEach((item) => {
           orderItems.push({ product: item.id, qty: item.quantity, price: +item.base_price });
@@ -197,7 +167,7 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
         const res = await cartApi.createOrder({
           orderItems,
           paymentMethod,
-          shippingAddress: { address, city, country, postalCode },
+          shippingAddress: addressId === -1 ? { address, city, country, postalCode } : { id: addressId },
           totalPrice
         });
 
@@ -261,6 +231,75 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
     setOpenBill(false);
     formik.resetForm();
   };
+
+  const fetchAddressUser = useCallback(async () => {
+    const res = await orderAPI.getUserAddress();
+    if (res.data.length > 0)
+      formik.handleChange({
+        target: { name: 'addressId', value: res.data[0].id }
+      });
+    setAddressList(res.data);
+  }, []);
+
+  const fetch = useCallback(async () => {
+    const ids: number[] = [];
+    products?.forEach((item) => {
+      ids.push(item.id);
+    });
+    dispatch(showLoading());
+
+    try {
+      if (billing) {
+        const ini: InitFormAddress = {
+          addressId: -1,
+          address: billing.street ?? '',
+          city: billing.city ?? '',
+          country: billing.country ?? 'Viet Nam',
+          paymentMethod: billing.destination ?? 'Cash delivery',
+          postalCode: +billing.post ?? 0,
+          submit: null
+        };
+
+        setDefaultAddress(ini);
+      }
+      const res1 = await cartApi.getItemsWithListId({ ids });
+      let allPrice: number = 0;
+      const params = res1.data.data?.map((d: IResponseGetProductById) => {
+        const productItem = products?.find((item) => item.id === d.id);
+        if (!isUndefined(productItem)) allPrice += productItem?.quantity * +d.base_price;
+        return { ...d, quantity: productItem?.quantity ?? 0 };
+      });
+      handlePrice(allPrice);
+
+      setListCart(params);
+    } catch (error) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Something went wrong!',
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+
+          severity: 'error',
+          close: false
+        })
+      );
+    } finally {
+      dispatch(hiddenLoading());
+    }
+  }, [billing, dispatch, handlePrice, products]);
+
+  useEffect(() => {
+    fetch();
+  }, [billing, fetch]);
+
+  useEffect(() => {
+    if (open) {
+      fetchAddressUser();
+    }
+  }, [fetchAddressUser, open]);
 
   return (
     <>
@@ -333,89 +372,17 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
                 <Grid item md={12}>
                   <FormControl
                     fullWidth
-                    error={Boolean(formik.touched.address && formik.errors.address)}
+                    error={Boolean(formik.touched.addressId && formik.errors.addressId)}
                     sx={{ ...theme.typography.customInput }}
                   >
-                    <InputLabel htmlFor="outlined-adornment-address-login"> {`${intl.formatMessage({ id: 'address' })}`} </InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-address-login"
-                      type="address"
-                      value={formik.values.address}
-                      name="address"
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      label={`${intl.formatMessage({ id: 'address' })}`}
-                      inputProps={{}}
-                    />
-                    {formik.touched.address && formik.errors.address && (
-                      <FormHelperText error id="standard-weight-helper-text-address-login">
-                        {formik.errors.address}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                <Grid item md={3}>
-                  <FormControl
-                    fullWidth
-                    error={Boolean(formik.touched.city && formik.errors.city)}
-                    sx={{ ...theme.typography.customInput }}
-                  >
-                    <InputLabel htmlFor="outlined-adornment-city-login">{`${intl.formatMessage({ id: 'city' })}`}</InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-city-login"
-                      type="city"
-                      value={formik.values.city}
-                      name="city"
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      label={`${intl.formatMessage({ id: 'city' })}`}
-                      inputProps={{}}
-                    />
-
-                    {formik.touched.city && formik.errors.city && (
-                      <FormHelperText error id="standard-weight-helper-text-city-login">
-                        {formik.errors.city}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                <Grid item md={3}>
-                  <FormControl
-                    fullWidth
-                    error={Boolean(formik.touched.postalCode && formik.errors.postalCode)}
-                    sx={{ ...theme.typography.customInput }}
-                  >
-                    <InputLabel htmlFor="outlined-adornment-postalCode-login">{`${intl.formatMessage({ id: 'postal-code' })}`}</InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-postalCode-login"
-                      type="postalCode"
-                      value={formik.values.postalCode}
-                      name="postalCode"
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      label={`${intl.formatMessage({ id: 'postal-code' })}`}
-                      inputProps={{}}
-                    />
-
-                    {formik.touched.postalCode && formik.errors.postalCode && (
-                      <FormHelperText error id="standard-weight-helper-text-postalCode-login">
-                        {formik.errors.postalCode}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                <Grid item md={3}>
-                  <FormControl
-                    fullWidth
-                    error={Boolean(formik.touched.country && formik.errors.country)}
-                    sx={{ ...theme.typography.customInput }}
-                  >
-                    <InputLabel htmlFor="outlined-adornment-country-login">{`${intl.formatMessage({ id: 'country' })}`}</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-addressId-login">{`${intl.formatMessage({
+                      id: 'choose-address'
+                    })}`}</InputLabel>
                     <Select
                       labelId="demo-multiple-name-label"
                       id="demo-multiple-name"
-                      name="country"
-                      value={formik.values.country}
+                      name="addressId"
+                      value={formik.values.addressId}
                       onChange={formik.handleChange}
                       input={<OutlinedInput label="Name" />}
                       MenuProps={MenuProps}
@@ -429,19 +396,170 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
                         }
                       }}
                     >
-                      {LIST_COUNTRIES.map((data) => (
-                        <MenuItem key={data.code} value={data.name}>
-                          {data.name}
+                      <MenuItem value={-1}>
+                        {intl.formatMessage({
+                          id: 'create-one'
+                        })}
+                      </MenuItem>
+                      {addressList.map((data) => (
+                        <MenuItem key={data.id} value={data.id}>
+                          <Box>
+                            <b>
+                              {intl.formatMessage({
+                                id: 'address'
+                              })}
+                            </b>
+                            : {data.address} -{' '}
+                            <b>
+                              {intl.formatMessage({
+                                id: 'city'
+                              })}
+                            </b>
+                            : {data.city} -{' '}
+                            <b>
+                              {' '}
+                              {intl.formatMessage({
+                                id: 'country'
+                              })}
+                            </b>
+                            : {data.country} -{' '}
+                            <b>
+                              {' '}
+                              {intl.formatMessage({
+                                id: 'postal-code'
+                              })}
+                            </b>
+                            : {data.postalCode}
+                          </Box>
                         </MenuItem>
                       ))}
                     </Select>
-                    {formik.touched.country && formik.errors.country && (
-                      <FormHelperText error id="standard-weight-helper-text-country-login">
-                        {formik.errors.country}
+
+                    {formik.touched.addressId && formik.errors.addressId && (
+                      <FormHelperText error id="standard-weight-helper-text-addressId-login">
+                        {formik.errors.addressId}
                       </FormHelperText>
                     )}
                   </FormControl>
                 </Grid>
+                {formik.values.addressId === -1 && (
+                  <>
+                    <Grid item md={12}>
+                      <FormControl
+                        fullWidth
+                        error={Boolean(formik.touched.address && formik.errors.address)}
+                        sx={{ ...theme.typography.customInput }}
+                      >
+                        <InputLabel htmlFor="outlined-adornment-address-login"> {`${intl.formatMessage({ id: 'address' })}`} </InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-address-login"
+                          type="address"
+                          value={formik.values.address}
+                          name="address"
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          label={`${intl.formatMessage({ id: 'address' })}`}
+                          inputProps={{}}
+                        />
+                        {formik.touched.address && formik.errors.address && (
+                          <FormHelperText error id="standard-weight-helper-text-address-login">
+                            {formik.errors.address}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                    <Grid item md={3}>
+                      <FormControl
+                        fullWidth
+                        error={Boolean(formik.touched.city && formik.errors.city)}
+                        sx={{ ...theme.typography.customInput }}
+                      >
+                        <InputLabel htmlFor="outlined-adornment-city-login">{`${intl.formatMessage({ id: 'city' })}`}</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-city-login"
+                          type="city"
+                          value={formik.values.city}
+                          name="city"
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          label={`${intl.formatMessage({ id: 'city' })}`}
+                          inputProps={{}}
+                        />
+
+                        {formik.touched.city && formik.errors.city && (
+                          <FormHelperText error id="standard-weight-helper-text-city-login">
+                            {formik.errors.city}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                    <Grid item md={3}>
+                      <FormControl
+                        fullWidth
+                        error={Boolean(formik.touched.postalCode && formik.errors.postalCode)}
+                        sx={{ ...theme.typography.customInput }}
+                      >
+                        <InputLabel htmlFor="outlined-adornment-postalCode-login">{`${intl.formatMessage({
+                          id: 'postal-code'
+                        })}`}</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-postalCode-login"
+                          type="postalCode"
+                          value={formik.values.postalCode}
+                          name="postalCode"
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          label={`${intl.formatMessage({ id: 'postal-code' })}`}
+                          inputProps={{}}
+                        />
+
+                        {formik.touched.postalCode && formik.errors.postalCode && (
+                          <FormHelperText error id="standard-weight-helper-text-postalCode-login">
+                            {formik.errors.postalCode}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                    <Grid item md={3}>
+                      <FormControl
+                        fullWidth
+                        error={Boolean(formik.touched.country && formik.errors.country)}
+                        sx={{ ...theme.typography.customInput }}
+                      >
+                        <InputLabel htmlFor="outlined-adornment-country-login">{`${intl.formatMessage({ id: 'country' })}`}</InputLabel>
+                        <Select
+                          labelId="demo-multiple-name-label"
+                          id="demo-multiple-name"
+                          name="country"
+                          value={formik.values.country}
+                          onChange={formik.handleChange}
+                          input={<OutlinedInput label="Name" />}
+                          MenuProps={MenuProps}
+                          sx={{
+                            fieldset: {
+                              borderColor: 'rgba(191, 140, 10, 1) !important'
+                            },
+                            height: '62px',
+                            div: {
+                              marginTop: '15px'
+                            }
+                          }}
+                        >
+                          {LIST_COUNTRIES.map((data) => (
+                            <MenuItem key={data.code} value={data.name}>
+                              {data.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {formik.touched.country && formik.errors.country && (
+                          <FormHelperText error id="standard-weight-helper-text-country-login">
+                            {formik.errors.country}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                  </>
+                )}
                 <Grid item md={3}>
                   <FormControl
                     fullWidth
@@ -512,6 +630,9 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
                     disableElevation
                     disabled={formik.isSubmitting}
                     fullWidth
+                    onClick={() => {
+                      console.log(formik.errors);
+                    }}
                     size="large"
                     type="submit"
                     variant="contained"

@@ -148,7 +148,7 @@
   "home": "Home",
   "change": "Change Language",
   "message": "Message",
-  "is-required":"is required",
+  "is-required": "is required",
   "shop": "Shop",
   "homepage": "Home page",
   "about-us": "About us",
@@ -202,6 +202,7 @@
   "confirm-password": "Confirm password",
   "submit1": "Submit",
   "password": "Password",
-  "order-code": "Order Code"
-
+  "order-code": "Order Code",
+  "choose-address": "Choose an address",
+  "create-one":"Create one"
 }

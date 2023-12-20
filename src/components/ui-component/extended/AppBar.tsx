@@ -17,7 +17,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-
+import MessengerChat from 'react-messenger-customer-chat';
 // project imports
 import MenuIcon from '@mui/icons-material/Menu';
 import Cart from '../../../assets/header/cart.png';
@@ -458,6 +458,7 @@ const AppBar = ({ ...others }) => {
         ></div>
         <Script src="https://sp.zalo.me/plugins/sdk.js"></Script>
       </Container>
+      <MessengerChat pageId="709527266077097" language="vi_VN" />
     </Box>
   );
 };

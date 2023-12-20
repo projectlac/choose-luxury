@@ -21,10 +21,10 @@ export interface IReqForOrder {
 }
 
 export interface IAddressOfCustomer {
-  address: string;
-  city: string;
-  postalCode: number;
-  country: string;
+  address?: string;
+  city?: string;
+  postalCode?: number;
+  country?: string;
   id?: number;
 }
 
