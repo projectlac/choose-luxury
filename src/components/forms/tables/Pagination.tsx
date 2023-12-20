@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 interface IPaginationProps {
   handleChangePage: Dispatch<SetStateAction<number>>;
-  handleChangeLimit: Dispatch<SetStateAction<number>>;
+  handleChangeLimit?: Dispatch<SetStateAction<number>>;
 
   count: number;
 }
@@ -12,7 +12,7 @@ function PaginationComponent({ handleChangePage, handleChangeLimit, count }: IPa
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
-    handleChangeLimit(+event.target.value);
+    handleChangeLimit?.(+event.target.value);
     handleChangePage(0);
   };
 
