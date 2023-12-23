@@ -32,3 +32,8 @@ a {
     transform: translateX(0);
   }
 }
+
+.zalo-chat-widget {
+  right: 23px;
+  bottom: 100px;
+}

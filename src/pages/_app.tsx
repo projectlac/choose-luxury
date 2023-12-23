@@ -23,6 +23,7 @@ import MinimalLayout from 'layout/MinimalLayout';
 import { LayoutType } from 'types';
 import Snackbar from 'ui-component/extended/Snackbar';
 import Loading from 'ui-component/extended/Loading';
+import Script from 'next/script';
 const Noop: React.FC = ({ children }) => {
   return <> {children} </>;
 };
@@ -61,6 +62,17 @@ function MyApp({ Component, pageProps }: AppProps & { Component: { Layout: Layou
                       <Layout>
                         <Component {...pageProps} />
                         <Snackbar />
+
+                        <Script strategy="lazyOnload" id="">
+                          {`
+                 window.dataLayer = window.dataLayer || [];
+                 function gtag(){dataLayer.push(arguments);}
+                 gtag('js', new Date());
+               
+                 gtag('config', 'G-W32F549FYW');
+                `}
+                        </Script>
+                        <Script strategy="lazyOnload" id="" async src="https://www.googletagmanager.com/gtag/js?id=G-W32F549FYW"></Script>
                       </Layout>
                     </AuthProvider>
                   </NavigationScroll>

@@ -448,14 +448,23 @@ const AppBar = ({ ...others }) => {
             )}
           />
         </Box>
-        <div
-          className="zalo-chat-widget"
-          data-oaid="3863536650460330247"
-          data-welcome-message="Rất vui khi được hỗ trợ bạn!"
-          data-autopopup="0"
-          data-width=""
-          data-height=""
-        ></div>
+        <Box
+          sx={{
+            '.zalo-chat-widget': {
+              right: '23px !important',
+              bottom: '100px !important'
+            }
+          }}
+        >
+          <div
+            className="zalo-chat-widget"
+            data-oaid="3863536650460330247"
+            data-welcome-message="Rất vui khi được hỗ trợ bạn!"
+            data-autopopup="0"
+            data-width=""
+            data-height=""
+          ></div>
+        </Box>
         <Script src="https://sp.zalo.me/plugins/sdk.js"></Script>
       </Container>
       <MessengerChat pageId="709527266077097" language="vi_VN" />
