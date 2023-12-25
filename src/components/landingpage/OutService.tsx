@@ -9,9 +9,9 @@ import { FormattedMessage } from 'react-intl';
 
 // =============================|| LANDING - FEATURE PAGE ||============================= //
 const data: IDataService[] = [
-  { name: 'Men', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_vdH3Kwo5.jpeg' },
-  { name: 'Women', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_azzqsGfh.jpeg' },
-  { name: 'Spa and legit check by entrupy', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_azzqsGfh.jpeg' }
+  { name: 'Men', url: '/shop/Men', image: 'https://pos.nvncdn.com/0a688a-28099/pc/20230518_vdH3Kwo5.jpeg' },
+  { name: 'Women', url: '/shop/Women', image: 'https://pos.nvncdn.com/0a688a-28099/pc/20230518_azzqsGfh.jpeg' },
+  { name: 'Spa and legit check by entrupy', url: '/shop/men', image: 'https://pos.nvncdn.com/0a688a-28099/pc/20230518_azzqsGfh.jpeg' }
 ];
 const OutService = () => {
   return (

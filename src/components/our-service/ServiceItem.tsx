@@ -49,7 +49,7 @@ function ServiceItem({ data }: ServiceItemProps) {
         >
           {data.name}
         </Typography>
-        <Link href="/shop/men">
+        <Link href={data.url ?? '/'}>
           <Button
             sx={{
               border: '1px solid #BF8C0A',

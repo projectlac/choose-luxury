@@ -14,8 +14,11 @@ import SizeFilter from '../Filter/SizeFilter';
 import ProductItem from '../ProductItem/ProductItem';
 import { IFilterProduct } from 'types/services/serviceitem';
 import { IFilter } from 'types/product';
+import { useRouter } from 'next/router';
 
 function ShopIndex() {
+  const router = useRouter();
+  const { slug } = router.query;
   const [hiddenFilter, setHiddenFilter] = useState<boolean>(false);
   const [page1, setPage] = React.useState(1);
   const [total, setTotal] = useState<number>(0);
@@ -32,30 +35,27 @@ function ShopIndex() {
 
   // const [page, setPage] = useState<number>(1);
 
-  const getListProduct = useCallback(
-    async (searchParam: string) => {
-      const params: IFilterProduct = {
-        base_price: filterSetup.priceRange?.[0].toString(),
-        old_price: filterSetup.priceRange?.[1].toString(),
-        brand: filterSetup.brand.length === 0 ? undefined : filterSetup.brand.toString(),
-        size: filterSetup.size.length === 0 ? undefined : filterSetup.size.toString(),
-        category: filterSetup.categorySelection === '' ? undefined : filterSetup.categorySelection,
-        limit: rowsPerPage,
-        offset: (page1 - 1) * rowsPerPage
-      };
-      const res1 = await getProductWithFilter(params);
-      // const res = await getProduct({ search: searchParam, page: page1 });
+  const getListProduct = useCallback(async () => {
+    const params: IFilterProduct = {
+      base_price: filterSetup.priceRange?.[0].toString(),
+      old_price: filterSetup.priceRange?.[1].toString(),
+      brand: filterSetup.brand.length === 0 ? undefined : filterSetup.brand.toString(),
+      size: filterSetup.size.length === 0 ? undefined : filterSetup.size.toString(),
+      category: filterSetup.categorySelection === '' ? undefined : filterSetup.categorySelection,
+      limit: rowsPerPage,
+      offset: (page1 - 1) * rowsPerPage
+    };
+    const res1 = await getProductWithFilter(params);
+    // const res = await getProduct({ search: searchParam, page: page1 });
 
-      getProductList(res1.data.results);
-      setTotal(res1.data.count);
-    },
-    [filterSetup.brand, filterSetup.categorySelection, filterSetup.priceRange, filterSetup.size, page1, rowsPerPage]
-  );
+    getProductList(res1.data.results);
+    setTotal(res1.data.count);
+  }, [filterSetup.brand, filterSetup.categorySelection, filterSetup.priceRange, filterSetup.size, page1, rowsPerPage]);
 
   const reloadListProduct = useCallback(async () => {
     try {
       dispatch(showLoading());
-      await getListProduct(search);
+      await getListProduct();
       dispatch(getBrands(1, 999));
       dispatch(getProductSize(1, 999));
       dispatch(getCategories(1, 999));
@@ -64,11 +64,14 @@ function ShopIndex() {
     } finally {
       dispatch(hiddenLoading());
     }
-  }, [getListProduct, search]);
+  }, [getListProduct]);
 
   useEffect(() => {
+    if (slug) {
+      setFilterSetup((prev) => ({ ...prev, category: slug }));
+    }
     reloadListProduct();
-  }, [reloadListProduct]);
+  }, [reloadListProduct, slug]);
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
