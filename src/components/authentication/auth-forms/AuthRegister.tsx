@@ -91,7 +91,7 @@ const FirebaseRegister = ({ ...others }) => {
             dispatch(
               openSnackbar({
                 open: true,
-                message: `Register SuccessfulAccount registration successful. \n\r Please check your email to activate your account`,
+                message: `Register Successfully. \n\r Please check your email to activate your account`,
                 variant: 'alert',
                 anchorOrigin: { vertical: 'top', horizontal: 'right' },
                 alert: {

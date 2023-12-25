@@ -13,7 +13,7 @@ function PaginationComponent({ handleChangePage, handleChangeLimit, count }: IPa
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     handleChangeLimit?.(+event.target.value);
-    handleChangePage(0);
+    handleChangePage(1);
   };
 
   return (

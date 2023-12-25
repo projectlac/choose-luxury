@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import orderAPI from '../../../api/OrderAPI/OrderAPI';
 import { IResponseGetMyOrder } from 'types/services/cartApi.types';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, Link, Stack, Typography, styled } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, Grid, Link, Stack, Typography, styled } from '@mui/material';
 import { useDispatch } from 'store';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -12,6 +12,7 @@ import Image from 'next/image';
 import formatMoney from 'utils/formatMoney';
 import { getStatusLabel } from 'utils/convert';
 import PaginationComponent from 'components/forms/tables/Pagination';
+import TableDataGrid from './OrderList/GridTable';
 
 const CustomButton = styled(Button)(({ theme }) => ({
   width: '180px',
@@ -148,47 +149,54 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
       </AccordionSummary>
       <AccordionDetails>
         {data.items.map((item) => (
-          <Stack key={item.id} direction={'row'}>
-            {item.product_img && (
-              <Link href={`/product-detail/${item.product}`}>
-                <a target="__blank">
-                  <Box
-                    width={100}
-                    height={110}
-                    sx={{
-                      boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                      borderRadius: '5px',
-
-                      position: 'relative'
-                    }}
-                  >
-                    <Image src={item.product_img} alt="Order Complete" layout="fill" />
-                  </Box>
-                </a>
-              </Link>
-            )}
-
-            <Box
-              ml={3}
-              sx={{
-                width: 'calc(100% - 150px)'
-              }}
-            >
-              <Typography sx={{ mb: 1, a: { color: '#000', textDecoration: 'none' } }}>
-                <b>{`${intl.formatMessage({ id: 'product' })}`}:</b>{' '}
+          <Box key={item.id}>
+            <Stack direction={'row'}>
+              {item.product_img && (
                 <Link href={`/product-detail/${item.product}`}>
-                  <a target="__blank">{item.product_name}</a>
+                  <a target="__blank">
+                    <Box
+                      width={100}
+                      height={110}
+                      sx={{
+                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        borderRadius: '5px',
+
+                        position: 'relative'
+                      }}
+                    >
+                      <Image src={item.product_img} alt="Order Complete" layout="fill" />
+                    </Box>
+                  </a>
                 </Link>
-              </Typography>
-              <Typography sx={{ mb: 1, a: { color: '#000', textDecoration: 'none' } }}>
-                <b>{`${intl.formatMessage({ id: 'price' })}`}:</b> {formatMoney(item.price.toString())} VNĐ
-              </Typography>
-              <Typography sx={{ mb: 1, a: { color: '#000', textDecoration: 'none' } }}>
-                <b>{`${intl.formatMessage({ id: 'quantity' })}`}: </b>
-                {item.qty}
-              </Typography>
-            </Box>
-          </Stack>
+              )}
+
+              <Box
+                ml={3}
+                sx={{
+                  width: 'calc(100% - 150px)'
+                }}
+              >
+                <Typography sx={{ mb: 1, a: { color: '#000', textDecoration: 'none' } }}>
+                  <b>{`${intl.formatMessage({ id: 'product' })}`}:</b>{' '}
+                  <Link href={`/product-detail/${item.product}`}>
+                    <a target="__blank">{item.product_name}</a>
+                  </Link>
+                </Typography>
+                <Typography sx={{ mb: 1, a: { color: '#000', textDecoration: 'none' } }}>
+                  <b>{`${intl.formatMessage({ id: 'price' })}`}:</b> {formatMoney(item.price.toString())} VNĐ
+                </Typography>
+                <Typography sx={{ mb: 1, a: { color: '#000', textDecoration: 'none' } }}>
+                  <b>{`${intl.formatMessage({ id: 'quantity' })}`}: </b>
+                  {item.qty}
+                </Typography>
+              </Box>
+            </Stack>
+            <Divider
+              sx={{
+                my: 1
+              }}
+            ></Divider>
+          </Box>
         ))}
       </AccordionDetails>
     </Accordion>
@@ -196,54 +204,15 @@ function OrderItem({ data }: { data: IResponseGetMyOrder }) {
 }
 
 function YourOrder() {
-  const [listOrder, setListOrder] = useState<IResponseGetMyOrder[]>([]);
-  const [total, setTotal] = useState<number>(0);
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(10);
-
   const intl = useIntl();
-  const [loading, setLoading] = useState<boolean>(false);
+
   const { isLoggedIn } = useAuth();
-  const dispatch = useDispatch();
-
-  const getListOrder = useCallback(async () => {
-    // const res = await orderAPI.getListOrderByAdmin();
-    try {
-      setLoading(true);
-      dispatch(showLoading());
-      const res = await orderAPI.myOrder(limit, (page - 1) * 10);
-      setListOrder(res.data.data);
-      setTotal(res.data.pagination.count);
-    } catch (error) {
-    } finally {
-      dispatch(hiddenLoading());
-      setLoading(false);
-    }
-    // console.log(res);
-  }, [dispatch, limit, page]);
-
-  useEffect(() => {
-    getListOrder();
-  }, [getListOrder]);
 
   return (
     <div>
       {isLoggedIn ? (
         <>
-          {!loading && (
-            <>
-              {listOrder.length === 0 ? (
-                <Box>{`You don't have order`}</Box>
-              ) : (
-                <Box>
-                  {listOrder.map((item, index) => (
-                    <OrderItem key={index} data={item} />
-                  ))}
-                </Box>
-              )}
-            </>
-          )}
-          <PaginationComponent count={Math.ceil(total / 10)} handleChangePage={setPage} handleChangeLimit={setLimit} />
+          <TableDataGrid />
         </>
       ) : (
         <Box>

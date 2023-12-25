@@ -8,6 +8,7 @@ import { removeProduct } from 'store/slices/cart';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
 import { CartProductStateProps } from 'types/cart';
 import { ICartList } from 'types/services/productApi.types';
+import { REGEX_NUMBER } from 'utils/const';
 import formatMoney from 'utils/formatMoney';
 
 interface CheckoutItemProps {
@@ -15,24 +16,29 @@ interface CheckoutItemProps {
 }
 function CheckoutItem({ data }: CheckoutItemProps) {
   const intl = useIntl();
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [lastValue, setLastValue] = React.useState(0);
   const products = useSelector((state) => state.cart.checkout.products);
 
   const [dataGet, setDataGet] = useState<ICartList>(data);
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-  };
-
-  const handleChangeQuantity = useCallback(() => {
-    const findData = products.map((pro) => {
-      if (pro.id === dataGet.id) return { ...pro, quantity: dataGet.quantity };
-      else return pro;
-    });
-    dispatch(showLoading());
-    dispatch(removeProduct(findData));
-    dispatch(hiddenLoading());
-  }, [dataGet, products]);
+  const handleChangeQuantity = useCallback(
+    (e) => {
+      if (dataGet.quantity) {
+        const findData = products.map((pro) => {
+          if (pro.id === dataGet.id) return { ...pro, quantity: +dataGet.quantity };
+          else return pro;
+        });
+        dispatch(showLoading());
+        dispatch(removeProduct(findData));
+        dispatch(hiddenLoading());
+      } else {
+        const oldValue = { ...data };
+        oldValue.quantity = lastValue;
+        setDataGet(oldValue);
+      }
+    },
+    [data, dataGet.id, dataGet.quantity, lastValue, products]
+  );
 
   const handleRemoveProduct = useCallback(() => {
     const newList: CartProductStateProps[] = [];
@@ -46,6 +52,7 @@ function CheckoutItem({ data }: CheckoutItemProps) {
 
   useEffect(() => {
     setDataGet(data);
+    setLastValue(+data.quantity);
   }, [data]);
 
   return (
@@ -206,11 +213,18 @@ function CheckoutItem({ data }: CheckoutItemProps) {
                 padding: '7px 5px'
               }
             }}
-            type="number"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const oldValue = { ...data };
-              oldValue.quantity = +e.target.value;
-              setDataGet(oldValue);
+              if (REGEX_NUMBER.test(e.target.value)) {
+                const oldValue = { ...data };
+                oldValue.quantity = e.target.value;
+                setDataGet(oldValue);
+                if (e.target.value) {
+                  setLastValue(+e.target.value);
+                }
+              }
+              // if (isNumber(Number(e.target.value))) {
+              //   const oldValue = { ...data };
+              //   setDataGet(oldValue);
             }}
             value={dataGet?.quantity ?? 0}
             InputProps={{

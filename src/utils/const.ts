@@ -253,3 +253,11 @@ export const PAYMENT_METHODS = [
   { title: 'Cash delivery', value: 'Cash delivery', id: 999 },
   { title: 'Bank transfer', value: 'Bank transfer', id: 1000 }
 ];
+
+export const ROLE_PERMISSIONS = {
+  USER: 'User',
+  ADMIN: 'Admin',
+  STAFF: 'Staff'
+};
+
+export const REGEX_NUMBER = /^[0-9]*$/;

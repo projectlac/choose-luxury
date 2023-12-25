@@ -4,6 +4,7 @@ import useAuth from 'hooks/useAuth';
 import { GuardProps } from 'types';
 import { useEffect } from 'react';
 import Loader from 'components/ui-component/Loader';
+import { ROLE_PERMISSIONS } from 'utils/const';
 
 // ==============================|| AUTH GUARD ||============================== //
 
@@ -18,7 +19,7 @@ const AuthGuard = ({ children }: GuardProps) => {
     if (!isLoggedIn) {
       router.push('/login');
     } else {
-      if (user?.role !== 'Admin') {
+      if ([ROLE_PERMISSIONS.USER].includes(user?.role ?? ROLE_PERMISSIONS.USER)) {
         router.push('/');
       }
     }

@@ -60,7 +60,7 @@ function CheckoutIndex() {
   return (
     <Container maxWidth="xl">
       <Grid container rowSpacing={3}>
-        <Grid item md={6} xs={12}>
+        <Grid item md={12} xs={12}>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -75,14 +75,6 @@ function CheckoutIndex() {
               <YourOrder />
             </CustomTabPanel>
           </Box>
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <Grid container>
-            <Grid item sm={3} sx={{ display: { sm: 'block', xs: 'none' } }}></Grid>
-            <Grid item md={9} sm={12} xs={12}>
-              <CheckoutDetail totalPrice={totalPrice} />
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
     </Container>

@@ -17,8 +17,11 @@ import DeleteProduct from 'components/product/DeleteProduct/DeleteProduct';
 import EditProduct from 'components/product/EditProduct/EditProduct';
 
 import NewProduct from 'components/product/NewProduct/NewProduct';
+import useAuth from 'hooks/useAuth';
+import Image from 'next/image';
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 import { IResponseGetProductById } from 'types/services/productApi.types';
+import { ROLE_PERMISSIONS } from 'utils/const';
 import formatMoney from 'utils/formatMoney';
 interface RecentOrdersTableProps {
   className?: string;
@@ -39,6 +42,7 @@ const applyPagination = (cryptoOrders: IResponseGetProductById[], page: number, 
 
 const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload, setPage: changePage, total }) => {
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<number[]>([]);
+  const { user } = useAuth();
   const resetSelected = () => {
     setSelectedCryptoOrders([]);
   };
@@ -79,6 +83,8 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
             onKeyDown={(e) => {
               if (e.code === 'Enter') {
                 reSearch(search);
+                changePage(1);
+                setPage(1);
               }
             }}
           ></TextField>
@@ -92,6 +98,8 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
           <TableHead>
             <TableRow>
               <TableCell>Product name</TableCell>
+              <TableCell sx={{ width: '100px' }}>Image</TableCell>
+
               <TableCell sx={{ width: '350px' }}>Price</TableCell>
               <TableCell sx={{ width: '350px' }}>Quantity</TableCell>
 
@@ -110,6 +118,23 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
                       {cryptoOrder.product_name}
                     </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Box
+                      sx={{
+                        width: `100%`,
+                        height: `70px`,
+                        position: 'relative',
+                        background: 'rgb(224 224 224)'
+                      }}
+                    >
+                      <Image
+                        alt={cryptoOrder.product_name}
+                        src={cryptoOrder.images[0].product_img ?? ''}
+                        layout="fill"
+                        objectFit="cover"
+                      ></Image>
+                    </Box>
                   </TableCell>
                   <TableCell
                     sx={{
@@ -142,7 +167,9 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
                       }}
                     >
                       <EditProduct id={cryptoOrder.id} reload={reload} />
-                      <DeleteProduct id={cryptoOrder.id} name={cryptoOrder.product_name} reload={reload} />
+                      {[ROLE_PERMISSIONS.ADMIN].includes(user?.role ?? '') && (
+                        <DeleteProduct id={cryptoOrder.id} name={cryptoOrder.product_name} reload={reload} />
+                      )}
                     </Box>
                   </TableCell>
                 </TableRow>
@@ -152,7 +179,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
         </Table>
       </TableContainer>
       <Box p={2}>
-        <PaginationComponent count={Math.ceil(total / 10)} handleChangePage={changePage} />
+        <PaginationComponent count={Math.ceil(total / 10)} handleChangePage={changePage} handleChangeLimit={setLimit} />
         {/* <TablePagination
           component="div"
           count={filteredCryptoOrders.length}

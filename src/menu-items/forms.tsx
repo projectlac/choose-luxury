@@ -7,6 +7,7 @@ import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import MarginIcon from '@mui/icons-material/Margin';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { ROLE_PERMISSIONS } from 'utils/const';
 // constant
 
 // ==============================|| UI FORMS MENU ITEMS ||============================== //
@@ -30,7 +31,8 @@ const forms = {
       type: 'item',
       url: '/forms/components/orders',
       icon: ShoppingCartIcon,
-      breadcrumbs: false
+      breadcrumbs: false,
+      permission: [ROLE_PERMISSIONS.ADMIN]
     },
     {
       id: 'product',
@@ -38,7 +40,8 @@ const forms = {
       type: 'item',
       url: '/forms/components/product',
       icon: InventoryIcon,
-      breadcrumbs: false
+      breadcrumbs: false,
+      permission: [ROLE_PERMISSIONS.ADMIN, ROLE_PERMISSIONS.STAFF]
     },
     {
       id: 'category',
@@ -46,7 +49,8 @@ const forms = {
       type: 'item',
       url: '/forms/components/category',
       icon: CategoryIcon,
-      breadcrumbs: false
+      breadcrumbs: false,
+      permission: [ROLE_PERMISSIONS.ADMIN]
     },
     {
       id: 'brand',
@@ -54,7 +58,8 @@ const forms = {
       type: 'item',
       url: '/forms/components/brand',
       icon: BrandingWatermarkIcon,
-      breadcrumbs: false
+      breadcrumbs: false,
+      permission: [ROLE_PERMISSIONS.ADMIN]
     },
     {
       id: 'size',
@@ -62,7 +67,8 @@ const forms = {
       type: 'item',
       url: '/forms/components/productSize',
       icon: MarginIcon,
-      breadcrumbs: false
+      breadcrumbs: false,
+      permission: [ROLE_PERMISSIONS.ADMIN]
     }
   ]
 };

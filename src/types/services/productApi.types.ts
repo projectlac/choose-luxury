@@ -67,5 +67,5 @@ export interface IProductSize extends IParamsProductSize {
 }
 
 export interface ICartList extends IResponseGetProductById {
-  quantity: number;
+  quantity: number | string;
 }

@@ -4,41 +4,34 @@ import { useTheme } from '@mui/material/styles';
 // import { DataGrid,  } from '@material-ui/data-grid';
 import { useCallback, useEffect, useState } from 'react';
 import { IResponseGetProductById } from 'types/services/productApi.types';
-import { getProduct, getProductWithFilter } from '../../../api/ProductAPI/productDashboash';
+
 import DataTable from './DataTable';
 import { hiddenLoading, showLoading } from 'store/slices/loading';
-import { dispatch } from 'store';
+import { getProductWithFilter } from '../../../../api/ProductAPI/productDashboash';
+import orderAPI from '../../../../api/OrderAPI/OrderAPI';
+import { IResponseGetMyOrder } from 'types/services/cartApi.types';
+import { useDispatch } from 'store';
 
 // ==============================|| TABLE - BASIC DATA GRID ||============================== //
 
 export default function TableDataGrid() {
   const theme = useTheme();
-  const [productList, getProductList] = useState<IResponseGetProductById[]>([]);
-  const [search, setSearch] = useState<string>('');
-
-  const [page, setPage] = useState<number>(0);
-
+  const [listOrder, setListOrder] = useState<IResponseGetMyOrder[]>([]);
   const [total, setTotal] = useState<number>(0);
-
-  const getListProduct = useCallback(
-    async (searchParam: string) => {
-      const res = await getProductWithFilter({ product_name: searchParam, limit: 10, offset: (page - 1) * 10 });
-      getProductList(res.data.results);
-      setTotal(res.data.count);
-    },
-    [page]
-  );
-
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
+  const dispatch = useDispatch();
   const reloadListProduct = useCallback(async () => {
     try {
       dispatch(showLoading());
-      await getListProduct(search);
+      const res = await orderAPI.myOrder(limit, (page - 1) * 10);
+      setListOrder(res.data.data);
+      setTotal(res.data.pagination.count);
     } catch (error) {
-      console.error(error);
     } finally {
       dispatch(hiddenLoading());
     }
-  }, [getListProduct, search]);
+  }, [dispatch, limit, page]);
 
   useEffect(() => {
     reloadListProduct();
@@ -64,7 +57,7 @@ export default function TableDataGrid() {
         }
       }}
     >
-      <DataTable cryptoOrders={productList} reSearch={setSearch} reload={reloadListProduct} total={total} setPage={setPage} />
+      <DataTable cryptoOrders={listOrder} research={reloadListProduct} setPage={setPage} total={total} setLimit={setLimit} />
     </Box>
   );
 }

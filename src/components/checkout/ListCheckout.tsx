@@ -40,6 +40,7 @@ import { ICartList, IResponseGetProductById } from 'types/services/productApi.ty
 import { IAddressList } from 'types/services/serviceitem';
 import { LIST_COUNTRIES, PAYMENT_METHODS } from 'utils/const';
 import orderAPI from '../../../api/OrderAPI/OrderAPI';
+import CheckoutDetail from './CheckoutDetail';
 const CustomButton = styled(Button)(({ theme }) => ({
   width: '180px',
   height: '46px',
@@ -119,7 +120,6 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
 
   const { isLoggedIn } = useAuth();
   const [open, setOpen] = React.useState(false);
-  const [openBill, setOpenBill] = React.useState(false);
 
   const theme = useTheme();
 
@@ -127,9 +127,6 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
     setOpen(true);
   };
 
-  const handleClickOpenBill = () => {
-    setOpenBill(true);
-  };
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: defaultAddress,
@@ -162,7 +159,7 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
         const { address, city, postalCode, country, paymentMethod, addressId } = values;
         const orderItems: IOrderItem[] = [];
         listCart.forEach((item) => {
-          orderItems.push({ product: item.id, qty: item.quantity, price: +item.base_price });
+          orderItems.push({ product: item.id, qty: +item.quantity, price: +item.base_price });
         });
         const res = await cartApi.createOrder({
           orderItems,
@@ -227,11 +224,6 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
     formik.resetForm();
   };
 
-  const handleCloseBill = () => {
-    setOpenBill(false);
-    formik.resetForm();
-  };
-
   const fetchAddressUser = useCallback(async () => {
     const res = await orderAPI.getUserAddress();
     if (res.data.length > 0)
@@ -249,19 +241,6 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
     dispatch(showLoading());
 
     try {
-      if (billing) {
-        const ini: InitFormAddress = {
-          addressId: -1,
-          address: billing.street ?? '',
-          city: billing.city ?? '',
-          country: billing.country ?? 'Viet Nam',
-          paymentMethod: billing.destination ?? 'Cash delivery',
-          postalCode: +billing.post ?? 0,
-          submit: null
-        };
-
-        setDefaultAddress(ini);
-      }
       const res1 = await cartApi.getItemsWithListId({ ids });
       let allPrice: number = 0;
       const params = res1.data.data?.map((d: IResponseGetProductById) => {
@@ -289,7 +268,7 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
     } finally {
       dispatch(hiddenLoading());
     }
-  }, [billing, dispatch, handlePrice, products]);
+  }, [dispatch, handlePrice, products]);
 
   useEffect(() => {
     fetch();
@@ -303,235 +282,90 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
 
   return (
     <>
-      {listCart.map((item) => (
-        <CheckoutItem key={item.id} data={item} />
-      ))}
+      {/* <DialogBill openBill={true} handleCloseBill={handleCloseBill} /> */}
 
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap'
-        }}
-      >
-        <Link href={'/shop'}>
-          <CustomButton
+      <Grid container>
+        <Grid item md={6} xs={12}>
+          {' '}
+          {listCart.map((item) => (
+            <CheckoutItem key={item.id} data={item} />
+          ))}
+          <Box
             sx={{
-              [theme.breakpoints.down('md')]: {
-                width: '100% !important',
-                minWidth: 'inherit',
-                fontSize: '15px',
-                height: '35px'
-              }
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap'
             }}
-          >{`${intl.formatMessage({ id: 'back-to-shop' })}`}</CustomButton>
-        </Link>
-        {products.length > 0 && (
-          <>
-            <CustomButton
-              onClick={() => {
-                dispatch(showLoading());
-                dispatch(removeProduct([]));
-                dispatch(hiddenLoading());
-              }}
-            >
-              {`${intl.formatMessage({ id: 'remove-all' })}`}
-            </CustomButton>
-          </>
-        )}
-
-        {products.length > 0 && (
-          <>
-            {!isLoggedIn ? (
-              <CustomButton sx={{ width: '100%' }}>
-                <DialogAuthCommon>
-                  <>{`${intl.formatMessage({ id: 'order1' })}`}</>
-                </DialogAuthCommon>
-              </CustomButton>
-            ) : (
-              <CustomButton onClick={handleClickOpen}>{`${intl.formatMessage({ id: 'order1' })}`}</CustomButton>
+          >
+            <Link href={'/shop'}>
+              <CustomButton
+                sx={{
+                  [theme.breakpoints.down('md')]: {
+                    width: '100% !important',
+                    minWidth: 'inherit',
+                    fontSize: '15px',
+                    height: '35px'
+                  }
+                }}
+              >{`${intl.formatMessage({ id: 'back-to-shop' })}`}</CustomButton>
+            </Link>
+            {products.length > 0 && (
+              <>
+                <CustomButton
+                  onClick={() => {
+                    dispatch(showLoading());
+                    dispatch(removeProduct([]));
+                    dispatch(hiddenLoading());
+                  }}
+                >
+                  {`${intl.formatMessage({ id: 'remove-all' })}`}
+                </CustomButton>
+              </>
             )}
-          </>
-        )}
-      </Box>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        maxWidth="md"
-        fullWidth
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{'Shipping address'}</DialogTitle>
-        <DialogContent>
-          <form onSubmit={formik.handleSubmit}>
-            <DialogContentText id="alert-dialog-slide-description">
-              <Grid container columnSpacing={2}>
-                <Grid item md={12}>
-                  <FormControl
-                    fullWidth
-                    error={Boolean(formik.touched.addressId && formik.errors.addressId)}
-                    sx={{ ...theme.typography.customInput }}
-                  >
-                    <InputLabel htmlFor="outlined-adornment-addressId-login">{`${intl.formatMessage({
-                      id: 'choose-address'
-                    })}`}</InputLabel>
-                    <Select
-                      labelId="demo-multiple-name-label"
-                      id="demo-multiple-name"
-                      name="addressId"
-                      value={formik.values.addressId}
-                      onChange={formik.handleChange}
-                      input={<OutlinedInput label="Name" />}
-                      MenuProps={MenuProps}
-                      sx={{
-                        fieldset: {
-                          borderColor: 'rgba(191, 140, 10, 1) !important'
-                        },
-                        height: '62px',
-                        div: {
-                          marginTop: '15px'
-                        }
-                      }}
-                    >
-                      <MenuItem value={-1}>
-                        {intl.formatMessage({
-                          id: 'create-one'
-                        })}
-                      </MenuItem>
-                      {addressList.map((data) => (
-                        <MenuItem key={data.id} value={data.id}>
-                          <Box>
-                            <b>
-                              {intl.formatMessage({
-                                id: 'address'
-                              })}
-                            </b>
-                            : {data.address} -{' '}
-                            <b>
-                              {intl.formatMessage({
-                                id: 'city'
-                              })}
-                            </b>
-                            : {data.city} -{' '}
-                            <b>
-                              {' '}
-                              {intl.formatMessage({
-                                id: 'country'
-                              })}
-                            </b>
-                            : {data.country} -{' '}
-                            <b>
-                              {' '}
-                              {intl.formatMessage({
-                                id: 'postal-code'
-                              })}
-                            </b>
-                            : {data.postalCode}
-                          </Box>
-                        </MenuItem>
-                      ))}
-                    </Select>
 
-                    {formik.touched.addressId && formik.errors.addressId && (
-                      <FormHelperText error id="standard-weight-helper-text-addressId-login">
-                        {formik.errors.addressId}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                {formik.values.addressId === -1 && (
-                  <>
+            {products.length > 0 && (
+              <>
+                {!isLoggedIn ? (
+                  <CustomButton sx={{ width: '100%' }}>
+                    <DialogAuthCommon>
+                      <>{`${intl.formatMessage({ id: 'order1' })}`}</>
+                    </DialogAuthCommon>
+                  </CustomButton>
+                ) : (
+                  <CustomButton onClick={handleClickOpen}>{`${intl.formatMessage({ id: 'order1' })}`}</CustomButton>
+                )}
+              </>
+            )}
+          </Box>
+          <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            maxWidth="md"
+            fullWidth
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{'Shipping address'}</DialogTitle>
+            <DialogContent>
+              <form onSubmit={formik.handleSubmit}>
+                <DialogContentText id="alert-dialog-slide-description">
+                  <Grid container columnSpacing={2}>
                     <Grid item md={12}>
                       <FormControl
                         fullWidth
-                        error={Boolean(formik.touched.address && formik.errors.address)}
+                        error={Boolean(formik.touched.addressId && formik.errors.addressId)}
                         sx={{ ...theme.typography.customInput }}
                       >
-                        <InputLabel htmlFor="outlined-adornment-address-login"> {`${intl.formatMessage({ id: 'address' })}`} </InputLabel>
-                        <OutlinedInput
-                          id="outlined-adornment-address-login"
-                          type="address"
-                          value={formik.values.address}
-                          name="address"
-                          onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
-                          label={`${intl.formatMessage({ id: 'address' })}`}
-                          inputProps={{}}
-                        />
-                        {formik.touched.address && formik.errors.address && (
-                          <FormHelperText error id="standard-weight-helper-text-address-login">
-                            {formik.errors.address}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item md={3}>
-                      <FormControl
-                        fullWidth
-                        error={Boolean(formik.touched.city && formik.errors.city)}
-                        sx={{ ...theme.typography.customInput }}
-                      >
-                        <InputLabel htmlFor="outlined-adornment-city-login">{`${intl.formatMessage({ id: 'city' })}`}</InputLabel>
-                        <OutlinedInput
-                          id="outlined-adornment-city-login"
-                          type="city"
-                          value={formik.values.city}
-                          name="city"
-                          onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
-                          label={`${intl.formatMessage({ id: 'city' })}`}
-                          inputProps={{}}
-                        />
-
-                        {formik.touched.city && formik.errors.city && (
-                          <FormHelperText error id="standard-weight-helper-text-city-login">
-                            {formik.errors.city}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item md={3}>
-                      <FormControl
-                        fullWidth
-                        error={Boolean(formik.touched.postalCode && formik.errors.postalCode)}
-                        sx={{ ...theme.typography.customInput }}
-                      >
-                        <InputLabel htmlFor="outlined-adornment-postalCode-login">{`${intl.formatMessage({
-                          id: 'postal-code'
+                        <InputLabel htmlFor="outlined-adornment-addressId-login">{`${intl.formatMessage({
+                          id: 'choose-address'
                         })}`}</InputLabel>
-                        <OutlinedInput
-                          id="outlined-adornment-postalCode-login"
-                          type="postalCode"
-                          value={formik.values.postalCode}
-                          name="postalCode"
-                          onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
-                          label={`${intl.formatMessage({ id: 'postal-code' })}`}
-                          inputProps={{}}
-                        />
-
-                        {formik.touched.postalCode && formik.errors.postalCode && (
-                          <FormHelperText error id="standard-weight-helper-text-postalCode-login">
-                            {formik.errors.postalCode}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item md={3}>
-                      <FormControl
-                        fullWidth
-                        error={Boolean(formik.touched.country && formik.errors.country)}
-                        sx={{ ...theme.typography.customInput }}
-                      >
-                        <InputLabel htmlFor="outlined-adornment-country-login">{`${intl.formatMessage({ id: 'country' })}`}</InputLabel>
                         <Select
                           labelId="demo-multiple-name-label"
                           id="demo-multiple-name"
-                          name="country"
-                          value={formik.values.country}
+                          name="addressId"
+                          value={formik.values.addressId}
                           onChange={formik.handleChange}
                           input={<OutlinedInput label="Name" />}
                           MenuProps={MenuProps}
@@ -545,113 +379,274 @@ function ListCheckout({ handlePrice, totalPrice, handleToggle }: ListCheckoutPro
                             }
                           }}
                         >
-                          {LIST_COUNTRIES.map((data) => (
-                            <MenuItem key={data.code} value={data.name}>
-                              {data.name}
+                          <MenuItem value={-1}>
+                            {intl.formatMessage({
+                              id: 'create-one'
+                            })}
+                          </MenuItem>
+                          {addressList.map((data) => (
+                            <MenuItem key={data.id} value={data.id}>
+                              <Box>
+                                <b>
+                                  {intl.formatMessage({
+                                    id: 'address'
+                                  })}
+                                </b>
+                                : {data.address} -{' '}
+                                <b>
+                                  {intl.formatMessage({
+                                    id: 'city'
+                                  })}
+                                </b>
+                                : {data.city} -{' '}
+                                <b>
+                                  {' '}
+                                  {intl.formatMessage({
+                                    id: 'country'
+                                  })}
+                                </b>
+                                : {data.country} -{' '}
+                                <b>
+                                  {' '}
+                                  {intl.formatMessage({
+                                    id: 'postal-code'
+                                  })}
+                                </b>
+                                : {data.postalCode}
+                              </Box>
                             </MenuItem>
                           ))}
                         </Select>
-                        {formik.touched.country && formik.errors.country && (
-                          <FormHelperText error id="standard-weight-helper-text-country-login">
-                            {formik.errors.country}
+
+                        {formik.touched.addressId && formik.errors.addressId && (
+                          <FormHelperText error id="standard-weight-helper-text-addressId-login">
+                            {formik.errors.addressId}
                           </FormHelperText>
                         )}
                       </FormControl>
                     </Grid>
-                  </>
-                )}
-                <Grid item md={3}>
-                  <FormControl
-                    fullWidth
-                    error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
-                    sx={{ ...theme.typography.customInput }}
-                  >
-                    <InputLabel htmlFor="outlined-adornment-paymentMethod-login">{`${intl.formatMessage({
-                      id: 'payment-method'
-                    })}`}</InputLabel>
-                    <Select
-                      labelId="demo-multiple-name-label"
-                      id="demo-multiple-name"
-                      name="paymentMethod"
-                      value={formik.values.paymentMethod}
-                      onChange={formik.handleChange}
-                      input={<OutlinedInput label="Name" />}
-                      MenuProps={MenuProps}
+                    {formik.values.addressId === -1 && (
+                      <>
+                        <Grid item md={12}>
+                          <FormControl
+                            fullWidth
+                            error={Boolean(formik.touched.address && formik.errors.address)}
+                            sx={{ ...theme.typography.customInput }}
+                          >
+                            <InputLabel htmlFor="outlined-adornment-address-login">
+                              {' '}
+                              {`${intl.formatMessage({ id: 'address' })}`}{' '}
+                            </InputLabel>
+                            <OutlinedInput
+                              id="outlined-adornment-address-login"
+                              type="address"
+                              value={formik.values.address}
+                              name="address"
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}
+                              label={`${intl.formatMessage({ id: 'address' })}`}
+                              inputProps={{}}
+                            />
+                            {formik.touched.address && formik.errors.address && (
+                              <FormHelperText error id="standard-weight-helper-text-address-login">
+                                {formik.errors.address}
+                              </FormHelperText>
+                            )}
+                          </FormControl>
+                        </Grid>
+                        <Grid item md={3}>
+                          <FormControl
+                            fullWidth
+                            error={Boolean(formik.touched.city && formik.errors.city)}
+                            sx={{ ...theme.typography.customInput }}
+                          >
+                            <InputLabel htmlFor="outlined-adornment-city-login">{`${intl.formatMessage({ id: 'city' })}`}</InputLabel>
+                            <OutlinedInput
+                              id="outlined-adornment-city-login"
+                              type="city"
+                              value={formik.values.city}
+                              name="city"
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}
+                              label={`${intl.formatMessage({ id: 'city' })}`}
+                              inputProps={{}}
+                            />
+
+                            {formik.touched.city && formik.errors.city && (
+                              <FormHelperText error id="standard-weight-helper-text-city-login">
+                                {formik.errors.city}
+                              </FormHelperText>
+                            )}
+                          </FormControl>
+                        </Grid>
+                        <Grid item md={3}>
+                          <FormControl
+                            fullWidth
+                            error={Boolean(formik.touched.postalCode && formik.errors.postalCode)}
+                            sx={{ ...theme.typography.customInput }}
+                          >
+                            <InputLabel htmlFor="outlined-adornment-postalCode-login">{`${intl.formatMessage({
+                              id: 'postal-code'
+                            })}`}</InputLabel>
+                            <OutlinedInput
+                              id="outlined-adornment-postalCode-login"
+                              type="postalCode"
+                              value={formik.values.postalCode}
+                              name="postalCode"
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}
+                              label={`${intl.formatMessage({ id: 'postal-code' })}`}
+                              inputProps={{}}
+                            />
+
+                            {formik.touched.postalCode && formik.errors.postalCode && (
+                              <FormHelperText error id="standard-weight-helper-text-postalCode-login">
+                                {formik.errors.postalCode}
+                              </FormHelperText>
+                            )}
+                          </FormControl>
+                        </Grid>
+                        <Grid item md={3}>
+                          <FormControl
+                            fullWidth
+                            error={Boolean(formik.touched.country && formik.errors.country)}
+                            sx={{ ...theme.typography.customInput }}
+                          >
+                            <InputLabel htmlFor="outlined-adornment-country-login">{`${intl.formatMessage({ id: 'country' })}`}</InputLabel>
+                            <Select
+                              labelId="demo-multiple-name-label"
+                              id="demo-multiple-name"
+                              name="country"
+                              value={formik.values.country}
+                              onChange={formik.handleChange}
+                              input={<OutlinedInput label="Name" />}
+                              MenuProps={MenuProps}
+                              sx={{
+                                fieldset: {
+                                  borderColor: 'rgba(191, 140, 10, 1) !important'
+                                },
+                                height: '62px',
+                                div: {
+                                  marginTop: '15px'
+                                }
+                              }}
+                            >
+                              {LIST_COUNTRIES.map((data) => (
+                                <MenuItem key={data.code} value={data.name}>
+                                  {data.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            {formik.touched.country && formik.errors.country && (
+                              <FormHelperText error id="standard-weight-helper-text-country-login">
+                                {formik.errors.country}
+                              </FormHelperText>
+                            )}
+                          </FormControl>
+                        </Grid>
+                      </>
+                    )}
+                    <Grid item md={3}>
+                      <FormControl
+                        fullWidth
+                        error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
+                        sx={{ ...theme.typography.customInput }}
+                      >
+                        <InputLabel htmlFor="outlined-adornment-paymentMethod-login">{`${intl.formatMessage({
+                          id: 'payment-method'
+                        })}`}</InputLabel>
+                        <Select
+                          labelId="demo-multiple-name-label"
+                          id="demo-multiple-name"
+                          name="paymentMethod"
+                          value={formik.values.paymentMethod}
+                          onChange={formik.handleChange}
+                          input={<OutlinedInput label="Name" />}
+                          MenuProps={MenuProps}
+                          sx={{
+                            fieldset: {
+                              borderColor: 'rgba(191, 140, 10, 1) !important'
+                            },
+                            height: '62px',
+                            div: {
+                              marginTop: '15px'
+                            }
+                          }}
+                        >
+                          {PAYMENT_METHODS.map((data) => (
+                            <MenuItem key={data.id} value={data.value}>
+                              {data.title}
+                            </MenuItem>
+                          ))}
+                        </Select>
+
+                        {formik.touched.paymentMethod && formik.errors.paymentMethod && (
+                          <FormHelperText error id="standard-weight-helper-text-paymentMethod-login">
+                            {formik.errors.paymentMethod}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  {formik.values.paymentMethod === 'Bank transfer' && (
+                    <Box
                       sx={{
-                        fieldset: {
-                          borderColor: 'rgba(191, 140, 10, 1) !important'
-                        },
-                        height: '62px',
-                        div: {
-                          marginTop: '15px'
-                        }
+                        width: '300px',
+                        border: '1px solid',
+                        padding: '15px',
+                        borderRadius: '8px',
+                        margin: '15px auto',
+                        color: '#000'
                       }}
                     >
-                      {PAYMENT_METHODS.map((data) => (
-                        <MenuItem key={data.id} value={data.value}>
-                          {data.title}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      <Typography fontWeight={'bold'}>📌TECHCOMBANK THANH XUÂN</Typography>
+                      <Typography fontWeight={'bold'}> 19033245019013</Typography>
+                      <Typography fontWeight={'bold'}> VU PHUONG NGHI</Typography>
+                    </Box>
+                  )}
+                  {formik.errors.submit && (
+                    <Box sx={{ mt: 3 }}>
+                      <FormHelperText error>{formik.errors.submit}</FormHelperText>
+                    </Box>
+                  )}
 
-                    {formik.touched.paymentMethod && formik.errors.paymentMethod && (
-                      <FormHelperText error id="standard-weight-helper-text-paymentMethod-login">
-                        {formik.errors.paymentMethod}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-              </Grid>
-              {formik.values.paymentMethod === 'Bank transfer' && (
-                <Box
-                  sx={{
-                    width: '300px',
-                    border: '1px solid',
-                    padding: '15px',
-                    borderRadius: '8px',
-                    margin: '15px auto',
-                    color: '#000'
-                  }}
-                >
-                  <Typography fontWeight={'bold'}>📌TECHCOMBANK THANH XUÂN</Typography>
-                  <Typography fontWeight={'bold'}> 19033245019013</Typography>
-                  <Typography fontWeight={'bold'}> VU PHUONG NGHI</Typography>
-                </Box>
-              )}
-              {formik.errors.submit && (
-                <Box sx={{ mt: 3 }}>
-                  <FormHelperText error>{formik.errors.submit}</FormHelperText>
-                </Box>
-              )}
-
-              <Box sx={{ mt: 2 }}>
-                <AnimateButton>
-                  <Button
-                    disableElevation
-                    disabled={formik.isSubmitting}
-                    fullWidth
-                    onClick={() => {
-                      console.log(formik.errors);
-                    }}
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                      backgroundColor: 'rgb(191, 140, 10)',
-                      '&:hover': {
-                        backgroundColor: 'rgb(151 111 8)'
-                      }
-                    }}
-                  >
-                    {intl.formatMessage({ id: 'order1' })}
-                  </Button>
-                </AnimateButton>
-              </Box>
-            </DialogContentText>
-          </form>
-        </DialogContent>
-      </Dialog>
-      {/* <DialogBill openBill={true} handleCloseBill={handleCloseBill} /> */}
+                  <Box sx={{ mt: 2 }}>
+                    <AnimateButton>
+                      <Button
+                        disableElevation
+                        disabled={formik.isSubmitting}
+                        fullWidth
+                        onClick={() => {
+                          console.log(formik.errors);
+                        }}
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        sx={{
+                          backgroundColor: 'rgb(191, 140, 10)',
+                          '&:hover': {
+                            backgroundColor: 'rgb(151 111 8)'
+                          }
+                        }}
+                      >
+                        {intl.formatMessage({ id: 'order1' })}
+                      </Button>
+                    </AnimateButton>
+                  </Box>
+                </DialogContentText>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <Grid container>
+            <Grid item sm={3} sx={{ display: { sm: 'block', xs: 'none' } }}></Grid>
+            <Grid item md={9} sm={12} xs={12}>
+              <CheckoutDetail totalPrice={totalPrice} />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 }

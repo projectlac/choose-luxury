@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 // assets
 import { IconDashboard, IconDeviceAnalytics } from '@tabler/icons';
 import { OverrideIcon } from 'types';
+import { ROLE_PERMISSIONS } from 'utils/const';
 
 // constant
 const icons = {
@@ -24,6 +25,7 @@ interface DashboardMenuProps {
     url: string;
     icon: OverrideIcon;
     breadcrumbs: boolean;
+    permission: string[];
   }[];
 }
 
@@ -38,7 +40,8 @@ const dashboard: DashboardMenuProps = {
       type: 'item',
       url: '/dashboard/default',
       icon: icons.IconDashboard,
-      breadcrumbs: false
+      breadcrumbs: false,
+      permission: [ROLE_PERMISSIONS.ADMIN, ROLE_PERMISSIONS.STAFF]
     }
   ]
 };

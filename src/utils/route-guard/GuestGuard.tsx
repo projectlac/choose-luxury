@@ -6,6 +6,7 @@ import useAuth from 'hooks/useAuth';
 import { DASHBOARD_PATH } from 'config';
 import { GuardProps } from 'types';
 import Loader from 'components/ui-component/Loader';
+import { ROLE_PERMISSIONS } from 'utils/const';
 
 // ==============================|| GUEST GUARD ||============================== //
 
@@ -20,7 +21,7 @@ const GuestGuard = ({ children }: GuardProps) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      if (user?.role === 'Admin') router.push(DASHBOARD_PATH);
+      if ([ROLE_PERMISSIONS.ADMIN, ROLE_PERMISSIONS.STAFF].includes(user?.role ?? ROLE_PERMISSIONS.USER)) router.push(DASHBOARD_PATH);
       else {
         router.push('/');
       }
