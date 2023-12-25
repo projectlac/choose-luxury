@@ -13,6 +13,7 @@ import Logo from 'ui-component/Logo';
 import BackgroundPattern1 from 'ui-component/cards/BackgroundPattern1';
 import AuthSlider from 'ui-component/cards/AuthSlider';
 import { AuthSliderProps } from 'types';
+import { useIntl } from 'react-intl';
 // assets
 const AuthMultiCard = '/assets/images/auth/auth-forgot-pass-multi-card.svg';
 
@@ -59,7 +60,7 @@ const items: AuthSliderProps[] = [
 const ForgotPassword = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-
+  const intl = useIntl();
   return (
     <AuthWrapper1>
       <Grid container justifyContent="space-between" alignItems="center" sx={{ minHeight: '100vh' }}>
@@ -76,7 +77,7 @@ const ForgotPassword = () => {
                   <Grid item>
                     <Stack justifyContent={matchDownSM ? 'center' : 'flex-start'} textAlign={matchDownSM ? 'center' : 'inherit'}>
                       <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                        Forgot password?
+                        {intl.formatMessage({ id: 'forgot-password' })}
                       </Typography>
                       <Typography color="textPrimary" gutterBottom variant="h4">
                         Enter credentials to continue

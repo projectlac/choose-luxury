@@ -12,6 +12,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import useAuth from 'hooks/useAuth';
 import useScriptRef from 'hooks/useScriptRef';
 import { openSnackbar } from 'store/slices/snackbar';
+import { useIntl } from 'react-intl';
 
 // ========================|| FIREBASE - FORGOT PASSWORD ||======================== //
 
@@ -19,7 +20,7 @@ const AuthForgotPassword = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const dispatch = useDispatch();
-
+  const intl = useIntl();
   const { resetPassword } = useAuth();
 
   return (
@@ -30,7 +31,10 @@ const AuthForgotPassword = ({ ...others }) => {
         submit: null
       }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email('Must be a valid email').max(255).required('Email is required')
+        email: Yup.string()
+          .email('Must be a valid email')
+          .max(255)
+          .required(`${intl.formatMessage({ id: 'email-address' })} ${intl.formatMessage({ id: 'is-required' })}`)
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
@@ -67,7 +71,7 @@ const AuthForgotPassword = ({ ...others }) => {
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit} {...others}>
           <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-            <InputLabel htmlFor="outlined-adornment-email-forgot">Email Address / Username</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-email-forgot">{intl.formatMessage({ id: 'email-address' })}</InputLabel>
             <OutlinedInput
               id="outlined-adornment-email-forgot"
               type="email"
@@ -75,7 +79,7 @@ const AuthForgotPassword = ({ ...others }) => {
               name="email"
               onBlur={handleBlur}
               onChange={handleChange}
-              label="Email Address / Username"
+              label={intl.formatMessage({ id: 'email-address' })}
               inputProps={{}}
             />
             {touched.email && errors.email && (
@@ -94,7 +98,7 @@ const AuthForgotPassword = ({ ...others }) => {
           <Box sx={{ mt: 2 }}>
             <AnimateButton>
               <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                Send Mail
+                Send email
               </Button>
             </AnimateButton>
           </Box>

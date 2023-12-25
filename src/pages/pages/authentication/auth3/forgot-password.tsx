@@ -11,6 +11,7 @@ import useAuth from 'hooks/useAuth';
 import AuthWrapper1 from 'components/authentication/AuthWrapper1';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
 import Logo from 'ui-component/Logo';
+import { useIntl } from 'react-intl';
 
 // ============================|| AUTH3 - FORGOT PASSWORD ||============================ //
 
@@ -19,6 +20,7 @@ const ForgotPassword = ({ handleChangeMode }: { handleChangeMode?: (data: boolea
   const { isLoggedIn } = useAuth();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
+  const intl = useIntl();
   return (
     <Grid container justifyContent="center" alignItems="center">
       <Grid item sx={{ mb: 0 }}>
@@ -28,12 +30,12 @@ const ForgotPassword = ({ handleChangeMode }: { handleChangeMode?: (data: boolea
               <Grid container alignItems="center" justifyContent="center" textAlign="center" spacing={2}>
                 <Grid item xs={12}>
                   <Typography color={'#000'} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                    Forgot password?
+                    {intl.formatMessage({ id: 'forgot-password' })}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="caption" fontSize="16px" textAlign="center">
-                    Enter your email address below and we&apos;ll send you password reset OTP.
+                    {intl.formatMessage({ id: 'OTP-tip' })}
                   </Typography>
                 </Grid>
               </Grid>
@@ -53,7 +55,7 @@ const ForgotPassword = ({ handleChangeMode }: { handleChangeMode?: (data: boolea
                     handleChangeMode?.(false);
                   }}
                   variant="subtitle1"
-                  sx={{ textDecoration: 'none' }}
+                  sx={{ textDecoration: 'none', cursor: 'pointer' }}
                 >
                   Already have an account?
                 </Typography>

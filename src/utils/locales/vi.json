@@ -205,5 +205,6 @@
   "is-required": "là trường bắt buộc",
   "order-code": "Mã đơn",
   "choose-address": "Chọn địa chỉ",
-  "create-one": "Không có, tạo mới"
+  "create-one": "Không có, tạo mới",
+  "OTP-tip": "Nhập địa chỉ email của bạn bên dưới và chúng tôi sẽ gửi cho bạn OTP để đặt lại mật khẩu."
 }

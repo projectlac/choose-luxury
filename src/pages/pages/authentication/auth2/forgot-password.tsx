@@ -15,6 +15,7 @@ import Logo from 'ui-component/Logo';
 import BackgroundPattern2 from 'ui-component/cards/BackgroundPattern2';
 import AuthSlider from 'ui-component/cards/AuthSlider';
 import { AuthSliderProps } from 'types';
+import { useIntl } from 'react-intl';
 // assets
 const imgMain = '/assets/images/auth/img-a2-forgotpass.svg';
 
@@ -40,7 +41,7 @@ const ForgotPassword = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
-
+  const intl = useIntl();
   return (
     <AuthWrapper2>
       <Grid container justifyContent={matchDownSM ? 'center' : 'space-between'} alignItems="center">
@@ -73,7 +74,7 @@ const ForgotPassword = () => {
                     <Grid item xs={12}>
                       <Stack alignItems="center" justifyContent="center" spacing={1}>
                         <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                          Forgot password?
+                          {intl.formatMessage({ id: 'forgot-password' })}
                         </Typography>
                         <Typography variant="caption" fontSize="16px" textAlign="center">
                           Enter your email address below and we&apos;ll send you password reset OTP.
@@ -85,18 +86,6 @@ const ForgotPassword = () => {
                     </Grid>
                     <Grid item xs={12}>
                       <Divider />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Grid item container direction="column" alignItems="center" xs={12}>
-                        <Typography
-                          component={Link}
-                          href="/pages/authentication/auth2/login"
-                          variant="subtitle1"
-                          sx={{ textDecoration: 'none' }}
-                        >
-                          Already have an account?
-                        </Typography>
-                      </Grid>
                     </Grid>
                   </Grid>
                 </AuthCardWrapper>
