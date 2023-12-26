@@ -50,7 +50,6 @@ const MailerSubscriberContact = ({ className, ...others }: { className?: string 
             .max(255)
             .required(`${`${intl.formatMessage({ id: 'email-address' })}`} ${`${intl.formatMessage({ id: 'is-required' })}`}`),
           name: Yup.string()
-            .email('Must be a valid name')
             .max(255)
             .required(`${`${intl.formatMessage({ id: 'name' })}`} ${`${intl.formatMessage({ id: 'is-required' })}`}`),
           phone: Yup.number().required(
