@@ -160,7 +160,7 @@ function ProductDetail({ data }: IProductDetailProps) {
                         background: 'rgb(224 224 224)',
                         display: index > 3 ? 'none' : 'block',
                         '&:before':
-                          index === 3
+                          index === 3 && data.images.length > 4
                             ? {
                                 position: 'absolute',
                                 content: `"+${data.images.length - 4}"`,
