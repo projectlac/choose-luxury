@@ -468,8 +468,8 @@ const AppBar = ({ ...others }) => {
         <Script src="https://sp.zalo.me/plugins/sdk.js"></Script>
       </Container>
       {/* <MessengerChat pageId="709527266077097" language="vi_VN" greetingDialogDisplay="show" /> */}
-      <MessengerChat pageId="709527266077097" language="vi_VN" greetingDialogDisplay={['show']} />
-      {/* <MessengerChat pageId="709527266077097" language="vi_VN" greetingDialogDisplay={{ show: true }} /> */}
+      {/* <MessengerChat pageId="709527266077097" language="vi_VN" greetingDialogDisplay={['show']} /> */}
+      <MessengerChat pageId="709527266077097" language="vi_VN" greetingDialogDisplay={{ show: true }} />
     </Box>
   );
 };
