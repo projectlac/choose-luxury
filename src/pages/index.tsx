@@ -5,9 +5,8 @@ import { styled } from '@mui/material/styles';
 import BestOfSale from 'components/landingpage/BestOfSale';
 import Footer from 'components/landingpage/Footer';
 import Header from 'components/landingpage/Header';
+import NewProduct from 'components/landingpage/NewProduct';
 import OutService from 'components/landingpage/OutService';
-import ProductDemo from 'components/landingpage/ProductDemo';
-import Subscribe from 'components/landingpage/Subscribe';
 import AppBar from 'ui-component/extended/AppBar';
 
 const HeaderWrapper = styled('div')(({ theme }) => ({
@@ -30,10 +29,9 @@ const Landing: React.FC = () => (
     <SecondWrapper>
       <OutService />
     </SecondWrapper>
-    {/* <SecondWrapper>
-      <Subscribe />
-      <ProductDemo />
-    </SecondWrapper> */}
+    <SecondWrapper>
+      <NewProduct />
+    </SecondWrapper>
     <SecondWrapper>
       <BestOfSale />
     </SecondWrapper>

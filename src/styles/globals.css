@@ -37,3 +37,7 @@ a {
   right: 23px;
   bottom: 100px;
 }
+
+.hot-product .slick-slider{
+  width: 100%;
+}

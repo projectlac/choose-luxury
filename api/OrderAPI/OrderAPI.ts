@@ -1,4 +1,3 @@
-import { IRegisterResponse } from 'types/services/authentication.type';
 import { IOrderAdmin, IResponseGetMyOrder, IUpdateStatusOrder } from 'types/services/cartApi.types';
 import { IAddressList, IDataDetailResponse, IMyOrderResponse, INoData } from 'types/services/serviceitem';
 import api from '../config/api';
@@ -24,7 +23,7 @@ const orderAPI = {
   },
 
   getUserAddress(): Promise<INoData<IAddressList[]>> {
-    const url = `/ShippingAddress/`;
+    const url = `/userShippingAddress/`;
     return api.get(url);
   }
 };
