@@ -16,6 +16,7 @@ const forms = {
   id: 'ui-forms',
   title: <FormattedMessage id="management" />,
   type: 'group',
+  permission: [ROLE_PERMISSIONS.ADMIN, ROLE_PERMISSIONS.STAFF],
   children: [
     // {
     //   id: 'instock',

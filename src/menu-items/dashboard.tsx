@@ -18,6 +18,7 @@ interface DashboardMenuProps {
   id: string;
   title: React.ReactNode | string;
   type: string;
+  permission: string[];
   children: {
     id: string;
     title: React.ReactNode | string;
@@ -33,6 +34,7 @@ const dashboard: DashboardMenuProps = {
   id: 'dashboard',
   title: <FormattedMessage id="dashboard" />,
   type: 'group',
+  permission: [ROLE_PERMISSIONS.ADMIN],
   children: [
     {
       id: 'default',
@@ -41,7 +43,7 @@ const dashboard: DashboardMenuProps = {
       url: '/dashboard/default',
       icon: icons.IconDashboard,
       breadcrumbs: false,
-      permission: [ROLE_PERMISSIONS.ADMIN, ROLE_PERMISSIONS.STAFF]
+      permission: [ROLE_PERMISSIONS.ADMIN]
     }
   ]
 };

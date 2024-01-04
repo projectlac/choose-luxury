@@ -28,7 +28,6 @@ export interface NavGroupProps {
 const NavGroup = ({ item }: NavGroupProps) => {
   const theme = useTheme();
   const { user } = useAuth();
-  console.log(user, item);
 
   // menu list collapse & items
   const items = item.children?.map((menu) => {
@@ -45,6 +44,8 @@ const NavGroup = ({ item }: NavGroupProps) => {
         );
     }
   });
+
+  console.log(item.permission);
 
   return (
     <>
@@ -63,6 +64,9 @@ const NavGroup = ({ item }: NavGroupProps) => {
             </Typography>
           )
         }
+        sx={{
+          display: item.permission?.includes(user?.role ?? '') ? 'block' : 'none'
+        }}
       >
         {items}
       </List>
