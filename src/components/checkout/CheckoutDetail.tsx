@@ -160,7 +160,7 @@ function CheckoutDetail({ totalPrice }: { totalPrice: number }) {
                 </PaymentLink>
               </Box>
             </Box> */}
-            <Box alignItems={'center'} sx={{ flexDirection: { lg: 'row', xs: 'column' } }}>
+            {/* <Box alignItems={'center'} sx={{ flexDirection: { lg: 'row', xs: 'column' } }}>
               <Typography
                 textAlign={'center'}
                 sx={{
@@ -181,7 +181,7 @@ function CheckoutDetail({ totalPrice }: { totalPrice: number }) {
                   <Image src={Messenger.src} layout="fill" objectFit="contain" alt={'Messenger'} />
                 </PaymentLink>
               </Box>
-            </Box>
+            </Box> */}
           </BoxDetail>
         </Grid>
       </Grid>

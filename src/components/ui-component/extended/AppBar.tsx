@@ -17,7 +17,6 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import MessengerChat from 'react-messenger-customer-chat';
 // project imports
 import MenuIcon from '@mui/icons-material/Menu';
 import Cart from '../../../assets/header/cart.png';
@@ -38,10 +37,10 @@ import User from './User';
 // elevation scroll
 import CategoryIcon from '@mui/icons-material/Category';
 import _debounce from 'lodash/debounce';
+import Script from 'next/script';
 import { IResponseGetProductById } from 'types/services/productApi.types';
 import formatMoney from 'utils/formatMoney';
 import { getProductWithFilter } from '../../../../api/ProductAPI/productDashboash';
-import Script from 'next/script';
 
 const CustomButton = styled('a')(({ theme }) => ({
   fontFamily: 'Quicksand',
@@ -467,7 +466,34 @@ const AppBar = ({ ...others }) => {
         </Box>
         <Script src="https://sp.zalo.me/plugins/sdk.js"></Script>
       </Container>
-      <MessengerChat pageId="709527266077097" language="vi_VN" greetingDialogDisplay={true} />
+      {/* <MessengerChat pageId="709527266077097" language="vi_VN" greetingDialogDisplay={true} /> */}
+      <div id="fb-root"></div>
+
+      <div id="fb-customer-chat" className="fb-customerchat"></div>
+
+      <Script strategy="lazyOnload" id="">
+        {` var chatbox = document.getElementById('fb-customer-chat'); chatbox.setAttribute("page_id", "709527266077097");
+        chatbox.setAttribute("attribution", "biz_inbox");`}
+      </Script>
+
+      <Script strategy="lazyOnload" id="">
+        {`
+         window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v18.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+                `}
+      </Script>
     </Box>
   );
 };
