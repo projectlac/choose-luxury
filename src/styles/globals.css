@@ -41,3 +41,14 @@ a {
 .hot-product .slick-slider{
   width: 100%;
 }
+
+.number-quantity::-webkit-outer-spin-button,
+.number-quantity::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.number-quantity{
+  appearance: textfield;
+}

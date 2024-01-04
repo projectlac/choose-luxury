@@ -157,7 +157,27 @@ function ProductDetail({ data }: IProductDetailProps) {
                         width: `100%`,
                         height: `${data.images.length === 1 ? '634px' : '350px'}`,
                         position: 'relative',
-                        background: 'rgb(224 224 224)'
+                        background: 'rgb(224 224 224)',
+                        display: index > 3 ? 'none' : 'block',
+                        '&:before':
+                          index === 3
+                            ? {
+                                position: 'absolute',
+                                content: `"+${data.images.length - 4}"`,
+                                background: '#00000087',
+                                zIndex: 1,
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                fontSize: '50px',
+                                color: '#fff',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontWeight: 'bold'
+                              }
+                            : {}
                       }}
                     >
                       <Image alt={data.product_name} src={d.product_img} layout="fill" objectFit="cover"></Image>
