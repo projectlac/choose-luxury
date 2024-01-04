@@ -52,10 +52,15 @@ function UserProfile() {
           );
         }
       } catch (err: any) {
+        let message = 'Something failed';
+        if (err.data) {
+          message = err.data.phone[0];
+        }
+
         dispatch(
           openSnackbar({
             open: true,
-            message: 'Something failed',
+            message: message,
             variant: 'alert',
             alert: {
               color: 'error'
@@ -163,6 +168,7 @@ function UserProfile() {
                 onChange={formik.handleChange}
                 label={`${intl.formatMessage({ id: 'email-address' })}`}
                 inputProps={{}}
+                disabled={true}
               />
               {formik.touched.email && formik.errors.email && (
                 <FormHelperText error id="standard-weight-helper-text-email-login">
