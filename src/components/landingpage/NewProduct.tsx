@@ -28,7 +28,6 @@ const NewProduct = () => {
 
   const settings = {
     dots: false,
-    arrows: false,
     swipeToSlide: true,
     focusOnSelect: true,
     centerPadding: '15px',
