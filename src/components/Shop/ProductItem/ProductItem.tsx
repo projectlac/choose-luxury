@@ -24,12 +24,31 @@ const ProductContent = styled(Box)(({ theme }) => ({
 }));
 function ProductItem({ data }: ProductItemProps) {
   return (
-    <ProductWrapper>
-      <Link href={`/product-detail/${data.id}`}>
+    <ProductWrapper
+      sx={{
+        position: 'relative',
+        '&:before':
+          +data.unit_in_stock > 0
+            ? {}
+            : {
+                content: '"Sold out"',
+                position: 'absolute',
+                top: '15px',
+                left: '0',
+                background: '#d33',
+                zIndex: '1',
+                padding: '7px',
+                color: 'white',
+                fontWeight: 'bold'
+              }
+      }}
+    >
+      <Link href={+data.unit_in_stock < 0 ? '#' : `/product-detail/${data.id}`}>
         <a>
           {data.images && data.images[0]?.product_img && (
             <ProductImage
               sx={{
+                filter: +data.unit_in_stock < 0 ? 'opacity(0.5)' : 'opacity(1)',
                 '&:before': {
                   content: `""`,
                   position: 'absolute',
@@ -56,8 +75,12 @@ function ProductItem({ data }: ProductItemProps) {
         </a>
       </Link>
 
-      <ProductContent>
-        <Link href={`/product-detail/${data.id}`}>
+      <ProductContent
+        sx={{
+          filter: +data.unit_in_stock < 0 ? 'opacity(0.5)' : 'opacity(1)'
+        }}
+      >
+        <Link href={+data.unit_in_stock < 0 ? '#' : `/product-detail/${data.id}`}>
           <a>
             <Typography
               sx={{
