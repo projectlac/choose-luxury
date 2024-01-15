@@ -1,5 +1,5 @@
 // material-ui
-import { Box, Container, Grid, Typography, useMediaQuery } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ProductItem from 'components/Shop/ProductItem/ProductItem';
 import { useCallback, useEffect, useState } from 'react';
@@ -15,22 +15,14 @@ import { getProductWithFilter } from '../../../api/ProductAPI/productDashboash';
 const NewProduct = () => {
   const theme = useTheme();
   const [productList, getProductList] = useState<IResponseGetProductById[]>([]);
-  const matchDownXl = useMediaQuery(theme.breakpoints.down('xl'));
-  const matchDownLG = useMediaQuery(theme.breakpoints.down('xl'));
-  const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-
-  let noItems = 4;
-  noItems = matchDownSM ? 1 : noItems;
-  noItems = matchDownMD ? 2 : noItems;
-  noItems = matchDownLG ? 3 : noItems;
-  noItems = matchDownXl ? 4 : noItems;
 
   const settings = {
     dots: false,
     swipeToSlide: true,
     focusOnSelect: true,
     centerPadding: '15px',
+    slidesToShow: 4,
+    slidesToScroll: 4,
     responsive: [
       {
         breakpoint: 1024,
