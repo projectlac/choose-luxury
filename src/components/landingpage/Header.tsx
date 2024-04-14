@@ -2,7 +2,7 @@
 import { Box, Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
-import Banner from '../../assets/header/banner.webp';
+import Banner from '../../assets/header/banner2.jpg';
 import Banner1 from '../../assets/header/banner.jpg';
 import Banner2 from '../../assets/header/banner1.jpg';
 
@@ -82,11 +82,11 @@ const HeaderPage = () => {
       {['/'].includes(router.asPath) && (
         <Box>
           <Slider {...settings}>
-            {/* <div>
+            <div>
               <BoxImage>
                 <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
               </BoxImage>
-            </div> */}
+            </div>
             <div>
               <BoxImage>
                 <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
@@ -99,14 +99,14 @@ const HeaderPage = () => {
             </div>
             <div>
               <BoxImage>
+                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
+              </BoxImage>
+            </div>
+            <div>
+              <BoxImage>
                 <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
               </BoxImage>
             </div>
-            {/* <div>
-              <BoxImage>
-                <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
-              </BoxImage>
-            </div> */}
             <div>
               <BoxImage>
                 <Image src={Banner2.src} layout="fill" alt="" objectFit="cover"></Image>
