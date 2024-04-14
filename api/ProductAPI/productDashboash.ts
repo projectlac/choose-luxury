@@ -44,3 +44,11 @@ export const deleteProduct = (id: number) => {
 export const createProduct = (data: FormData) => {
   return api.post(`/create_product/`, data);
 };
+
+export const deleteImage = (id: number) => {
+  return api.delete(`/retrieve_update_destroy_image/${id}/`);
+};
+
+// export const deleteImage = ()=>{
+//    return api.post(`/create_product/`, data);
+// }

@@ -5,6 +5,7 @@ import {
   Checkbox,
   CircularProgress,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
@@ -26,10 +27,10 @@ import { openSnackbar } from 'store/slices/snackbar';
 import { IResponseImageArray } from 'types/services/productApi.types';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import * as Yup from 'yup';
-import { editProduct, getProductById } from '../../../../api/ProductAPI/productDashboash';
+import { deleteImage, editProduct, getProductById } from '../../../../api/ProductAPI/productDashboash';
 import ItemAttachments from '../DropImage/DropImage';
 import CustomTextEditor from 'components/forms/plugins/Wysiwug/CustomTextEditor';
-
+import CloseIcon from '@mui/icons-material/Close';
 interface IEditProps {
   id: number;
   reload: () => void;
@@ -52,6 +53,10 @@ interface IDefaultForm {
 function EditProduct({ id, reload }: IEditProps) {
   const theme = useTheme();
   const [open, setOpen] = useState<boolean>(false);
+
+  const [idImageSelected, setIdImageSelected] = useState<number | undefined>(undefined);
+  const [idImageDelete, setIidImageDelete] = useState<number[]>([]);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -120,6 +125,7 @@ function EditProduct({ id, reload }: IEditProps) {
       fd.append('unit_in_stock', unitInStock);
       fd.append('size_id', sizeProduct.toString());
       fd.append('category_id', category.toString());
+
       if (file) {
         file.forEach((fileItem: File, i: number) => {
           fd.append(`uploaded_images[${i}]`, fileItem);
@@ -129,7 +135,10 @@ function EditProduct({ id, reload }: IEditProps) {
       try {
         setLoading(true);
         await editProduct(id, fd);
-
+        if (idImageDelete.length > 0) {
+          const API_ARR = idImageDelete.map(async (d) => deleteImage(d));
+          await Promise.all(API_ARR);
+        }
         setStatus({ success: true });
         setSubmitting(false);
         dispatch(
@@ -200,6 +209,16 @@ function EditProduct({ id, reload }: IEditProps) {
     });
   };
 
+  const handleSubmitDeleteImage = async (idImage: number) => {
+    const newImageSelect = [...idImageDelete];
+    newImageSelect.push(idImage);
+    setIidImageDelete(newImageSelect);
+
+    const itemImage = [...fileListCurreny!];
+    const index1 = itemImage.findIndex((d) => d.id === idImage);
+    itemImage.splice(index1, 1);
+    setFileListCurreny(itemImage);
+  };
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -560,9 +579,30 @@ function EditProduct({ id, reload }: IEditProps) {
                           borderBottom: '1px solid rgba(169, 169, 169, 1)',
                           width: '100px',
                           position: 'relative',
-                          cursor: 'pointer'
+                          cursor: 'pointer',
+                          '&:hover': {
+                            '.closeIcon-hover': {
+                              visibility: 'initial'
+                            }
+                          }
                         }}
                       >
+                        <CloseIcon
+                          className="closeIcon-hover"
+                          sx={{
+                            position: 'absolute',
+                            top: '5px',
+                            right: '5px',
+                            border: '2px solid #000',
+                            color: '#000',
+                            borderRadius: '50%',
+                            zIndex: '2',
+                            visibility: 'hidden'
+                          }}
+                          onClick={() => {
+                            handleSubmitDeleteImage(d.id);
+                          }}
+                        />
                         <Image src={d.product_img} layout="fill" objectFit="contain" alt={`${i}`} />
                       </Box>
                     ))}
