@@ -28,6 +28,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import * as Yup from 'yup';
 import { editProduct, getProductById } from '../../../../api/ProductAPI/productDashboash';
 import ItemAttachments from '../DropImage/DropImage';
+import CustomTextEditor from 'components/forms/plugins/Wysiwug/CustomTextEditor';
 
 interface IEditProps {
   id: number;
@@ -129,25 +130,23 @@ function EditProduct({ id, reload }: IEditProps) {
         setLoading(true);
         await editProduct(id, fd);
 
-        if (scriptedRef.current) {
-          setStatus({ success: true });
-          setSubmitting(false);
-          dispatch(
-            openSnackbar({
-              open: true,
-              message: 'Update Product Successful',
-              variant: 'alert',
-              anchorOrigin: { vertical: 'top', horizontal: 'right' },
-              alert: {
-                color: 'success'
-              },
-              close: false
-            })
-          );
-          resetForm();
-          handleClose();
-          reload();
-        }
+        setStatus({ success: true });
+        setSubmitting(false);
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: 'Update Product Successful',
+            variant: 'alert',
+            anchorOrigin: { vertical: 'top', horizontal: 'right' },
+            alert: {
+              color: 'success'
+            },
+            close: false
+          })
+        );
+        resetForm();
+        handleClose();
+        reload();
       } catch (err: any) {
         if (scriptedRef.current) {
           setStatus({ success: false });
@@ -353,7 +352,15 @@ function EditProduct({ id, reload }: IEditProps) {
               {/* <InputLabel htmlFor="outlined-adornment-description-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
                 Description
               </InputLabel> */}
-              <OutlinedInput
+              <CustomTextEditor
+                initData={defaultForm.description}
+                onChange={(data) => {
+                  formik.handleChange({
+                    target: { name: 'description', value: data }
+                  });
+                }}
+              />
+              {/* <OutlinedInput
                 id="outlined-adornment-description-login"
                 type={'text'}
                 value={formik.values.description}
@@ -370,7 +377,7 @@ function EditProduct({ id, reload }: IEditProps) {
                     borderColor: 'rgba(191, 140, 10, 1) !important'
                   }
                 }}
-              />
+              /> */}
               {formik.touched.description && formik.errors.description && (
                 <FormHelperText error id="standard-weight-helper-text-description-login">
                   {formik.errors.description}

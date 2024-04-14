@@ -129,9 +129,8 @@ function ProductItem({ data }: ProductItemProps) {
             fontFamily: 'Quicksand',
             fontWeight: '500'
           }}
-        >
-          {data.product_description}
-        </Typography>
+          dangerouslySetInnerHTML={{ __html: `${data.product_description}` }}
+        ></Typography>
       </ProductContent>
     </ProductWrapper>
   );

@@ -263,12 +263,12 @@ function ProductDetail({ data }: IProductDetailProps) {
 
             <Box
               sx={{
-                marginTop: '51px'
+                marginTop: '51px',
+                fontSize: '17px'
               }}
               className="tableBrand"
-            >
-              {data.product_description}
-            </Box>
+              dangerouslySetInnerHTML={{ __html: `${data.product_description}` }}
+            ></Box>
 
             <Divider sx={{ marginTop: '36px', marginBottom: '18px' }}></Divider>
             {!isLoggedIn ? (

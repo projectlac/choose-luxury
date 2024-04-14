@@ -158,7 +158,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
                     {cryptoOrder.unit_in_stock}{' '}
                   </TableCell>
 
-                  <TableCell>{cryptoOrder.product_description}</TableCell>
+                  <TableCell dangerouslySetInnerHTML={{ __html: `${cryptoOrder.product_description}` }}></TableCell>
                   <TableCell align="center">
                     <Box
                       sx={{

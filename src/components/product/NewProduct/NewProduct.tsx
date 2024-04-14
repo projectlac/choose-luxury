@@ -25,6 +25,9 @@ import * as Yup from 'yup';
 import { addProduct } from '../../../../api/ProductAPI/productDashboash';
 import ItemAttachments from '../DropImage/DropImage';
 import { convertToSlug } from 'utils/convert';
+import ReactDraftWysiwyg from 'components/forms/plugins/Wysiwug/ReactDraftWysiwyg';
+import ReactQuillDemo from 'components/forms/plugins/Wysiwug/ReactQuill';
+import CustomTextEditor from 'components/forms/plugins/Wysiwug/CustomTextEditor';
 
 interface IAddProductProps {
   reload: () => void;
@@ -324,7 +327,15 @@ function NewProduct({ reload }: IAddProductProps) {
               {/* <InputLabel htmlFor="outlined-adornment-description-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
                 Description
               </InputLabel> */}
-              <OutlinedInput
+              <CustomTextEditor
+                initData=""
+                onChange={(data) => {
+                  formik.handleChange({
+                    target: { name: 'description', value: data }
+                  });
+                }}
+              />
+              {/* <OutlinedInput
                 id="outlined-adornment-description-login"
                 type={'text'}
                 value={formik.values.description}
@@ -340,7 +351,7 @@ function NewProduct({ reload }: IAddProductProps) {
                     borderColor: 'rgba(191, 140, 10, 1) !important'
                   }
                 }}
-              />
+              /> */}
               {formik.touched.description && formik.errors.description && (
                 <FormHelperText error id="standard-weight-helper-text-description-login">
                   {formik.errors.description}
