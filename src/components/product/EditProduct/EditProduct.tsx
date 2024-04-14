@@ -86,7 +86,9 @@ function EditProduct({ id, reload }: IEditProps) {
     enableReinitialize: true,
     initialValues: defaultForm,
     validationSchema: Yup.object().shape({
-      name: Yup.string().required(),
+      name: Yup.string()
+        .required()
+        .test('len', 'Tên sản phẩm phải ít hơn 200 ký tự', (val) => val?.length! > 0 && val?.length! < 200),
       price: Yup.string().required(),
       slug: Yup.string().required(),
       description: Yup.string().test('len', 'Mô tả phải ít hơn 2000 ký tự', (val) => val?.length! > 0 && val?.length! < 2000),
