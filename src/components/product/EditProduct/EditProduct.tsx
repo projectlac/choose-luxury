@@ -31,6 +31,7 @@ import { deleteImage, editProduct, getProductById } from '../../../../api/Produc
 import ItemAttachments from '../DropImage/DropImage';
 import CustomTextEditor from 'components/forms/plugins/Wysiwug/CustomTextEditor';
 import CloseIcon from '@mui/icons-material/Close';
+import { convertToSlug } from 'utils/convert';
 interface IEditProps {
   id: number;
   reload: () => void;
@@ -255,7 +256,12 @@ function EditProduct({ id, reload }: IEditProps) {
                 type="name"
                 value={formik.values.name}
                 name="name"
-                onBlur={formik.handleBlur}
+                onBlur={(e) => {
+                  formik.handleBlur(e);
+                  formik.handleChange({
+                    target: { name: 'slug', value: convertToSlug(e.target.value) }
+                  });
+                }}
                 onChange={formik.handleChange}
                 label="Product name"
                 inputProps={{}}
