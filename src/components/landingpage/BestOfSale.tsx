@@ -2,15 +2,18 @@
 import { Container, Grid, Typography } from '@mui/material';
 import BestOfSaleItem from 'components/our-service/BestOfSaleItem';
 import { IDataService } from 'types/services/serviceitem';
-import image from '../../assets/header/serivce.png';
+import accessories from '../../assets/header/accessories.jpg';
+import bag from '../../assets/header/bag.jpg';
+import clothing from '../../assets/header/clothing.jpg';
+
 import { FormattedMessage } from 'react-intl';
 // project imports
 
 // =============================|| LANDING - FEATURE PAGE ||============================= //
 const data: IDataService[] = [
-  { name: 'Bags', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_azzqsGfh.jpeg' },
-  { name: 'Clothing', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_azzqsGfh.jpeg' },
-  { name: 'Accessory', url: '/shop/men', image: 'https://pos.nvncdn.net/0a688a-28099/pc/20230518_azzqsGfh.jpeg' }
+  { name: 'Bags', url: '/shop/men', image: bag.src },
+  { name: 'Clothing', url: '/shop/men', image: clothing.src },
+  { name: 'Accessory', url: '/shop/men', image: accessories.src }
 ];
 const BestOfSale = () => {
   return (

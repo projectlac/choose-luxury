@@ -3,8 +3,8 @@ import { Box, Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import Banner from '../../assets/header/banner.webp';
-import Banner1 from '../../assets/header/1600w-lYcbGpUSVGo.webp';
-import Banner2 from '../../assets/header/1600w-z8oqB6n7Bjg.webp';
+import Banner1 from '../../assets/header/banner.jpg';
+import Banner2 from '../../assets/header/banner1.jpg';
 
 // third party
 // project imports
@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 // styles
 const BoxImage = styled(Box)(({ theme }) => ({
   width: '100%',
-  height: '700px',
+  height: '800px',
   position: 'relative',
 
   [theme.breakpoints.down('lg')]: {
@@ -82,11 +82,11 @@ const HeaderPage = () => {
       {['/'].includes(router.asPath) && (
         <Box>
           <Slider {...settings}>
-            <div>
+            {/* <div>
               <BoxImage>
                 <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
               </BoxImage>
-            </div>
+            </div> */}
             <div>
               <BoxImage>
                 <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
@@ -102,14 +102,14 @@ const HeaderPage = () => {
                 <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
               </BoxImage>
             </div>
-            <div>
+            {/* <div>
               <BoxImage>
                 <Image src={Banner.src} layout="fill" alt="" objectFit="cover"></Image>
               </BoxImage>
-            </div>
+            </div> */}
             <div>
               <BoxImage>
-                <Image src={Banner1.src} layout="fill" alt="" objectFit="cover"></Image>
+                <Image src={Banner2.src} layout="fill" alt="" objectFit="cover"></Image>
               </BoxImage>
             </div>
           </Slider>
