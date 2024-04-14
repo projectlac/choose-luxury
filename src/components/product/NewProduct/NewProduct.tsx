@@ -75,7 +75,7 @@ function NewProduct({ reload }: IAddProductProps) {
       name: Yup.string().required(),
       price: Yup.string().required(),
       slug: Yup.string().required(),
-      description: Yup.string(),
+      description: Yup.string().test('len', 'Mô tả phải ít hơn 2000 ký tự', (val) => val?.length! > 0 && val?.length! < 2000),
       category: Yup.string().required(),
       file: Yup.array().min(1, 'Required')
     }),
@@ -313,14 +313,15 @@ function NewProduct({ reload }: IAddProductProps) {
                 </FormControl>
               </Grid>
             </Grid>
+
             <FormControl
               fullWidth
               error={Boolean(formik.touched.description && formik.errors.description)}
               sx={{ ...theme.typography.customInput }}
             >
-              <InputLabel htmlFor="outlined-adornment-description-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
+              {/* <InputLabel htmlFor="outlined-adornment-description-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
                 Description
-              </InputLabel>
+              </InputLabel> */}
               <OutlinedInput
                 id="outlined-adornment-description-login"
                 type={'text'}
@@ -328,8 +329,10 @@ function NewProduct({ reload }: IAddProductProps) {
                 name="description"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                label="description"
-                inputProps={{}}
+                label=""
+                placeholder="Description"
+                multiline
+                rows={4}
                 sx={{
                   fieldset: {
                     borderColor: 'rgba(191, 140, 10, 1) !important'

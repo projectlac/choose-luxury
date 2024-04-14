@@ -89,7 +89,7 @@ function EditProduct({ id, reload }: IEditProps) {
       name: Yup.string().required(),
       price: Yup.string().required(),
       slug: Yup.string().required(),
-      description: Yup.string(),
+      description: Yup.string().test('len', 'Mô tả phải ít hơn 2000 ký tự', (val) => val?.length! > 0 && val?.length! < 2000),
       category: Yup.string().required()
     }),
     onSubmit: async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -348,9 +348,9 @@ function EditProduct({ id, reload }: IEditProps) {
               error={Boolean(formik.touched.description && formik.errors.description)}
               sx={{ ...theme.typography.customInput }}
             >
-              <InputLabel htmlFor="outlined-adornment-description-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
+              {/* <InputLabel htmlFor="outlined-adornment-description-login" sx={{ '&.Mui-focused': { color: 'rgba(191, 140, 10, 1)' } }}>
                 Description
-              </InputLabel>
+              </InputLabel> */}
               <OutlinedInput
                 id="outlined-adornment-description-login"
                 type={'text'}
@@ -360,6 +360,9 @@ function EditProduct({ id, reload }: IEditProps) {
                 onChange={formik.handleChange}
                 label="description"
                 inputProps={{}}
+                placeholder="Description"
+                multiline
+                rows={4}
                 sx={{
                   fieldset: {
                     borderColor: 'rgba(191, 140, 10, 1) !important'
@@ -533,20 +536,28 @@ function EditProduct({ id, reload }: IEditProps) {
                       onChangeImage(e);
                     }}
                   />
-                  {fileListCurreny?.map((d, i) => (
-                    <Box
-                      key={i}
-                      sx={{
-                        height: '100px',
-                        borderBottom: '1px solid rgba(169, 169, 169, 1)',
-                        width: '100',
-                        position: 'relative',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <Image src={d.product_img} layout="fill" objectFit="contain" alt={`${i}`} />
-                    </Box>
-                  ))}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: 2,
+                      flexWrap: 'wrap'
+                    }}
+                  >
+                    {fileListCurreny?.map((d, i) => (
+                      <Box
+                        key={i}
+                        sx={{
+                          height: '100px',
+                          borderBottom: '1px solid rgba(169, 169, 169, 1)',
+                          width: '100px',
+                          position: 'relative',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <Image src={d.product_img} layout="fill" objectFit="contain" alt={`${i}`} />
+                      </Box>
+                    ))}
+                  </Box>
                   {formik.touched.file && formik.errors.file && (
                     <FormHelperText error id="standard-weight-helper-text-file-login">
                       {formik.errors.file}
