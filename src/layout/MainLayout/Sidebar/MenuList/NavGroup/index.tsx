@@ -45,8 +45,6 @@ const NavGroup = ({ item }: NavGroupProps) => {
     }
   });
 
-  console.log(item.permission);
-
   return (
     <>
       <List

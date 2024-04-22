@@ -27,11 +27,12 @@ import { openSnackbar } from 'store/slices/snackbar';
 import { IResponseImageArray } from 'types/services/productApi.types';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import * as Yup from 'yup';
-import { deleteImage, editProduct, getProductById } from '../../../../api/ProductAPI/productDashboash';
+import { addMoreImage, deleteImage, editProduct, getProductById } from '../../../../api/ProductAPI/productDashboash';
 import ItemAttachments from '../DropImage/DropImage';
 import CustomTextEditor from 'components/forms/plugins/Wysiwug/CustomTextEditor';
 import CloseIcon from '@mui/icons-material/Close';
 import { convertToSlug } from 'utils/convert';
+import { updateProduct } from 'store/slices/cart';
 interface IEditProps {
   id: number;
   reload: () => void;
@@ -116,6 +117,8 @@ function EditProduct({ id, reload }: IEditProps) {
         unitInStock
       } = values;
       const fd = new FormData();
+      const formDataImage = new FormData();
+
       fd.append('product_name', name);
       fd.append('base_price', price);
       fd.append('slug', slug);
@@ -128,18 +131,22 @@ function EditProduct({ id, reload }: IEditProps) {
       fd.append('category_id', category.toString());
 
       if (file) {
+        formDataImage.append(`product`, id.toString());
+
         file.forEach((fileItem: File, i: number) => {
-          fd.append(`uploaded_images[${i}]`, fileItem);
+          formDataImage.append(`product_img[${i}]`, fileItem);
         });
+        await addMoreImage(formDataImage);
       }
 
       try {
         setLoading(true);
-        await editProduct(id, fd);
         if (idImageDelete.length > 0) {
           const API_ARR = idImageDelete.map(async (d) => deleteImage(d));
           await Promise.all(API_ARR);
         }
+        await editProduct(id, fd);
+
         setStatus({ success: true });
         setSubmitting(false);
         dispatch(
@@ -158,11 +165,9 @@ function EditProduct({ id, reload }: IEditProps) {
         handleClose();
         reload();
       } catch (err: any) {
-        if (scriptedRef.current) {
-          setStatus({ success: false });
-          setErrors({ submit: err.message });
-          setSubmitting(false);
-        }
+        setStatus({ success: false });
+        setErrors({ submit: err.message });
+        setSubmitting(false);
       } finally {
         setLoading(false);
       }
@@ -196,7 +201,7 @@ function EditProduct({ id, reload }: IEditProps) {
         submit: null
       };
 
-      setFileListCurreny(res.data.images);
+      setFileListCurreny(res.data?.images ?? '');
       setDefaultForm(getData);
     };
     if (open) {

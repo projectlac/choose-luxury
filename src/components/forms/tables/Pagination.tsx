@@ -47,6 +47,8 @@ function PaginationComponent({ handleChangePage, handleChangeLimit, count }: IPa
         }}
         variant="outlined"
         shape="rounded"
+        showFirstButton
+        showLastButton
       />
     </Box>
   );
