@@ -46,7 +46,7 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
     processDataChange(temp);
   };
 
-  const renderChipData = data.filter((d) => d.checked);
+  const renderChipData = data?.filter((d) => d.checked) ?? [];
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const temp = [...data];
     const index = data.findIndex((d) => d.id === id);
@@ -57,10 +57,10 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
 
   useEffect(() => {
     if (init.length === 0) {
-      const formatData: BrandData[] = brand.results.map((item) => ({ brand: item.product_brand_name, id: item.id, checked: false }));
+      const formatData: BrandData[] = brand.results?.map((item) => ({ brand: item.product_brand_name, id: item.id, checked: false }));
       setData(formatData);
     } else {
-      const formatData = brand.results.map((item) => {
+      const formatData = brand.results?.map((item) => {
         if (init.includes(item.product_brand_name)) {
           return { brand: item.product_brand_name, id: item.id, checked: true };
         } else {
@@ -93,7 +93,7 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
           }}
         />
       </Box>
-      {renderChipData.length > 0 && (
+      {renderChipData?.length > 0 && (
         <Paper
           sx={{
             display: 'flex',
@@ -105,7 +105,7 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
           }}
           component="ul"
         >
-          {renderChipData.map((f: BrandData) => {
+          {renderChipData?.map((f: BrandData) => {
             return (
               <ListItem key={`${f.id}213`}>
                 <Chip
@@ -132,7 +132,7 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
         </Paper>
       )}
       <Grid container display={`${!toggle ? 'flex' : 'none'}`}>
-        {data.map((d) => (
+        {data?.map((d) => (
           <Grid item sm={12} key={d.id}>
             <FormControlLabel
               control={
