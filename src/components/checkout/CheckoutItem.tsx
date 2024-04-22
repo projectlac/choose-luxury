@@ -79,7 +79,7 @@ function CheckoutItem({ data }: CheckoutItemProps) {
           >
             <Link href={`/product-detail/${data.id}`}>
               <a target="__blank">
-                <Image src={data.images[0].product_img} layout="fill" objectFit="cover" alt={'gaga'}></Image>
+                <Image src={data.images[0].product_img ?? ''} layout="fill" objectFit="cover" alt={'gaga'}></Image>
               </a>
             </Link>
           </Box>

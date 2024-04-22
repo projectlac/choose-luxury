@@ -55,7 +55,7 @@ export interface IResponseGetProductByIdForFrontEnd {
 export interface IResponseImageArray {
   id: number;
   product: number;
-  product_img: string | null;
+  product_img: string;
 }
 
 export interface IParamsProductSize {

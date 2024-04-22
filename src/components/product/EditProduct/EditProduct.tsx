@@ -201,7 +201,8 @@ function EditProduct({ id, reload }: IEditProps) {
         submit: null
       };
 
-      setFileListCurreny(res.data?.images ?? '');
+      const fm = res.data?.images.map((item) => ({ ...item, product_img: item.product_img ?? '' }));
+      setFileListCurreny(fm);
       setDefaultForm(getData);
     };
     if (open) {
