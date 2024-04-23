@@ -24,7 +24,8 @@ function ProductDetailIndex() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getProductById(slug as string);
-      setData(res.data);
+      const fm = res.data?.images.map((item) => ({ ...item, product_img: item.product_img ?? '' }));
+      setData({ ...res.data, images: fm });
       dispatch(getBrands(1, 999));
       dispatch(getProductSize(1, 999));
       dispatch(getCategories(1, 999));

@@ -134,7 +134,7 @@ function EditProduct({ id, reload }: IEditProps) {
         formDataImage.append(`product`, id.toString());
 
         file.forEach((fileItem: File, i: number) => {
-          formDataImage.append(`product_img[${i}]`, fileItem);
+          formDataImage.append(`uploaded_images[${i}]`, fileItem);
         });
         await addMoreImage(formDataImage);
       }

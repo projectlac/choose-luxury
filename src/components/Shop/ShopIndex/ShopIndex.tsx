@@ -169,6 +169,8 @@ function ShopIndex() {
               }}
               variant="outlined"
               shape="rounded"
+              showFirstButton
+              showLastButton
             />
           </Box>
         </Grid>
