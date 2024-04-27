@@ -10,7 +10,7 @@ import MainCard from 'ui-component/cards/MainCard';
 
 const CategoryDashBoard = () => {
   return (
-    <MainCard title="Orders">
+    <MainCard title="Brand names">
       <BrandTableGrid />
     </MainCard>
   );
