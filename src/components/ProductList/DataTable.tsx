@@ -167,7 +167,7 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
                       }}
                     >
                       <EditProduct id={cryptoOrder.id} reload={reload} />
-                      {[ROLE_PERMISSIONS.ADMIN].includes(user?.role ?? '') && (
+                      {[ROLE_PERMISSIONS.ADMIN].includes(user?.role?.toLocaleLowerCase() ?? '') && (
                         <DeleteProduct id={cryptoOrder.id} name={cryptoOrder.product_name} reload={reload} />
                       )}
                     </Box>
