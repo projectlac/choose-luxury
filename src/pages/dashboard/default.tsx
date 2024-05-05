@@ -19,13 +19,14 @@ const Dashboard = () => {
   const { user } = useAuth();
   const router = useRouter();
   useEffect(() => {
-    if (user?.role === ROLE_PERMISSIONS.STAFF) {
+    if (user?.role?.toLocaleLowerCase() === ROLE_PERMISSIONS.STAFF) {
       router.push('/forms/components/product');
     }
   }, [router, user?.role]);
+
   return (
     <>
-      {user?.role === ROLE_PERMISSIONS.ADMIN && (
+      {user?.role?.toLocaleLowerCase() === ROLE_PERMISSIONS.ADMIN && (
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
             <Grid container spacing={gridSpacing}>

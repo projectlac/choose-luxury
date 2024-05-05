@@ -35,7 +35,7 @@ const NavGroup = ({ item }: NavGroupProps) => {
       case 'collapse':
         return <NavCollapse key={menu.id} menu={menu} level={1} />;
       case 'item':
-        return <>{menu.permission?.includes(user?.role ?? '') && <NavItem key={menu.id} item={menu} level={1} />}</>;
+        return <>{menu.permission?.includes(user?.role?.toLocaleLowerCase() ?? '') && <NavItem key={menu.id} item={menu} level={1} />}</>;
       default:
         return (
           <Typography key={menu.id} variant="h6" color="error" align="center">
@@ -63,7 +63,7 @@ const NavGroup = ({ item }: NavGroupProps) => {
           )
         }
         sx={{
-          display: item.permission?.includes(user?.role ?? '') ? 'block' : 'none'
+          display: item.permission?.includes(user?.role?.toLocaleLowerCase() ?? '') ? 'block' : 'none'
         }}
       >
         {items}

@@ -255,9 +255,9 @@ export const PAYMENT_METHODS = [
 ];
 
 export const ROLE_PERMISSIONS = {
-  USER: 'User',
-  ADMIN: 'Admin',
-  STAFF: 'Staff'
+  USER: 'user',
+  ADMIN: 'admin',
+  STAFF: 'staff'
 };
 
 export const REGEX_NUMBER = /^[0-9]*$/;

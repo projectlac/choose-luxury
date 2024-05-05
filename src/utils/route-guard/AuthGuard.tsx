@@ -19,7 +19,7 @@ const AuthGuard = ({ children }: GuardProps) => {
     if (!isLoggedIn) {
       router.push('/login');
     } else {
-      if ([ROLE_PERMISSIONS.USER].includes(user?.role ?? ROLE_PERMISSIONS.USER)) {
+      if ([ROLE_PERMISSIONS.USER].includes(user?.role?.toLocaleLowerCase() ?? ROLE_PERMISSIONS.USER)) {
         router.push('/');
       }
     }

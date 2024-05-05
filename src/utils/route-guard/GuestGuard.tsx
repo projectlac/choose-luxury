@@ -21,7 +21,8 @@ const GuestGuard = ({ children }: GuardProps) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      if ([ROLE_PERMISSIONS.ADMIN, ROLE_PERMISSIONS.STAFF].includes(user?.role ?? ROLE_PERMISSIONS.USER)) router.push(DASHBOARD_PATH);
+      if ([ROLE_PERMISSIONS.ADMIN, ROLE_PERMISSIONS.STAFF].includes(user?.role?.toLocaleLowerCase() ?? ROLE_PERMISSIONS.USER))
+        router.push(DASHBOARD_PATH);
       else {
         router.push('/');
       }
