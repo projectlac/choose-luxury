@@ -27,6 +27,9 @@ function ProductItem({ data }: ProductItemProps) {
     <ProductWrapper
       sx={{
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
         '&:before':
           +data.unit_in_stock > 0
             ? {}
@@ -77,7 +80,9 @@ function ProductItem({ data }: ProductItemProps) {
 
       <ProductContent
         sx={{
-          filter: +data.unit_in_stock < 0 ? 'opacity(0.5)' : 'opacity(1)'
+          filter: +data.unit_in_stock < 0 ? 'opacity(0.5)' : 'opacity(1)',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
         <Link href={+data.unit_in_stock < 0 ? '#' : `/product-detail/${data.id}`}>
@@ -116,21 +121,24 @@ function ProductItem({ data }: ProductItemProps) {
         >
           {formatMoney(data.old_price)} VNĐ
         </Typography>
-        <Typography
-          sx={{
-            color: '#000',
-            fontSize: '14px',
 
-            textAlign: 'justify',
-            display: '-webkit-box',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: '3',
-            overflow: 'hidden',
-            fontFamily: 'Quicksand',
-            fontWeight: '500'
-          }}
-          dangerouslySetInnerHTML={{ __html: `${data.product_description}` }}
-        ></Typography>
+        <Box sx={{ mt: 'auto' }}>
+          <Typography
+            sx={{
+              color: '#000',
+              fontSize: '14px',
+              marginTop: 'auto',
+              textAlign: 'justify',
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: '3',
+              overflow: 'hidden',
+              fontFamily: 'Quicksand',
+              fontWeight: '500'
+            }}
+            dangerouslySetInnerHTML={{ __html: `${data.product_description}` }}
+          ></Typography>
+        </Box>
       </ProductContent>
     </ProductWrapper>
   );
