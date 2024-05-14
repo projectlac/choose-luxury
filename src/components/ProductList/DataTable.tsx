@@ -100,10 +100,12 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
               <TableCell>Product name</TableCell>
               <TableCell sx={{ width: '100px' }}>Image</TableCell>
 
-              <TableCell sx={{ width: '350px' }}>Price</TableCell>
-              <TableCell sx={{ width: '350px' }}>Quantity</TableCell>
+              <TableCell sx={{ width: '300px' }}>Price</TableCell>
+              <TableCell sx={{ width: '100px' }}>Quantity</TableCell>
 
               <TableCell sx={{ width: '250px' }}>Product description</TableCell>
+              <TableCell>Created at/Modified at</TableCell>
+
               <TableCell sx={{ width: '100px' }} align="center">
                 Actions
               </TableCell>
@@ -158,7 +160,20 @@ const DataTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, reSearch, reload,
                     {cryptoOrder.unit_in_stock}{' '}
                   </TableCell>
 
-                  <TableCell dangerouslySetInnerHTML={{ __html: `${cryptoOrder.product_description}` }}></TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: '3', overflow: 'hidden', height: '60px' }}
+                      dangerouslySetInnerHTML={{ __html: `${cryptoOrder.product_description}` }}
+                    ></Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box>
+                      <b>Created at:</b> {cryptoOrder.created_at ?? ''}
+                    </Box>
+                    <Box>
+                      <b>Modified at:</b> {cryptoOrder.modified_at ?? ''}
+                    </Box>
+                  </TableCell>
                   <TableCell align="center">
                     <Box
                       sx={{

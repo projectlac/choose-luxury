@@ -34,6 +34,8 @@ export interface IResponseGetProductById {
   base_price: string;
   is_available: boolean;
   images: IResponseImageArray[];
+  modified_at?: string;
+  created_at?: string;
 }
 
 export interface IResponseGetProductByIdForFrontEnd {
