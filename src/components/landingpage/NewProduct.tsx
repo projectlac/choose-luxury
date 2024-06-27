@@ -91,7 +91,7 @@ const NewProduct = () => {
       <Grid container sx={{ marginTop: '11px', width: '100%' }} className="hot-product">
         <Slider {...settings}>
           {productList.map((d, index) => (
-            <Box height={300} key={d.id} p={2}>
+            <Box key={d.id} p={2}>
               <ProductItem data={d} />
             </Box>
           ))}

@@ -3,7 +3,7 @@ import { IDataPagingResponse } from 'types/services/serviceitem';
 import api from '../config/api';
 
 export const getListBrand = (page: number, limit: number = 10): Promise<IDataPagingResponse<IResponseGetBrand[]>> => {
-  return api.get(`/list_brand?limit=${limit}&page=${page}`);
+  return api.get(`/list_brand?limit=${limit}&offset=${(page - 1) * limit}`);
 };
 
 export const addBrand = (product_brand_name: string) => {

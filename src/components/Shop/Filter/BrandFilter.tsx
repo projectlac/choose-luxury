@@ -1,5 +1,5 @@
-import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import { Box, Button, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography } from '@mui/material';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { styled } from '@mui/system';
 import { useSelector } from 'store';
@@ -22,7 +22,7 @@ interface BrandFilterProps {
 function BrandFilter({ handleChange, init }: BrandFilterProps) {
   const [toggle, setToggle] = useState<boolean>(false);
   const { brand } = useSelector((state) => state.product);
-
+  const [isShowMore, setIsShowMore] = useState<boolean>(false);
   const [data, setData] = useState<BrandData[]>([]);
 
   const processDataChange = useCallback(
@@ -71,6 +71,10 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
     }
   }, [brand, init]);
 
+  const showMoreData = useMemo(() => {
+    if (isShowMore) return data;
+    return data.slice(0, 10);
+  }, [data, isShowMore]);
   return (
     <Box>
       <Box display={'flex'} alignItems={'center'} sx={{ marginBottom: '15px', mt: 2 }} justifyContent={'space-between'}>
@@ -132,7 +136,7 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
         </Paper>
       )}
       <Grid container display={`${!toggle ? 'flex' : 'none'}`}>
-        {data?.map((d) => (
+        {showMoreData?.map((d) => (
           <Grid item sm={12} key={d.id}>
             <FormControlLabel
               control={
@@ -164,7 +168,7 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
                 '.MuiTypography-root': {
                   fontSize: '14px',
                   fontWeight: '400',
-                  lineHeight: '14px',
+                  lineHeight: '1.2',
                   color: '#000',
                   marginTop: '2px'
                 },
@@ -176,6 +180,15 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
           </Grid>
         ))}
       </Grid>
+      {!isShowMore && (
+        <Button
+          onClick={() => {
+            setIsShowMore(true);
+          }}
+        >
+          Show more...
+        </Button>
+      )}
     </Box>
   );
 }
