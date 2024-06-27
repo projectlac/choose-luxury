@@ -182,6 +182,7 @@ function BrandFilter({ handleChange, init }: BrandFilterProps) {
       </Grid>
       {!isShowMore && (
         <Button
+          display={`${!toggle ? 'flex' : 'none'}`}
           onClick={() => {
             setIsShowMore(true);
           }}
