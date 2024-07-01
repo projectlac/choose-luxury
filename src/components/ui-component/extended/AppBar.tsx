@@ -126,7 +126,7 @@ const AppBar = ({ ...others }) => {
   const debounceFn = useCallback(_debounce(handleDebounceFn, 500), []);
 
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    // setSearch(e.target.value);
     debounceFn(e.target.value);
   };
 
@@ -134,6 +134,7 @@ const AppBar = ({ ...others }) => {
     const res = await getProductWithFilter({ product_name: searchKey });
     setListItem(res.data.results);
   }, [searchKey]);
+
   useEffect(() => {
     searchProduct();
   }, [searchProduct]);
@@ -419,7 +420,7 @@ const AppBar = ({ ...others }) => {
                       mr: 1
                     }}
                   >
-                    <Image alt={option.product_name} src={option.images[0]?.product_img} layout="fill" objectFit="cover"></Image>
+                    <Image alt={option.product_name} src={option.product_img} layout="fill" objectFit="cover"></Image>
                   </Box>
                   <Typography
                     sx={{
