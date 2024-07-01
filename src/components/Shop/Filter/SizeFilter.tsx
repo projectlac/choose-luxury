@@ -1,6 +1,6 @@
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Box, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography, styled } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import { Box, Button, Checkbox, Chip, FormControlLabel, Grid, Paper, Typography, styled } from '@mui/material';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'store';
 import { SizeData } from 'types/shop/shopItem';
@@ -18,7 +18,7 @@ function SizeFilter({ handleChange, init }: SizeFilterProps) {
   const { size } = useSelector((state) => state.product);
   const [toggle, setToggle] = useState<boolean>(false);
   const [data, setData] = useState<SizeData[]>([]);
-
+  const [isShowMore, setIsShowMore] = useState<boolean>(false);
   const processDataChange = useCallback(
     (newData: SizeData[]) => {
       const filter = newData.filter((item) => item.checked);
@@ -70,6 +70,11 @@ function SizeFilter({ handleChange, init }: SizeFilterProps) {
       setData(formatData);
     }
   }, [init, size.results]);
+
+  const showMoreData = useMemo(() => {
+    if (isShowMore) return data;
+    return data.slice(0, 10);
+  }, [data, isShowMore]);
 
   return (
     <Box>
@@ -132,7 +137,7 @@ function SizeFilter({ handleChange, init }: SizeFilterProps) {
         </Paper>
       )}
       <Grid container display={`${!toggle ? 'flex' : 'none'}`}>
-        {data.map((d) => (
+        {showMoreData.map((d) => (
           <Grid item xs={6} key={d.id}>
             <FormControlLabel
               control={
@@ -176,6 +181,16 @@ function SizeFilter({ handleChange, init }: SizeFilterProps) {
           </Grid>
         ))}
       </Grid>
+      {!isShowMore && (
+        <Button
+          sx={{ display: `${!toggle ? 'flex' : 'none'}` }}
+          onClick={() => {
+            setIsShowMore(true);
+          }}
+        >
+          Show more...
+        </Button>
+      )}
     </Box>
   );
 }
