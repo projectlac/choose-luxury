@@ -15,7 +15,7 @@ const withTM = require('next-transpile-modules')([
 const nextConfig = withTM({
   reactStrictMode: true,
   images: {
-    unoptimized: false,
+    unoptimized: true,
     domains: [
       'pos.nvncdn.net',
       'pos.nvncdn.com',
